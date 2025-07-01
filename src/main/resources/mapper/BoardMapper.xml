@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.BoardMapper">
+	<resultMap type="board" id="b">
+		<id column="bno" property="bno"/>
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="id" property="id" />
+		<result column="regdate" property="regdate" />
+		<result column="moddate" property="moddate" />
+		<result column="cnt" property="cnt" />
+		<result column="cno" property="cno" />
+		<result column="replyCnt" property="replyCnt" />
+		<result column="attachCnt" property="attachCnt" />
+		<result column="grp" property="grp" />
+		<result column="seq" property="seq" />
+		<result column="depth" property="depth" />
+		
+		
+		<collection property="attachs" ofType="attach">
+			<result column="uuid" property="uuid"/>
+			<result column="path" property="path"/>
+			<result column="image" property="image"/>
+			<result column="origin" property="origin"/>
+			<result column="a_bno" property="bno"/>
+			<result column="odr" property="odr"/>
+			<result column="size" property="size"/>
+		</collection>
+	</resultMap>
+	<sql id="criteria">
+		<where>
+			<trim prefixOverrides="AND | OR">
+			<if test="cno != null">		
+				and cno = #{cno}
+			</if>
+			<if test="types != null">
+				<foreach collection="types" item="t" open="and (" close=")" separator="or">
+					<choose>
+						<when test="t eq 'T'.toString()">
+						title like concat('%', #{keyword}, '%')
+						</when>
+						<when test="t eq 'C'.toString()">
+						content like concat('%', #{keyword}, '%')
+						</when>
+						<when test="t eq 'I'.toString()">
+						id like concat('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</foreach>
+			</if>
+			</trim>
+		</where>
+	</sql>
+	<!-- 목록조회 -->
+	<select id="list" resultMap="b">
+		select bno, title, content, id, regdate, moddate, cnt, cno, 
+		(select count(*) from tbl_reply r where r.bno = b.bno) replyCnt,
+		(select count(*) from tbl_attach a where a.bno = b.bno) attachCnt,
+		(select uuid from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) uuid, 
+		(select path from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) path,
+		grp, seq, depth
+		from tbl_board b
+		<include refid="criteria"/>
+		<!-- and title like concat('%', #{keyword}, '%') -->
+		order by grp desc, seq
+		limit #{amount} offset #{offset}
+	</select>
+	<!-- 단일조회 -->
+	<select id="selectOne" resultMap="b">
+		select *, a.bno a_bno, (select count(*) from tbl_reply r where r.bno = b.bno) replyCnt
+		from tbl_board b
+		left join tbl_attach a using(bno)
+		where bno = #{bno}
+		order by odr
+	</select>
+	<!-- 조회수 증가  -->
+	<update id="increaseCnt">
+		update tbl_board SET
+		cnt = cnt + 1
+		where bno = #{bno}
+	</update>
+	<!-- 글 등록 -->
+	<insert id="insert">
+		insert into tbl_board (title, content, id, cno) values (#{title}, #{content}, #{id}, #{cno})
+	<selectKey keyProperty="bno" resultType="long" order="AFTER">
+		select max(bno) from tbl_board 
+	</selectKey>
+	</insert>
+	
+	<!-- 내 글 번호를 grp로 -->
+	<update id="updateGrpMyself">
+	update tbl_board set grp = #{bno} where bno = #{bno}
+	</update>
+	
+	<!-- 답글 작성시 지정위치에 seq 취득  -->
+	<select id="selectMaxSeq" resultType="int">
+		select coalesce(max(seq), #{seq}) from tbl_board b
+		where grp = #{grp} 
+		and seq > #{seq} 
+		and depth > #{depth} 
+		and not exists (
+			select 1
+			from tbl_board mid
+			where grp = b.grp
+			and seq > #{seq} 
+			and seq &lt; b.seq <!-- 밑에 글이 더 있는지 여부 -->
+			and depth &lt;= #{depth}
+		)
+	</select>
+	
+	
+	<!-- 답글이 되기위해 seq를 1증가  -->
+	
+	<update id="updateSeqIncrease">
+		update tbl_board set seq = seq + 1 where grp = #{grp} and seq >= #{seq}
+	</update>
+	
+	<!-- 답글 등록 -->
+	<insert id="insertChild">
+		insert into tbl_board (title, content, id, cno, grp, seq, depth) values (#{title}, #{content}, #{id}, #{cno}, #{grp}, #{seq}, #{depth})
+	<selectKey keyProperty="bno" resultType="long" order="AFTER">
+		select max(bno) from tbl_board 
+	</selectKey>
+	</insert>
+	
+	<!-- 게시글 갯수 -->
+	<select id="getCount" resultType="long">
+		select count(*) from tbl_board 
+		<include refid="criteria"/>
+	</select>
+	
+	<!--글 수정 -->
+	<update id="update">
+		update tbl_board set 
+		title=#{title},
+		content=#{content},
+		moddate = now(),
+		cno = #{cno}
+		where bno = #{bno};
+	</update>
+	<!-- 글 삭제  -->
+	<delete id="delete">
+	delete from tbl_board where bno = #{bno}
+	</delete>
+	
+</mapper>
