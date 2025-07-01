@@ -41,6 +41,8 @@ public class HikariCPutil {
 		config.setPassword(props.getProperty("jdbc.password"));
 //		config.setDriverClassName("org.mariadb.jdbc.Driver");
 		config.setDriverClassName(props.getProperty("jdbc.driver.classname"));
+		
+		
 		config.setMaximumPoolSize(10); // 최대 10개
 		config.setMinimumIdle(5); //초기대기상태 5개
 		config.setIdleTimeout(30000);
