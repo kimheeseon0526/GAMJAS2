@@ -1,18 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GAMJAS - 인덱스</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <style>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>GAMJAS - 인덱스</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
     body {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
@@ -132,8 +134,7 @@
   </style>
 </head>
 <body>
-
-  <!-- 헤더 -->
+ <!-- 헤더 -->
   <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
@@ -202,30 +203,56 @@
     </div>
   </nav>
 
-<!-- main 로그인 -->
-<main class="login-container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="p-4 px-5 bg-white shadow-sm rounded-4 border" style="border-color: #6a983c; border-width: 1px;">
-    <div class="text-center mb-4">
-      <i class="fa-regular fa-circle-check fa-lg" style="color: #213144;"></i>
-      <h5 class="fw-bold d-inline-block ms-2">로그인</h5>
+<!-- 메인 콘텐츠: 회원가입 -->
+<main class="join-container" style="max-width: 480px; margin: 60px auto; background: white; padding: 30px 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+  <h4 class="text-center mb-4 fw-bold">회원가입</h4>
+  
+  <form>
+    <div class="mb-3">
+      <label for="name" class="form-label">이름</label>
+      <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+    </div>
+    
+    <div class="mb-3">
+      <label for="email" class="form-label"><span class="text-danger">*</span>이메일</label>
+      <div class="input-group">
+        <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+        <button class="btn" type="button" style="background-color:#afcb96;">인증코드 발송하기</button>
+      </div>
     </div>
 
-    <form method="post" action="/login.do">
-      <div class="mb-3">
-        <label for="username" class="form-label">아이디</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="아이디를 입력하세요" required>
-      </div>
-      <div class="mb-4">
-        <label for="password" class="form-label">비밀번호</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
-      </div>
-      <div class="d-grid">
-        <button type="submit" class="btn" style="background-color: black; color: white;">로그인</button>
-      </div>
-    </form>
-  </div>
-</main>
+    <div class="mb-3">
+      <label for="phone" class="form-label"><span class="text-danger">*</span>전화번호</label>
+      <input type="text" class="form-control" id="phone" placeholder="전화번호를 입력하세요">
+    </div>
 
+    <div class="mb-3">
+      <label for="username" class="form-label"><span class="text-danger">*</span>아이디</label>
+      <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요">
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label"><span class="text-danger">*</span>비밀번호</label>
+      <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+    </div>
+
+    <div class="mb-3">
+      <label for="country" class="form-label"><span class="text-danger">*</span>국가</label>
+      <select class="form-select" id="country">
+        <option selected disabled>국가를 선택하세요</option>
+        <option>대한민국</option>
+        <option>미국</option>
+        <option>일본</option>
+        <option>중국</option>
+        <option>기타</option>
+      </select>
+    </div>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-dark">가입하기</button>
+    </div>
+  </form>
+</main>
 
 <!-- 푸터 -->
 <footer style="background-color:#3d4c40; color:#ccc; font-size: 0.75rem; padding: 40px 0 20px; margin-top: auto;">

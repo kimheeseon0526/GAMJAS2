@@ -3,16 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GAMJAS - 인덱스</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ <%@ include file="common/head.jsp" %>
 
   <style>
     body {
@@ -136,6 +127,7 @@
 <body>
 
   <!-- 헤더 -->
+<<<<<<< HEAD
   <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
@@ -203,6 +195,9 @@
       </div>
     </div>
   </nav>
+=======
+  <%@ include file="common/nav.jsp" %>
+>>>>>>> 7c1d2fad70668d27735fdb9c4bd83b87a0527cfc
 <!-- 메인 콘텐츠 시작 -->
 
 <!-- 검색 + 슬라이드 병합 섹션 (위치 반전) -->
@@ -314,40 +309,6 @@
     </div>
   </div>
 </section>
-
-<!-- 푸터 -->
-<footer style="background-color:#3d4c40; color:#ccc; font-size: 0.75rem; padding: 40px 0 20px; margin-top: auto;">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-5 mb-3">
-       <h6 class="text-uppercase text-white">GAMJAS</h6>
-       <p class="mb-1">Discover Seoul Through K-Culture — Where Every Stop Tells a Story</p>
-       <p class="mb-1">지하철로 떠나는 K-컬처 여행, 서울의 진짜 매력을 만날 수 있는 외국인 맞춤 관광 커뮤니티</p>
-
-      </div>
-      <div class="col-md-2 mb-3">
-        <h6 class="text-center text-white">바로가기</h6>
-        <ul class="list-unstyled text-center">
-          <li><a href="#" class="text-decoration-none text-light">여행정보</a></li>
-          <li><a href="#" class="text-decoration-none text-light">미션투어</a></li>
-          <li><a href="#" class="text-decoration-none text-light">감자마당</a></li>
-          <li><a href="#" class="text-decoration-none text-light">Q&A</a></li>
-        </ul>
-      </div>
-      <div class="col-md-3 mb-3">
-        <h6 class="text-uppercase text-white">Contact</h6>
-        <p class="mb-1"><i class="fa-regular fa-envelope"></i> Email: support@gamjas.com</p>
-        <p class="mb-1"><i class="fa-solid fa-phone"></i> Tel: 02-1234-5678</p>
-        <p class="mb-1"><i class="fa-solid fa-blog"></i> Blog</p>
-        <p class="mb-1"><i class="fa-brands fa-instagram"></i> Instagram</p>
-        <p class="mb-0"><i class="fa-solid fa-location-dot"></i> 서울특별시 강남구 감자대로 1길</p>
-        <p class="mb-0"> 이용약관 | 개인정보처리정책 </p>
-      </div>
-    </div>
-    <div class="text-align mt-0">
-      <small class="text-light">&copy; 2025 GAMJAS. All rights reserved.</small>
-    </div>
-  </div>
-</footer>
+<%@ include file="common/footer.jsp" %>
 </body>
 </html>
