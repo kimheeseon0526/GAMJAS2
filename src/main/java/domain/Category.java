@@ -2,8 +2,8 @@ package domain;
 
 import org.apache.ibatis.type.Alias;
 
-//import domain.en.CategoryStatus;
-//import domain.en.CategoryViewType;
+import domain.en.CategoryStatus;
+import domain.en.CategoryViewType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,10 +13,10 @@ import lombok.Data;
 public class Category {
 	private Long cno;
 	private String cname;
-//	private Datetime regdateTime;
-//	private CategoryViewType cViewType;
+	private String regdateTime;
+	private CategoryViewType cViewType;
 	private int odr;
-//	private CategoryStatus status;
-//	
+	private CategoryStatus status;
+
 	
 }
