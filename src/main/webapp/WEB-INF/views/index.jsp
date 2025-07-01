@@ -127,7 +127,7 @@
 <body>
 
   <!-- 헤더 -->
-<<<<<<< HEAD
+
   <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
@@ -195,9 +195,9 @@
       </div>
     </div>
   </nav>
-=======
+
   <%@ include file="common/nav.jsp" %>
->>>>>>> 7c1d2fad70668d27735fdb9c4bd83b87a0527cfc
+
 <!-- 메인 콘텐츠 시작 -->
 
 <!-- 검색 + 슬라이드 병합 섹션 (위치 반전) -->
