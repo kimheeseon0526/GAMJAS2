@@ -1,15 +1,15 @@
 package service;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,38 +23,17 @@ import com.google.gson.JsonParser;
 import api.Attraction;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
+import util.APIUtil;
 import util.MybatisUtil;
 
 @Slf4j
 public class AttractionService {
-	private static String apiKey;
-	static {		
-		Properties props= new Properties();
-		
-		//현재 실행중인 스레드의 컨텍스트 클래스로더의 위치에서 resource를 stream형태로 가져오기
-		try(InputStream is = Thread.currentThread()
-				.getContextClassLoader()
-				.getResourceAsStream("secret/api.properties")) {
-			if (is == null) {
-				throw new FileNotFoundException("Cannot find api.properties in classpath");
-			}
-			props.load(is);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		apiKey = props.getProperty("apiKey");
-	}
 	
-	public static String getKey() {
-		return apiKey;
-	}
+	
+	
 	public List<Attraction> getList() throws IOException {
 		
-		String head = "http://openapi.seoul.go.kr:8088/";
-		String key = AttractionService.getKey();
-		String tail = "/json/TbVwAttractions/";
-		String page = "1000/1100/";
-		String urlStr = head + key + tail + page;
+		String urlStr = new APIUtil().getURL(Attraction.class);
 		
 		URL url = new URL(urlStr);
 		
@@ -88,16 +67,16 @@ public class AttractionService {
 		return list;
 	}
 	
-	public Attraction selectOne(int no) throws IOException {
-		
-		List<Attraction> list = (new AttractionService()).getList();
-		Attraction ti = null;
-		for(Attraction t : list) {
-			ti = list.get(no - 1);
-		}
-		
-		return ti;
-	}
+//	public Attraction selectOne(int no) throws IOException {
+//		
+//		List<Attraction> list = (new AttractionService()).getList();
+//		Attraction ti = null;
+//		for(Attraction t : list) {
+//			ti = list.get(no - 1);
+//		}
+//		
+//		return ti;
+//	}
 	
 	public void register(Attraction attraction) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
@@ -114,9 +93,9 @@ public class AttractionService {
 		AttractionService tis = new AttractionService();
 		List<Attraction> list = tis.getList();
 		
-		for(Attraction a : list) {			
-			tis.register(a);
-		}
+//		for(Attraction a : list) {			
+//			tis.register(a);
+//		}
 		
 
 		
