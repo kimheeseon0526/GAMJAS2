@@ -23,8 +23,8 @@ public class Attach {
 	private String path; //날짜에 대한 경로
 	private boolean isImage; //파일 존재 여부
 	private String origin; //파일 원본
-	private Long bno;
-	private Long rno;
+//	private Long bno;
+//	private Long rno;  --> attachRef에서 Long ref로 처리
 	private int odr;  //integer 은 기본값이 0
 	private long size;  //null이 올 필요가 없는 애들
 
