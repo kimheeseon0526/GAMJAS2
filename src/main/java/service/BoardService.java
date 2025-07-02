@@ -45,7 +45,7 @@ public class BoardService {
 //			Long bno = board.getBno();  // bno는 부모의 번호
 //			if(bno == null) {  // 여기는 답글 아님
 				mapper.insert(board);   // 글 작성
-				mapper.updateGrpMyself(board);  // 그룹번호 부여
+//				mapper.updateGrpMyself(board);  // 그룹번호 부여
 //			}
 //			else { // 여기가 답글
  				// 1. 부모글 조회
@@ -74,7 +74,7 @@ public class BoardService {
 //				a.setBno(board.getBno());
 //				attachMapper.insert(a);
 //			});
-//			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 
+			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
