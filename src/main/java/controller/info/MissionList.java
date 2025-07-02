@@ -8,12 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domain.dto.Criteria;
+import domain.dto.PageDto;
+
 @WebServlet("/mission")
 public class MissionList extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		Criteria cri = Criteria.init(req);
+		
+		req.setAttribute("pageDto", new PageDto(cri, 1));
+		
 		req.getRequestDispatcher("/WEB-INF/views/mission/missionlist.jsp").forward(req, resp);
+		
 	}
 
 	@Override
