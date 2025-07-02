@@ -57,6 +57,7 @@
         
         <c:if test="${not empty member}">
         <a href="member/logout">로그아웃</a>
+        <a href="member/logout">마이페이지</a>
         </c:if>
         
 
