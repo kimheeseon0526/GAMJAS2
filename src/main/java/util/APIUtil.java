@@ -8,7 +8,9 @@ import java.util.Properties;
 
 import api.Attraction;
 import domain.Station;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class APIUtil {
 	
 	private static HashMap<Class<?>, String> apiKeys = new HashMap<>();
@@ -41,11 +43,18 @@ public class APIUtil {
 		return apiKeys.get(clazz);
 	}
 	
-	public <T> String getURL(Class<T> clazz) {
-		String head = "http://openapi.seoul.go.kr:8088/";
-		String key = APIUtil.getKey(clazz);
-		String tail = "/json/TbVwAttractions/";
-		String page = "1000/1100/";
-		return head+ key + tail + page;
+	public <T> String getOpenAPIURL(Class<T> clazz, String head, String tail, String page) {
+		StringBuilder sb = new StringBuilder();
+		String result = sb.append(head).append(APIUtil.getKey(clazz)).append(tail).append(page).toString(); 
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		StringBuilder sb = new StringBuilder();
+		
+		String result = sb.append("머리").append("꼬리").toString();
+		 
+		 
+		log.info("{}", result);
 	}
 }

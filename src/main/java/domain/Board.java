@@ -27,5 +27,4 @@ public class Board {
 	private Integer cnt; // 조회수 넘버
 	private Integer cno; // 카테고리 넘버
 
-
 }
