@@ -21,26 +21,26 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import api.Attraction;
+import api.Festival;
 import lombok.extern.slf4j.Slf4j;
-import mapper.AttractionMapper;
+//import mapper.FestivalMapper;
 import util.APIUtil;
 import util.MybatisUtil;
 
 @Slf4j
-public class AttractionService { //최초 1회 수집용
+public class FestivalService { //최초 1회 수집용
 	
 	int pageSize = 100;
 	int startPage = 1;
 	
-	public List<Attraction> getList() throws IOException {
-		List<Attraction> list = new ArrayList<>();
+	public List<Festival> getList() throws IOException {
+		List<Festival> list = new ArrayList<>();
 		while(true) {
 			int endPage = pageSize + startPage - 1;
 			
 			String page = startPage + "/" + endPage;
 			
-			String urlStr = new APIUtil().getOpenAPIURL(Attraction.class, "/json/TbVwAttractions/", page);
+			String urlStr = new APIUtil().getOpenAPIURL(Festival.class, "/json/TbVwFestivals/", page);
 			
 			URL url = new URL(urlStr);
 			
@@ -58,15 +58,15 @@ public class AttractionService { //최초 1회 수집용
 			rd.close();
 			conn.disconnect();
 			JsonObject jobj = JsonParser.parseString(sb.toString()).getAsJsonObject();
-			JsonArray rows= jobj.getAsJsonObject("TbVwAttractions").getAsJsonArray("row");
+			JsonArray rows= jobj.getAsJsonObject("TbVwFestivals").getAsJsonArray("row");
 			
 			Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CASE_WITH_UNDERSCORES).create(); 
 			
-			Attraction[] arr = gson.fromJson(rows, Attraction[].class);
+			Festival[] arr = gson.fromJson(rows, Festival[].class);
 			
 			log.info("arrlength :: {}", arr.length);
 			log.info("gson 객체를 배열로 담은 것");
-//			for(Attraction a : arr) {
+//			for(Festival a : arr) {
 //				log.info("{}", a);
 //			}
 			
@@ -87,36 +87,36 @@ public class AttractionService { //최초 1회 수집용
 		
 	}
 	
-//	public Attraction selectOne(int no) throws IOException {
+//	public Festival selectOne(int no) throws IOException {
 //		
-//		List<Attraction> list = (new AttractionService()).getList();
-//		Attraction ti = null;
-//		for(Attraction t : list) {
+//		List<Festival> list = (new FestivalService()).getList();
+//		Festival ti = null;
+//		for(Festival t : list) {
 //			ti = list.get(no - 1);
 //		}
 //		
 //		return ti;
 //	}
 	
-	public void register(Attraction attraction) {
-		try(SqlSession session = MybatisUtil.getSqlSession()){
-			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
-			mapper.insert(attraction);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void register(Festival Festival) {
+//		try(SqlSession session = MybatisUtil.getSqlSession()){
+//			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+//			mapper.insert(Festival);
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public static void main(String[] args) throws IOException {
 		
-		AttractionService tis = new AttractionService();
-		List<Attraction> list = tis.getList();
+		FestivalService tis = new FestivalService();
+		List<Festival> list = tis.getList();
 		
-		for(Attraction a : list) {			
-			tis.register(a);
-		}
-		
+//		for(Festival a : list) {			
+//			tis.register(a);
+//		}
+//		
 
 	}
 }
