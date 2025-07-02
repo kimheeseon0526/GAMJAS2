@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import service.MemberService;
 
-@Builder
+
 @WebServlet("/member/signup")
 public class SignupServlet extends HttpServlet{
 

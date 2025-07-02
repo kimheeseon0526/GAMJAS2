@@ -49,8 +49,10 @@
 
       <!-- 로그인 & 언어 선택 -->
       <div class="right-menu d-flex align-items-center">
-        <a href="member/signin">로그인</a>
-        <a href="member/signup">회원가입</a>
+      
+        <a href="../member/signin.jsp">로그인</a>
+        <a href="../member/signup.jsp">회원가입</a>
+
         <a href="#"><i class="fa-regular fa-map text-secondary small"></i></a>
         <div class="dropdown language-dropdown ms-3">
           <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
