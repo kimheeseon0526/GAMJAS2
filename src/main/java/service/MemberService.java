@@ -3,16 +3,18 @@ package service;
 import org.apache.ibatis.session.SqlSession;
 
 import domain.Member;
+import lombok.extern.slf4j.Slf4j;
 import mapper.MemberMapper;
 import util.MybatisUtil;
 import util.PasswordEncoder;
-
+@Slf4j
 public class MemberService {
 	
 	//회원가입
 	public int signup(Member member) {
 		try (SqlSession session = MybatisUtil.getSqlSession()){
 			MemberMapper mapper = session.getMapper(MemberMapper.class);
+			log.info("{}", member.getPw());
 			member.setPw(PasswordEncoder.encode(member.getPw()));
 			return mapper.insert(member);
 		} catch (Exception e) {

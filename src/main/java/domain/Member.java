@@ -25,6 +25,5 @@ public class Member {
 	private int presentTicket;	//현재 티켓수
 	private boolean isVerified; //메일 인증 여부 default : false
 	private String authToken;	//인증용 토큰
-	public String getPw;
 	
 }
