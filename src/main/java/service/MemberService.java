@@ -22,21 +22,23 @@ public class MemberService {
 	}
 	
 	//본인 확인
-//	public Member findById(String id) {
-//		try(SqlSession session = MybatisUtil.getSqlSession()) {
-//			MemberMapper mapper = session.getMapper(MemberMapper.class);
-//			return mapper.findById(id);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			}
-//		return null;
-//	}
+	public Member findById(String id) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			MemberMapper mapper = session.getMapper(MemberMapper.class);
+			return mapper.findById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			}
+		return null;
+	}
 	
-	
-	
-	
-	
-	
-	
+	//로그인
+	public boolean signin(String id, String pw) {
+		Member member = findById(id);
+		if(member == null) {
+			return false;
+		}
+		return PasswordEncoder.matches(pw, member.getPw());
+	}
 	
 }
