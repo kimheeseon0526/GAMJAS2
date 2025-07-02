@@ -12,56 +12,48 @@
 <%@ include file="../common/nav.jsp" %>
 
        			
-<div class="container p-0 bg-gamjas"> <!-- 배경색 살짝 추가 -->
-	
-	<main>
+<div class="container my-5" style="max-width: 768px;">
+    <main>
         <form method="post" id="writeForm" action="write">
 
-            <!-- 카테고리 타이틀 -->
-            <div class="small border-bottom border-3 p-0 pb-2 text-gamjas">
-                <a href="#" class="small fw-bold">자유게시판
-        		<%-- <span class="text-primary">
-        		<c:forEach items="${cate}" var="c">
-        			<c:if test="${c.cno == cri.cno}">
-        			${c.cname}
-        			</c:if>
-        		</c:forEach>
-       			</span> --%>
-                    카테고리
-                </a>
-            </div>
-
-            <!-- 제목 입력 -->
-            <div class="small p-0 py-2">
-                <input placeholder="title" class="form-control border-gamjas" name="title" id="title">
+            <!-- 제목 -->
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
             </div>
 
             <!-- 내용 -->
-            <div class="p-0 py-2 bg-light small border-gamjas rounded">
-                <textarea name="content" id="editor1" class="form-control resize-none border-0"></textarea>
+            <div class="mb-3">
+                <label for="editor1" class="form-label fw-semibold"></label>
+                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
             </div>
 
             <!-- 첨부파일 -->
-            <div class="d-grid my-2 attach-area border-gamjas rounded p-2">
-                <div class="small my-1 text-secondary"><i class="fa-solid fa-paperclip"></i> 첨부파일</div>
-                <label class="btn btn-outline-warning btn-sm">파일첨부 <input type="file" multiple class="d-none" id="f1"></label>
-                <ul class="list-group my-3 attach-list"></ul>
-                <div class="row justify-content-around w-75 mx-auto attach-thumb"></div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold d-inline-block me-3">
+                    <i class="fa-solid fa-paperclip me-1 text-secondary"></i> 첨부파일
+                </label>
+                <label class="btn btn-outline-success btn-sm align-text-bottom">
+                    파일 선택 <input type="file" multiple class="d-none" id="f1">
+                </label>
+                <ul class="list-group my-2 attach-list"></ul>
+                <div class="row justify-content-start attach-thumb"></div>
             </div>
 
             <!-- 버튼 영역 -->
-            <div class="my-2">
-                <a href="${cp}/boardlist" class="btn btn-secondary btn-sm">
+            <div class="d-flex justify-content-between">
+                <!-- 목록 버튼은 그대로 유지 -->
+                <a href="${cp}/board/list" class="btn btn-outline-secondary btn-sm">
                     <i class="fa-solid fa-list-ul"></i> 목록
                 </a>
-                <div class="float-end">
-                    <button type="submit" class="btn btn-gamjas btn-sm">
-                        <i class="fa-solid fa-pen-fancy"></i> 글쓰기
-                    </button>
-                </div>
+
+                <!-- 글쓰기 버튼 커스텀 색상 적용 -->
+                <button type="submit" class="btn btn-sm" style="background-color:#6A8D73; color:#fff;">
+                    <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+                </button>
             </div>
 
-            <!-- hidden input 유지 -->
+            <!-- hidden 필드들 -->
             <input type="hidden" name="id" value="user">
             <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
