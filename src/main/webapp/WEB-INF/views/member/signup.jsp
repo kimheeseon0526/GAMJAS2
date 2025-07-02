@@ -13,30 +13,30 @@
 
     <div class="mb-3">
       <label for="username" class="form-label"><span class="text-danger">*</span>아이디</label>
-      <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요">
+      <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요">
     </div>
 
     <div class="mb-3">
       <label for="password" class="form-label"><span class="text-danger">*</span>비밀번호
-      <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+      <input type="password" class="form-control" id="password" name="pw" placeholder="비밀번호를 입력하세요">
       </label>
     </div>
 
     <div class="mb-3">
       <label for="name" class="form-label">이름</label>
-      <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+      <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요">
     </div>
     
     <div class="mb-3">
       <label for="email" class="form-label"><span class="text-danger">*</span>이메일</label>
       <div class="input-group">
-        <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+        <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
       </div>
     </div>
     
     <div class="mb-3">
       <label for="country" class="form-label"><span class="text-danger">*</span>국가</label>
-      <select class="form-select" id="country">
+      <select class="form-select" id="nation" name="nation">
         <option selected disabled>국가를 선택하세요</option>
         <option>대한민국</option>
         <option>미국</option>
