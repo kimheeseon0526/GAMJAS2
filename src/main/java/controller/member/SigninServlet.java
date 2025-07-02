@@ -8,37 +8,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import domain.Member;
-import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 import service.MemberService;
 
 
-@WebServlet("/member/signup")
-public class SignupServlet extends HttpServlet{
+@WebServlet("/member/signin")
+public class SigninServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/WEB-INF/views/member/signup.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/member/signin.jsp").forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//파라미터 수집
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
-		String name = req.getParameter("name");
-		String email = req.getParameter("email");
-		String nation = req.getParameter("nation");
 		
-		Member member = Member.builder().id(id).pw(pw).name(name).email(email).nation(nation).build();
+		MemberService service = new MemberService();
+		boolean signinMember = service.signin(id, pw);
 		
-		new MemberService().signup(member);
-		
-		resp.sendRedirect("../index");
-
-	}
+		if(signinMember) {//로그인 성공
+			req.getSession().setAttribute("signinMember", signinMember);	//세션 저장
+			resp.sendRedirect(req.getContextPath() + "index.jsp");
+		}
+		else {
+			resp.sendRedirect("login fail");
+		}
 	
+	}
 	
 
 }
