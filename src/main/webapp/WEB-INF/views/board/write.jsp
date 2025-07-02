@@ -11,12 +11,15 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 
-	<div class="container p-0">
+       			
+<div class="container p-0 bg-gamjas"> <!-- 배경색 살짝 추가 -->
 	
 	<main>
         <form method="post" id="writeForm" action="write">
-     <div class="samll border-bottom border-3 p-0 pb-2">
-        	<a href="#" class="small" class="small">자유게시판
+
+            <!-- 카테고리 타이틀 -->
+            <div class="small border-bottom border-3 p-0 pb-2 text-gamjas">
+                <a href="#" class="small fw-bold">자유게시판
         		<%-- <span class="text-primary">
         		<c:forEach items="${cate}" var="c">
         			<c:if test="${c.cno == cri.cno}">
@@ -24,47 +27,54 @@
         			</c:if>
         		</c:forEach>
        			</span> --%>
-       			카테고리
- 				</a>
- 				</div>
-<!-- 제목 -->
-        <div class="small p-0 py-2">
-            <input placeholder="title"  class="form-control" name="title" id="title">
-        </div>
-        
-<!-- 내용 -->        
-        <div class="p-0 py-2 bg-light small border-2 border-muted">
-              <textarea name="content" id="editor1" class="form-control resize-none"></textarea>
-        </div>
-        
-<!-- 첨부파일 -->
-		<div class="d-grid my-2 attach-area">
-			<div class="small my-1"><i class="fa-solid fa-paperclip"></i> 첨부파일</div>
-			<label class="btn btn-info">파일첨부 <input type="file" multiple class="d-none" id="f1"></label>
-			<ul class="list-group my-3 attach-list">
-			</ul>
-			<div class="row justify-content-around w-75 mx-auto attach-thumb">
-			</div>
-		</div>
-<!-- 버튼 -->		
-        <div class="my-2">
-            <a href="${cp}/boardlist" class="btn btn-secondary btn-sm"><i class="fa-solid fa-list-ul"></i> 목록</a>
-            <div class="float-end">
-                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</button>
+                    카테고리
+                </a>
             </div>
-        </div>
-        
+
+            <!-- 제목 입력 -->
+            <div class="small p-0 py-2">
+                <input placeholder="title" class="form-control border-gamjas" name="title" id="title">
+            </div>
+
+            <!-- 내용 -->
+            <div class="p-0 py-2 bg-light small border-gamjas rounded">
+                <textarea name="content" id="editor1" class="form-control resize-none border-0"></textarea>
+            </div>
+
+            <!-- 첨부파일 -->
+            <div class="d-grid my-2 attach-area border-gamjas rounded p-2">
+                <div class="small my-1 text-secondary"><i class="fa-solid fa-paperclip"></i> 첨부파일</div>
+                <label class="btn btn-outline-warning btn-sm">파일첨부 <input type="file" multiple class="d-none" id="f1"></label>
+                <ul class="list-group my-3 attach-list"></ul>
+                <div class="row justify-content-around w-75 mx-auto attach-thumb"></div>
+            </div>
+
+            <!-- 버튼 영역 -->
+            <div class="my-2">
+                <a href="${cp}/boardlist" class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-list-ul"></i> 목록
+                </a>
+                <div class="float-end">
+                    <button type="submit" class="btn btn-gamjas btn-sm">
+                        <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+                    </button>
+                </div>
+            </div>
+
+            <!-- hidden input 유지 -->
             <input type="hidden" name="id" value="user">
             <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
             <input type="hidden" name="amount" value="10">
             <input type="hidden" name="encodedStr" value="">
             <c:if test="${not empty param.bno}">
-            <input type="hidden" name="bno" value="${param.bno}">
+                <input type="hidden" name="bno" value="${param.bno}">
             </c:if>
+
         </form>
     </main>
 </div>
+
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
  <script>
    
