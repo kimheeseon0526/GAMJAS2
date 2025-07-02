@@ -27,6 +27,8 @@ public class Board {
 	private Integer cnt; // 조회수 넘버
 	private Integer cno; // 카테고리 넘버
 
+
 	@Builder.Default
 	private List<Attach> attachs = new ArrayList<>();  //동기방식으로가져옴
+
 }
