@@ -10,4 +10,4 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bxslider@4.2.17/dist/jquery.bxslider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.10.0/ckeditor.js" integrity="sha512-G3gBpAR3yYAoro9SLe2Ki94/3VBY12j9w+v+Sm/AP0e5LNWhOFG/pFLypvpx4+2+tcQfs3rxjPfxx87ABhtZRw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
