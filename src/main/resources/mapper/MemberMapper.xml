@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.MemberMapper">
 	<insert id="insert">
-		insert into tbl_member(id, pw, name, email, nation, tel) values (#{id}, #{pw}, #{name}, #{email}, #{nation}, #{tel})
+		insert into tbl_member(id, pw, name, email, nation) values (#{id}, #{pw}, #{name}, #{email}, #{nation})
 	</insert>
 	<select id ="findById" resultType="domain.Member">
 		select * from tbl_member where id = #{id}

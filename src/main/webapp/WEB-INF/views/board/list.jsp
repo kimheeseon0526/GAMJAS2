@@ -6,8 +6,6 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 <%@ include file="../common/nav.jsp" %>
@@ -49,5 +47,12 @@
      		 		this.submit();
      		 	});
      		 	</script>
+     		 	
+     		 	<div class="col-2">
+	            	<a href="write?${pageDto.cri.qs2}" class="btn btn-primary btn-sm float-end"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</a>
+           		</div>
+	        </div>
+	
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>
