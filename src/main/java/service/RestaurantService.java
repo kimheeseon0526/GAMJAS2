@@ -22,25 +22,27 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import api.Attraction;
+import api.Restaurant;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
+import mapper.RestaurantMapper;
 import util.APIUtil;
 import util.MybatisUtil;
 
 @Slf4j
-public class AttractionService { //최초 1회 수집용
+public class RestaurantService { //최초 1회 수집용
 	
 	int pageSize = 100;
 	int startPage = 1;
 	
-	public List<Attraction> getList() throws IOException {
-		List<Attraction> list = new ArrayList<>();
+	public List<Restaurant> getList() throws IOException {
+		List<Restaurant> list = new ArrayList<>();
 		while(true) {
 			int endPage = pageSize + startPage - 1;
 			
 			String page = startPage + "/" + endPage;
 			
-			String urlStr = new APIUtil().getOpenAPIURL(Attraction.class, "/json/TbVwAttractions/", page);
+			String urlStr = new APIUtil().getOpenAPIURL(Restaurant.class, "/json/TbVwRestaurants/", page);
 			
 			URL url = new URL(urlStr);
 			
@@ -58,11 +60,11 @@ public class AttractionService { //최초 1회 수집용
 			rd.close();
 			conn.disconnect();
 			JsonObject jobj = JsonParser.parseString(sb.toString()).getAsJsonObject();
-			JsonArray rows= jobj.getAsJsonObject("TbVwAttractions").getAsJsonArray("row");
+			JsonArray rows= jobj.getAsJsonObject("TbVwRestaurants").getAsJsonArray("row");
 			
 			Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CASE_WITH_UNDERSCORES).create(); 
 			
-			Attraction[] arr = gson.fromJson(rows, Attraction[].class);
+			Restaurant[] arr = gson.fromJson(rows, Restaurant[].class);
 			
 			log.info("arrlength :: {}", arr.length);
 			log.info("gson 객체를 배열로 담은 것");
@@ -98,10 +100,10 @@ public class AttractionService { //최초 1회 수집용
 //		return ti;
 //	}
 	
-	public void register(Attraction attraction) {
+	public void register(Restaurant restaurant) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
-			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
-			mapper.insert(attraction);
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			mapper.insert(restaurant);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -110,11 +112,11 @@ public class AttractionService { //최초 1회 수집용
 	
 	public static void main(String[] args) throws IOException {
 		
-		AttractionService tis = new AttractionService();
-		List<Attraction> list = tis.getList();
+		RestaurantService rs = new RestaurantService();
+		List<Restaurant> list = rs.getList();
 		
-		for(Attraction a : list) {			
-			tis.register(a);
+		for(Restaurant r : list) {			
+			rs.register(r);
 		}
 		
 

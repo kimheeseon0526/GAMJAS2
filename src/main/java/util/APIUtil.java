@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import api.Attraction;
+import api.Restaurant;
 import domain.Station;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,12 +31,10 @@ public class APIUtil {
 			e.printStackTrace();
 		}
 		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
-//		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
-//		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
-		apiKeys.put(Station.class, props.getProperty("stationApiKey"));
-//		restaurantApiKey = props.getProperty("restaurantApiKey");
-//		festivalApiKey = props.getProperty("festivalApiKey");
-//		stationApiKey = props.getProperty("stationApiKey");
+		apiKeys.put(Restaurant.class, props.getProperty("restaurantApiKey"));
+//		apiKeys.put(Attraction.class, props.getProperty("festivalApiKey"));
+//		apiKeys.put(Station.class, props.getProperty("stationApiKey"));
+
 	}
 	
 	public static <T> String getKey(Class<T> clazz) {
@@ -43,9 +42,9 @@ public class APIUtil {
 		return apiKeys.get(clazz);
 	}
 	
-	public <T> String getOpenAPIURL(Class<T> clazz, String head, String tail, String page) {
+	public <T> String getOpenAPIURL(Class<T> clazz, String tail, String page) {
 		StringBuilder sb = new StringBuilder();
-		String result = sb.append(head).append(APIUtil.getKey(clazz)).append(tail).append(page).toString(); 
+		String result = sb.append("http://openapi.seoul.go.kr:8088/").append(APIUtil.getKey(clazz)).append(tail).append(page).toString(); 
 		return result;
 	}
 	
