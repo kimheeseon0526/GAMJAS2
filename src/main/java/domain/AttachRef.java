@@ -8,6 +8,6 @@ public class AttachRef {
 	// 두개의 컬럼 index
 	
 	enum AttachRefType {
-		BOARD, REPLY, MISSION, MEMBER, RECOMMEND_PLACE
+		BOARD, REPLY, MISSION, MEMBER, RECOMMENDPLACE
 	}
 }
