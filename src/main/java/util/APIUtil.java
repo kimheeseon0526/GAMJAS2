@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import api.Attraction;
+import api.Festival;
 import api.Restaurant;
 import domain.Station;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class APIUtil {
 		}
 		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
 		apiKeys.put(Restaurant.class, props.getProperty("restaurantApiKey"));
-//		apiKeys.put(Attraction.class, props.getProperty("festivalApiKey"));
+		apiKeys.put(Festival.class, props.getProperty("festivalApiKey"));
 //		apiKeys.put(Station.class, props.getProperty("stationApiKey"));
 
 	}
