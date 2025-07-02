@@ -23,6 +23,7 @@ import com.google.gson.JsonParser;
 
 import api.Festival;
 import lombok.extern.slf4j.Slf4j;
+import mapper.FestivalMapper;
 //import mapper.FestivalMapper;
 import util.APIUtil;
 import util.MybatisUtil;
@@ -30,17 +31,18 @@ import util.MybatisUtil;
 @Slf4j
 public class FestivalService { //최초 1회 수집용
 	
-	int pageSize = 100;
-	int startPage = 1;
+	private int pageSize = 100;
+	private int startPage = 1;
 	
 	public List<Festival> getList() throws IOException {
 		List<Festival> list = new ArrayList<>();
-		while(true) {
-			int endPage = pageSize + startPage - 1;
+//		while(true) {
+//			int endPage = pageSize + startPage - 1;
+			String head = "https://apis.data.go.kr/B551011/KorService2/searchFestival2?serviceKey=";
+			String apiKey = APIUtil.getKey(Festival.class);
+			String tail = "MobileApp=AppTest&MobileOS=ETC&pageNo=2&numOfRows=100&eventStartDate=20250101&arrange=C&modifiedtime=&areaCode=1&eventEndDate=20251231&_type=json";
 			
-			String page = startPage + "/" + endPage;
-			
-			String urlStr = new APIUtil().getOpenAPIURL(Festival.class, "/json/TbVwFestivals/", page);
+			String urlStr = head + apiKey + tail ;
 			
 			URL url = new URL(urlStr);
 			
@@ -58,33 +60,29 @@ public class FestivalService { //최초 1회 수집용
 			rd.close();
 			conn.disconnect();
 			JsonObject jobj = JsonParser.parseString(sb.toString()).getAsJsonObject();
-			JsonArray rows= jobj.getAsJsonObject("TbVwFestivals").getAsJsonArray("row");
+			JsonArray itemArray= jobj.getAsJsonObject("response").getAsJsonObject("body").getAsJsonObject("items").getAsJsonArray("item");
 			
-			Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CASE_WITH_UNDERSCORES).create(); 
+			Gson gson = new GsonBuilder().create(); 
 			
-			Festival[] arr = gson.fromJson(rows, Festival[].class);
+			Festival[] arr = gson.fromJson(itemArray, Festival[].class);
 			
 			log.info("arrlength :: {}", arr.length);
 			log.info("gson 객체를 배열로 담은 것");
 //			for(Festival a : arr) {
 //				log.info("{}", a);
 //			}
-			
 			list.addAll(Arrays.asList(arr));
 			log.info("배열을 list로 담은 것");
-//			list.forEach(a -> log.info("{}", a.getPostSn()));
-			log.info("{}", Arrays.toString(page.split("/")));
-			String[] pages = page.split("/");
-			int subs = Integer.parseInt(pages[1]) - Integer.parseInt(pages[0]) + 1;
-			
-			startPage += pageSize;
-			if(subs > arr.length) {
-				break;
-			}
-//			if(arr.length < ) break;
-		}
+			list.forEach(a -> log.info("{}", a.toString()));
+//			log.info("{}", Arrays.toString(page.split("/")));
+//			String[] pages = page.split("/");
+//			int subs = Integer.parseInt(pages[1]) - Integer.parseInt(pages[0]) + 1;
+//			startPage += pageSize;
+//			if(subs > arr.length) {
+//				break;
+//			}
+//		}
 		return list;
-		
 	}
 	
 //	public Festival selectOne(int no) throws IOException {
@@ -98,15 +96,15 @@ public class FestivalService { //최초 1회 수집용
 //		return ti;
 //	}
 	
-//	public void register(Festival Festival) {
-//		try(SqlSession session = MybatisUtil.getSqlSession()){
-//			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
-//			mapper.insert(Festival);
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void register(Festival Festival) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			mapper.insert(Festival);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args) throws IOException {
 		
