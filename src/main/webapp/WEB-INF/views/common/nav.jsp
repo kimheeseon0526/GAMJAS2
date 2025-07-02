@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
@@ -49,9 +50,15 @@
 
       <!-- 로그인 & 언어 선택 -->
       <div class="right-menu d-flex align-items-center">
-      
+      	<c:if test="${empty member}">
         <a href="${cp}/member/signin">로그인</a>
         <a href="${cp}/member/signup">회원가입</a>
+        </c:if>
+        
+        <c:if test="${not empty member}">
+        <a href="member/logout">로그아웃</a>
+        </c:if>
+        
 
         <a href="#"><i class="fa-regular fa-map text-secondary small"></i></a>
         <div class="dropdown language-dropdown ms-3">
