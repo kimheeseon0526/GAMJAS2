@@ -1,0 +1,42 @@
+/* 회원가입 폼 */
+body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
+
+    /* ====================== 헤더 ====================== */
+    nav.gamjas-navbar {border-bottom: 1px solid #e0e0e0; background: #fff; padding: 10px 40px; position: relative;z-index: 100;}
+
+    .main-header { display: flex; align-items: center; justify-content: space-between;}
+
+    .main-menu-area {position: relative;}
+
+    .main-menu {display: flex; justify-content: center; gap: 50px; list-style: none; margin: 0;padding: 0; }
+
+    .main-menu > li > a { text-decoration: none; color: #000;  font-weight: bold; padding: 10px 15px; transition: color 0.2s ease; }
+
+    .main-menu > li > a:hover {color: #007bff;}
+
+    /* ====================== 서브메뉴 ====================== */
+    .mega-submenu { display: none; position: absolute; top: 155%;left: -70PX; width: 140%; background: #fff; border-top: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+     				 padding: 50px 80px; z-index: 99;justify-content: space-between;}
+
+    .submenu-col { width: 50%; }
+
+    .submenu-col strong { font-weight: bold; display: block; margin-bottom: 10px;}
+
+    .submenu-col a {display: block; text-decoration: none; color: #000; margin-bottom: 8px;font-size: 0.95rem; }
+
+    .submenu-col a:hover {color: #007bff;}
+
+    .custom-language-dropdown {left: -5% !important;transform: translateX(-50%);}
+
+    /* ====================== Hover Trigger ====================== */
+    .main-menu-area:hover .mega-submenu {display: flex; animation: slideDown 0.3s ease-out; }
+
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* ====================== 오른쪽 로그인/언어 ====================== */
+    .right-menu a {margin-left: 20px; text-decoration: none; color: #000; font-size: 0.95rem;}
+
+    .language-dropdown .dropdown-toggle { font-size: 0.9rem; }
