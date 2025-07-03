@@ -13,36 +13,31 @@
           <li><a href="#">여행정보</a></li>
           <li><a href="#">미션투어</a></li>
           <li><a href="#">감자티켓</a></li>
-          <li><a href="#">감자마당</a></li>
+          <li><a href="${cp}/board/list">감자마당</a></li>
           <li><a href="#">Q&A</a></li>
         </ul>
 
         <!-- 통합 서브메뉴 -->
         <div class="mega-submenu">
           <div class="submenu-col">
-            <strong>여행정보</strong>
             <a href="#">지하철 노선도</a>
             <a href="#">상세 여행정보</a>
           </div>
           <div class="submenu-col">
-            <strong>미션투어</strong>
                 <a href="#">관광</a>
             <a href="#">체험</a>
             <a href="#">먹거리</a>
           </div>
           <div class="submenu-col">
-            <strong>감자티켓</strong>
             <a href="#">소개 & 이용안내</a>
             <a href="#">당첨자 발표</a>
           </div>
           <div class="submenu-col">
-            <strong>감자마당</strong>
             <a href="#">자유게시판</a>
             <a href="#">생생후기</a>
             <a href="#">공지사항</a>
           </div>
           <div class="submenu-col">
-            <strong>Q&A</strong>
             <a href="#">질문 게시판</a>
           </div>
         </div>
