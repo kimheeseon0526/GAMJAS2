@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import domain.Board;
 import domain.dto.Criteria;
+import mapper.AttachMapper;
 import mapper.BoardMapper;
+import mapper.ReplyMapper;
 import util.MybatisUtil;
 
 public class BoardService {
@@ -14,7 +16,7 @@ public class BoardService {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
 			List<Board> list = mapper.list(cri);
-//			long cnt =  mapper.getCount(cri);
+			long cnt =  mapper.getCount(cri);
 			return list; //1page 10개씩
 			
 		} catch (Exception e) {
@@ -101,11 +103,11 @@ public class BoardService {
 		try {	
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
 			mapper.update(board);
-//			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
-//			board.getAttachs().forEach(a -> {
-//				a.setBno(board.getBno());
-//				attachMapper.insert(a);
-//			});
+			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+			board.getAttachs().forEach(a -> {
+				a.setBno(board.getBno());
+				attachMapper.insert(a);
+			});
 			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 
 			
 		} catch (Exception e) {
@@ -121,11 +123,11 @@ public class BoardService {
 		SqlSession session = MybatisUtil.getSqlSession(false);
 		try {	
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
-//			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
 //			ReplyMapper replyMapper = session.getMapper(ReplyMapper.class);
 					
 //			replyMapper.deleteByBno(bno);
-//			attachMapper.deleteByBno(bno);
+			attachMapper.deleteByBno(bno);
 			mapper.delete(bno);
 			
 			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 

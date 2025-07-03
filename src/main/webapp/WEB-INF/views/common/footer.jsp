@@ -15,7 +15,7 @@
         <ul class="list-unstyled text-center">
           <li><a href="#" class="text-decoration-none text-light">여행정보</a></li>
           <li><a href="#" class="text-decoration-none text-light">미션투어</a></li>
-          <li><a href="#" class="text-decoration-none text-light">감자마당</a></li>
+          <li><a href="${cp}/board/list" class="text-decoration-none text-light">감자마당</a></li>
           <li><a href="#" class="text-decoration-none text-light">Q&A</a></li>
         </ul>
       </div>
