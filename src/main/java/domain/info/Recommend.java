@@ -11,8 +11,8 @@ import lombok.Data;
 
 @Data
 @Builder
-@Alias("recommendplace")
-public class RecommendPlace {
+@Alias("recommend")
+public class Recommend {
 	private Long recomNo;
 	private RecommendContentType recomContenttype ;
 	private String recomPlaceId;
