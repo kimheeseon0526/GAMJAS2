@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</head>
 <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
@@ -10,11 +15,11 @@
       <!-- 중앙 메뉴 -->
       <div class="main-menu-area">
         <ul class="main-menu">
-          <li><a href="#">여행정보</a></li>
+          <li><a href="#" >여행정보</a></li>
           <li><a href="${cp}/info/missionlist">미션투어</a></li>
-          <li><a href="#">감자티켓</a></li>
-          <li><a href="${cp}/board/list">감자마당</a></li>
-          <li><a href="#">Q&A</a></li>
+          <li><a href="#" >감자티켓</a></li>
+          <li><a href="${cp}/board/list" >감자마당</a></li>
+          <li><a href="#" >Q&A</a></li>
         </ul>
 
         <!-- 통합 서브메뉴 -->
@@ -33,7 +38,7 @@
             <a href="#">당첨자 발표</a>
           </div>
           <div class="submenu-col">
-            <a href="#">자유게시판</a>
+            <a href="${cp}/board/list?cno=${c.cno}">자유게시판</a>
             <a href="#">생생후기</a>
             <a href="#">공지사항</a>
           </div>
