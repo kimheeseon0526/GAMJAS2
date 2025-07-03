@@ -94,8 +94,9 @@ public class StationService {
 		public List<Station> getLine2Stations() {
 			try (SqlSession session = MybatisUtil.getSqlSession()) {
 				StationMapper mapper = session.getMapper(StationMapper.class);
+				
 //				List<Station> list = mapper.li
-				return null; 
+				return mapper.selectByLine("2호선") ; 
 			}
 		}
 		
