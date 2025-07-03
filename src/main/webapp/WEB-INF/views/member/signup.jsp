@@ -9,7 +9,7 @@
 <main class="join-container" style="max-width: 480px; margin: 60px auto; background: white; padding: 30px 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
   <h4 class="text-center mb-4 fw-bold">회원가입</h4>
   
-  <form action="signup" method="post">
+  <form action="signup" method="post" id="signupForm">
 
     <div class="mb-3">
       <label for="username" class="form-label"><span class="text-danger">*</span>아이디</label>
@@ -51,6 +51,12 @@
     </div>
   </form>
 </main>
+
+<!-- <script>
+$("#signupForm").submit(function() {
+	alert("회원가입이 완료되었습니다!")
+})
+</script> -->
 
 <!-- 푸터 -->
 <%@ include file="../common/footer.jsp" %> 
