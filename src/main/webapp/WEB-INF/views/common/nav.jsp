@@ -11,7 +11,7 @@
       <div class="main-menu-area">
         <ul class="main-menu">
           <li><a href="#">여행정보</a></li>
-          <li><a href="#">미션투어</a></li>
+          <li><a href="${cp}/info/missionlist">미션투어</a></li>
           <li><a href="#">감자티켓</a></li>
           <li><a href="${cp}/board/list">감자마당</a></li>
           <li><a href="#">Q&A</a></li>
@@ -21,7 +21,7 @@
         <div class="mega-submenu">
           <div class="submenu-col">
             <a href="#">지하철 노선도</a>
-            <a href="#">상세 여행정보</a>
+            <a href="${cp}/info/recommendlist">상세 여행정보</a>
           </div>
           <div class="submenu-col">
                 <a href="#">관광</a>
