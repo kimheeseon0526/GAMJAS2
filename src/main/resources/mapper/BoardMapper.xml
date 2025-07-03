@@ -12,11 +12,11 @@
 		<result column="moddate" property="moddate" />
 		<result column="cnt" property="cnt" />
 		<result column="cno" property="cno" />
-		<result column="replyCnt" property="replyCnt" />
-		<result column="attachCnt" property="attachCnt" />
-		<result column="grp" property="grp" />
+		<!-- <result column="replyCnt" property="replyCnt" />
+		<result column="attachCnt" property="attachCnt" /> -->
+		<!-- <result column="grp" property="grp" />
 		<result column="seq" property="seq" />
-		<result column="depth" property="depth" />
+		<result column="depth" property="depth" /> -->
 		
 		
 		<collection property="attachs" ofType="attach">
@@ -56,15 +56,16 @@
 	<!-- 목록조회 -->
 	<select id="list" resultMap="b">
 		select bno, title, content, id, regdate, moddate, cnt, cno, 
-		(select count(*) from tbl_reply r where r.bno = b.bno) replyCnt,
-		(select count(*) from tbl_attach a where a.bno = b.bno) attachCnt,
+		<!-- (select count(*) from tbl_reply r where r.bno = b.bno) replyCnt,
+		(select count(*) from tbl_attach a where a.bno = b.bno) attachCnt, -->
 		(select uuid from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) uuid, 
-		(select path from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) path,
-		grp, seq, depth
+		(select path from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) path
+		<!-- ,grp, seq, depth -->
 		from tbl_board b
 		<include refid="criteria"/>
 		<!-- and title like concat('%', #{keyword}, '%') -->
-		order by grp desc, seq
+		<!-- order by grp desc, seq -->
+		order by bno desc
 		limit #{amount} offset #{offset}
 	</select>
 	<!-- 단일조회 -->

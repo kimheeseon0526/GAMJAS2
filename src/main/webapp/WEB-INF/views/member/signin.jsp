@@ -13,7 +13,7 @@
 
 <body>
  <main class="login-container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="p-4 px-5 bg-white shadow-sm rounded-4 border" style="border-color: #6a983c; border-width: 1px;">
+ <div class="p-4 px-5 bg-white shadow-sm rounded-4 border" style="border-color: #6a983c; border-width: 1px;">
     <div class="text-center mb-4">
       <i class="fa-regular fa-circle-check fa-lg" style="color: #213144;"></i>
       <h5 class="fw-bold d-inline-block ms-2">로그인</h5>
@@ -23,15 +23,17 @@
     <form method="post" action="${cp}/member/signin">
 
       <div class="mb-3">
+
         <label for="username" class="form-label">아이디</label>
         <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요" required>
       </div>
       <div class="mb-4">
         <label for="password" class="form-label">비밀번호</label>
         <input type="password" class="form-control" id="password" name="pw" placeholder="비밀번호를 입력하세요" required>
+
       </div>
       <div class="d-grid">
-        <button type="submit" class="btn" style="background-color: black; color: white;">로그인</button>
+        <button type="submit" class="btn" style="background-color:#6A8D73; color:#fff;">로그인</button>
       </div>
     </form>
   </div>
