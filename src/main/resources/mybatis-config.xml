@@ -7,8 +7,7 @@
   		<package name="domain"/>
   	</typeAliases>
   	<typeHandlers>
-  		<!-- <typeHandler javaType="domain.en.CategoryStatus" handler="mapper.handler.CategoryStatusTypeHandler" />
-  		<typeHandler javaType="domain.en.CategoryViewType" handler="mapper.handler.CategoryViewTypeHandler" /> -->
+  		<typeHandler handler="mapper.handler.RecomContentTypeHandler"/>
   	</typeHandlers>
   	<mappers>
   		<!-- <mapper class="mapper.ReviewMapper"></mapper>
