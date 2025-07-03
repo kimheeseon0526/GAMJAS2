@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.RecommendPlaceMapper">
-	<!-- <resultMap type="recommendplace" id="r">
+<mapper namespace="mapper.RecommendMapper">
+	<!-- <resultMap type="recommend" id="r">
 		<id column="recomNo" property="recomNo"/>
 		<result column="title" property="title" />
 		<result column="content" property="content" />
@@ -43,8 +43,8 @@
 			</if>
 			</trim>
 		</where>
-	</sql>
-	목록조회
+	</sql>-->
+	<!-- 목록조회 -->
 	<select id="list" resultMap="b">
 		select bno, title, content, id, regdate, moddate, cnt, cno, 
 		(select count(*) from tbl_reply r where r.bno = b.bno) replyCnt,
@@ -58,7 +58,7 @@
 		order by grp desc, seq
 		limit #{amount} offset #{offset}
 	</select>
-	단일조회
+	<!-- 단일조회 -->
 	<select id="selectOne" resultMap="b">
 		select *, a.bno a_bno, (select count(*) from tbl_reply r where r.bno = b.bno) replyCnt
 		from tbl_board b
@@ -67,32 +67,32 @@
 		order by odr
 	</select>
 	
-	글 등록
+	<!-- 글 등록 -->
 	<insert id="insert">
-		insert into tbl_board (title, content, id, cno) values (#{title}, #{content}, #{id}, #{cno})
-	<selectKey keyProperty="bno" resultType="long" order="AFTER">
-		select max(bno) from tbl_board 
+		insert into tbl_recommend_place (recom_no, recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no, regdatetime, moddatetime) values (#{recomNo}, #{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo}, #{regdatetime}, #{moddatetime})
+	<selectKey keyProperty="recomNo" resultType="long" order="AFTER">
+		select max(recom_no) from tbl_recommend_place 
 	</selectKey>
 	</insert>
 	
-	게시글 갯수
-	<select id="getCount" resultType="long">
+	<!-- 게시글 갯수 -->
+	<!-- <select id="getCount" resultType="long">
 		select count(*) from tbl_board 
 		<include refid="criteria"/>
 	</select>
-	
-	글 수정
-	<update id="update">
+	 -->
+	<!-- 글 수정 -->
+	<!-- <update id="update">
 		update tbl_board set 
 		title=#{title},
 		content=#{content},
 		moddate = now(),
 		cno = #{cno}
 		where bno = #{bno};
-	</update>
-	글 삭제 
-	<delete id="delete">
+	</update> -->
+	<!-- 글 삭제 --> 
+	<!-- <delete id="delete">
 	delete from tbl_board where bno = #{bno}
-	</delete> -->
+	</delete>  -->
 	
 </mapper>

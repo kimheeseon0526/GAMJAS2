@@ -11,18 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import domain.dto.Criteria;
 import domain.dto.PageDto;
 
-@WebServlet("/mission")
+import lombok.extern.slf4j.Slf4j;
+import service.MissionService;
+
+@WebServlet("/info/missionlist")
+@Slf4j
 public class MissionList extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		Criteria cri = Criteria.init(req);
-		
-		req.setAttribute("pageDto", new PageDto(cri, 1));
-		
-		req.getRequestDispatcher("/WEB-INF/views/mission/missionlist.jsp").forward(req, resp);
-		
+
+//		MissionService missionService = new MissionService();
+//		Criteria cri = Criteria.init(req);
+//		log.info("{}", cri);
+//		
+		req.getRequestDispatcher("/WEB-INF/views/info/missionlist.jsp").forward(req, resp);
 	}
 
 	@Override

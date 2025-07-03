@@ -6,17 +6,16 @@ import org.apache.ibatis.session.SqlSession;
 
 import domain.Board;
 import domain.dto.Criteria;
-import domain.info.Mission;
-import mapper.BoardMapper;
-import mapper.MissionMapper;
+import domain.info.Recommend;
+import mapper.RecommendMapper;
 import util.MybatisUtil;
 
-public class MissionService {
-	public List<Mission> list(Criteria cri) {
+public class RecommendService {
+	public List<Recommend> list(Criteria cri) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			
-			MissionMapper mapper = session.getMapper(MissionMapper.class);
-			List<Mission> list = mapper.list(cri);
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			List<Recommend> list = mapper.list(cri);
 			return list;
 		}
 		catch (Exception e) {
@@ -25,11 +24,11 @@ public class MissionService {
 		return null;
 	}
 	
-	public void write(Mission mission) {
+	public void write(Recommend Recommend) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
-			MissionMapper mapper = session.getMapper(MissionMapper.class);
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
 //			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
-			mapper.insert(mission); 
+			mapper.insert(Recommend); 
 			
 		} catch (Exception e) {
 			e.printStackTrace();

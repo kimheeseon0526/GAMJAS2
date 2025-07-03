@@ -6,20 +6,86 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
+<style>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* 두 줄까지만 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.apiInfo {
+	display: none;
+}
+</style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 
-<div class="container my-5" style="max-width: 768px;">
-    <main>
-        <form method="post" id="writeForm" action="write">
+	
+<div class="container my-5" style="max-width: 768px; margin-top: 194px;">
+	
+	<main>
+		<form method="post" id="writeForm" action="${cp}/info/writerecommend">
+ 	
+		 	<div class="row row-cols-1 row-cols-md-3 g-4 ">
+    
+				<!-- 카드 1 -->
+				<div class="col">
+				<a href="#" class="card h-100">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+						<h5 class="card-title fs-6">관광지</h5>
+						<p class="card-text line-clamp-2 small">자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
+					</div>
+				</a>
+				</div>
 
-            <!-- 제목 -->
-            <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">제목</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
-            </div>
+				<!-- 카드 2 -->
+				<div class="col">
+				<a href="#" class="card h-100">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+					<h5 class="card-title fs-6">음식점</h5>
+					<p class="card-text line-clamp-2 small">지역별 음식점 정보를 확인하고 선택할 수 있습니다.</p>
+					</div>
+				</a>
+				</div>
+
+				<!-- 카드 3 -->
+				<div class="col">
+				<a href="#" class="card h-100">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+					<h5 class="card-title fs-6">체험</h5>
+					<p class="card-text line-clamp-2 small">공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
+					</div>
+				</a>
+				</div>
+
+			</div>
+			<div id="apiList">
+				<ul class="list-group" id="tourMap">
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Active item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1">Active item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1">Active item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
+				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
+				</ul>
+			</div>
+			<div class="m-0 auto border apiInfo" id="apiInfo">
+				<p>가나다라마바사아자차카타파하</p> 
+				<p>가나다라마바사아자차카타파하</p> 
+				<p>가나다라마바사아자차카타파하</p> 
+				<p>가나다라마바사아자차카타파하</p> 
+				<p>가나다라마바사아자차카타파하</p> 				
+			</div>
+            
 
             <!-- 내용 -->
             <div class="mb-3">
@@ -53,7 +119,7 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="user">
+            <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
             <input type="hidden" name="amount" value="10">
@@ -67,10 +133,33 @@
 </div>
 
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-
+ <script>
+   
+      $(function() {
+          CKEDITOR.replace('editor1', {
+              height: 400
+          });
+      });
+   
+  </script>
   <script>
 	$(function() {
-		 $( ".attach-list" ).sortable();
+		
+		$("#apiList").on("click", "li", function() {
+			$("#apiList li").removeClass("active");
+			$(".form-check-input").prop("checked", false)
+
+			$(this).addClass("active");
+			$(this).children("input").prop("checked", true)
+			
+			console.log($("#apiInfo"))
+			$("#apiInfo").removeClass("apiInfo")
+		})
+		
+		
+		
+		
+		$( ".attach-list" ).sortable();
 		//return true / false
 		function validateFiles(files) {
 			const MAX_COUNT = 5;
@@ -110,7 +199,7 @@
 		
 		
 		/* $("#uploadForm").submit(function() { */
-		/* 	event.preventDefault();  /* submit 막는거 */
+			event.preventDefault();  /* submit 막는거 */
 			const formData = new FormData(); /* 일단 빈 객체로만듬 */
 			
 			console.log(formData);
@@ -132,7 +221,7 @@
 				contentType : false, // 내가 정의하지 않겠다. 내가 없으니까 거기에 있는 기본값을 가져오겠다 
 				// 원래는 multipart/form-data;가 들어가야함. 이후에 나오게 될 브라우저 정보도 포함시킨다. 즉 기본 브라우저 설정을 따르는 옵션
 				success : function(data) {
-					console.log("서버응답: ",data);
+					console.log(data);
 					// 확인용
 					let str = "";
 					let thumbStr = "";
@@ -170,10 +259,10 @@
 				}
 			})
 			
-			$("#writeForm").submit(function(event) {
+			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
-			$(".attach-list li").each(function(event) {
+			$(".attach-list li").each(function() {
 				data.push({...this.dataset});
 				
 			});
@@ -186,16 +275,6 @@
 			})
 		})
 	})
-	<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    const editor = document.getElementById('editor1');
-    if (editor) {
-      CKEDITOR.replace('editor1', {
-        height: 400
-      });
-    }
-  });
-</script>
 
 	</script>
 <%@ include file="../common/footer.jsp" %>

@@ -34,7 +34,7 @@ public class APIUtil {
 		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
 		apiKeys.put(Restaurant.class, props.getProperty("restaurantApiKey"));
 		apiKeys.put(Festival.class, props.getProperty("festivalApiKey"));
-//		apiKeys.put(Station.class, props.getProperty("stationApiKey"));
+		apiKeys.put(Station.class, props.getProperty("stationApikey"));
 
 	}
 	

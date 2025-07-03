@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 @Alias("mission")
 public class Mission {
+
 	private Long missionNo;             
 	private String title;              
 	private String summary;            
@@ -20,5 +21,5 @@ public class Mission {
 	private String stationId;          
 	private String placeId;            
 	private Long recomNo;              
-	
+
 }

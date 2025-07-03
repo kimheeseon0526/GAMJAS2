@@ -11,6 +11,7 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 
+       			
 <div class="container my-5" style="max-width: 768px;">
     <main>
         <form method="post" id="writeForm" action="write">
@@ -67,7 +68,15 @@
 </div>
 
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-
+ <script>
+   
+      $(function() {
+          CKEDITOR.replace('editor1', {
+              height: 400
+          });
+      });
+   
+  </script>
   <script>
 	$(function() {
 		 $( ".attach-list" ).sortable();
@@ -110,7 +119,7 @@
 		
 		
 		/* $("#uploadForm").submit(function() { */
-		/* 	event.preventDefault();  /* submit 막는거 */
+			event.preventDefault();  /* submit 막는거 */
 			const formData = new FormData(); /* 일단 빈 객체로만듬 */
 			
 			console.log(formData);
@@ -132,7 +141,7 @@
 				contentType : false, // 내가 정의하지 않겠다. 내가 없으니까 거기에 있는 기본값을 가져오겠다 
 				// 원래는 multipart/form-data;가 들어가야함. 이후에 나오게 될 브라우저 정보도 포함시킨다. 즉 기본 브라우저 설정을 따르는 옵션
 				success : function(data) {
-					console.log("서버응답: ",data);
+					console.log(data);
 					// 확인용
 					let str = "";
 					let thumbStr = "";
@@ -170,10 +179,10 @@
 				}
 			})
 			
-			$("#writeForm").submit(function(event) {
+			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
-			$(".attach-list li").each(function(event) {
+			$(".attach-list li").each(function() {
 				data.push({...this.dataset});
 				
 			});
@@ -186,16 +195,6 @@
 			})
 		})
 	})
-	<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    const editor = document.getElementById('editor1');
-    if (editor) {
-      CKEDITOR.replace('editor1', {
-        height: 400
-      });
-    }
-  });
-</script>
 
 	</script>
 <%@ include file="../common/footer.jsp" %>
