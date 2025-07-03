@@ -8,12 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/mission")
+import domain.dto.Criteria;
+import lombok.extern.slf4j.Slf4j;
+import service.MissionService;
+
+@WebServlet("/info/missionlist")
+@Slf4j
 public class MissionList extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/WEB-INF/views/mission/missionlist.jsp").forward(req, resp);
+//		MissionService missionService = new MissionService();
+//		Criteria cri = Criteria.init(req);
+//		log.info("{}", cri);
+//		
+		req.getRequestDispatcher("/WEB-INF/views/info/missionlist.jsp").forward(req, resp);
 	}
 
 	@Override
