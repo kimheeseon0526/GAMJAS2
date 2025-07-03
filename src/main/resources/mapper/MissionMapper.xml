@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mapper.MissionMapper">
+	<resultMap type="mission" id="m">
+		 <id property="missionNo" column="mission_no"/>
+		  <result property="title" column="title"/>
+		  <result property="summary" column="summary"/>
+		  <result property="content" column="content"/>
+		  <result property="regDatetime" column="regdatetime"/>
+		  <result property="modDatetime" column="moddatetime"/>
+		  <result property="providedTicket" column="provided_ticket"/>
+		  <result property="createdBy" column="created_by"/>
+		  <result property="stationId" column="station_id"/>
+		  <result property="placeId" column="place_id"/>
+		  <result property="recomNo" column="recom_no"/>
+	</resultMap>
+	<select id="list" resultType="mission">
+		select * from tbl_mission
+	</select>
+  	<insert id="insert" >
+  		insert into tbl_mission  
+  	</insert>
+	<delete id="delete">
+	delete from tbl_mission where mission_no = #{missionNo}
+	</delete>
+  </mapper>
