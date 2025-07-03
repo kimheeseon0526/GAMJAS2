@@ -8,5 +8,6 @@ public interface StationMapper {
 
 	void insert(Station station);
 	List<Station> getList();
+	List<Station> selectByLine(String lineName);
 
 }
