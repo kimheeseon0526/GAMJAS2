@@ -72,7 +72,7 @@ public class UploadFile extends HttpServlet{
 			if(!file.exists()) {
 				file.mkdirs();
 			}
-//			new File(realPath).mkdirs();  //s 가 빠지면 터짐. 있으면 만들고 없으면 안만듧
+//			new File(realPath).mkdirs();  
 			part.write(realPath + fileName);  //원본을 저장시켜라
 			if(image) {
 				try {

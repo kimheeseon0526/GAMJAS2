@@ -28,11 +28,11 @@ public class Write extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Criteria cri = Criteria.init(req);
-        //session 내의 member attr 조회 후 null
-//        if(req.getSession().getAttribute("member") == null) {
-//            AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?" + cri.getQs2(), req, resp, true);
-//            return;
-//        }  // 로그인 기능 미구현으로 주석처리
+//        session 내의 member attr 조회 후 null
+        if(req.getSession().getAttribute("member") == null) {
+            AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?" + cri.getQs2(), req, resp, true);
+            return;
+        }  // 로그인 기능 미구현으로 주석처리
 
         req.setAttribute("cri", cri);
         req.getRequestDispatcher("/WEB-INF/views/board/write.jsp").forward(req, resp);
@@ -41,11 +41,11 @@ public class Write extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Criteria cri = Criteria.init(req);
-        //session 내의 member attr 조회 후 null
-//        if(req.getSession().getAttribute("member") == null) {
-//            AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?" + cri.getQs2(), req, resp, true);
-//            return;
-//        }	// 로그인 기능 미구현으로 주석처리
+        // session 내의 member attr 조회 후 null
+        if(req.getSession().getAttribute("member") == null) {
+            AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?" + cri.getQs2(), req, resp, true);
+            return;
+        }	// 로그인 기능 미구현으로 주석처리
         //첨부파일 내용 수집
         String encodedStr =  req.getParameter("encodedStr");
 		Type type =  new TypeToken<List<Attach>>() {}.getType();

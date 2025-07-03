@@ -36,7 +36,7 @@ public class Modify extends HttpServlet{
 		Long bno = Long.valueOf(req.getParameter("bno"));
 
 		if(req.getSession().getAttribute("member") == null) {
-			AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?bno=" + bno + "&" + cri.getQs2(), req, resp, true);
+			AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?bno=" + bno + "&" + cri.getQs2(), req, resp, true);
 			return;
 		}
 		
@@ -52,7 +52,7 @@ public class Modify extends HttpServlet{
 		Criteria cri = Criteria.init(req);
         //session 내의 member attr 조회 후 null
         if(req.getSession().getAttribute("member") == null) {
-            AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?" + cri.getQs2(), req, resp, true);
+            AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?" + cri.getQs2(), req, resp, true);
             return;
         }
         // 파라미터 수집
