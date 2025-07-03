@@ -13,7 +13,7 @@ import lombok.Data;
 public class Category {
 	private Long cno;
 	private String cname;
-	private String regdateTime;
+	private String regdate;
 	private CategoryViewType cViewType;
 	private int odr;
 	private CategoryStatus status;

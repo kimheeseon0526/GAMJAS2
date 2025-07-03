@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Criteria {
 	private int page = 1;
 	private int amount = 10;
-	private int cno = 2;
+	private int cno = 1;
 	private String type = ""; //TCI
 	private String keyword = "";
 	
