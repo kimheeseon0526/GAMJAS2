@@ -33,7 +33,7 @@
     
 				<!-- 카드 1 -->
 				<div class="col">
-				<a href="#" class="card h-100">
+				<a href="#" class="card h-100" data-type="ATTRACTION">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 						<h5 class="card-title fs-6">관광지</h5>
@@ -44,7 +44,7 @@
 
 				<!-- 카드 2 -->
 				<div class="col">
-				<a href="#" class="card h-100">
+				<a href="#" class="card h-100" data-type="RESTAURANT">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">음식점</h5>
@@ -55,7 +55,7 @@
 
 				<!-- 카드 3 -->
 				<div class="col">
-				<a href="#" class="card h-100">
+				<a href="#" class="card h-100" data-type="">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">체험</h5>
@@ -119,13 +119,16 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="${member.memNo}">
+            <input type="hidden" name="recomContenttype" id="recomContenttype" value="">
             <input type="hidden" name="cno" value="1">
-            <input type="hidden" name="page" value="1">
-            <input type="hidden" name="amount" value="10">
+            <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
-            <c:if test="${not empty param.bno}">
-                <input type="hidden" name="bno" value="${param.bno}">
+<!--             <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="page" value="1">
+            <input type="hidden" name="amount" value="10"> -->
+            <c:if test="${not empty param.recomNo}">
+                <input type="hidden" name="recomNo" value="${param.recomNo}">
             </c:if>
 
         </form>
