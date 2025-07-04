@@ -53,7 +53,7 @@
 	
 
 <!-- 게시판 템플릿 (유지) -->
-<jsp:include page="list_template/free.jsp" />
+<%-- <jsp:include page="list_template/free.jsp" /> --%>
 
 <c:forEach items="${cate}" var="c">
   <c:if  test="${c.cno == pageDto.cri.cno}">
@@ -62,21 +62,21 @@
         <jsp:include page="list_template/free.jsp" />
       </c:when>
       <c:when test="${c.getCViewType() == 'REVIEW'}">
-        <jsp:include page="list_template/free.jsp" />
+        <jsp:include page="list_template/review.jsp" />
       </c:when>
       <c:when test="${c.getCViewType() == 'NOTICE'}">
-        <jsp:include page="list_template/free.jsp" />
+        <jsp:include page="list_template/notice.jsp" />
       </c:when>
     </c:choose>
   </c:if>
 </c:forEach>
 
 <!-- 페이지네이션 -->
-<ul class="pagination pagination-sm justify-content-center mt-4">
+<ul class="pagination pagination-sm justify-content-center mt-4" >
   <c:if test="${pageDto.doubleLeft}">
-    <li class="page-item">
+    <li class="page-item" >
       <a class="page-link border-0 text-success bg-transparent" href="list?page=1&${pageDto.cri.qs}" title="맨앞으로">
-        <i class="fa-solid fa-angles-left"></i>
+        <i class="fa-solid fa-angles-left" ></i>
       </a>
     </li>
   </c:if>

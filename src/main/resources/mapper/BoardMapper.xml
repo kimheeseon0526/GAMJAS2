@@ -76,7 +76,7 @@
 		order by odr
 	</select>
 	<!-- 조회수 증가  -->
-	<update id="increaseCnt">
+	<update id="increseCnt">
 		update tbl_board SET
 		cnt = cnt + 1
 		where bno = #{bno}
@@ -90,9 +90,9 @@
 	</insert>
 	
 	<!-- 내 글 번호를 grp로 -->
-	<update id="updateGrpMyself">
+	<!-- <update id="updateGrpMyself">
 	update tbl_board set grp = #{bno} where bno = #{bno}
-	</update>
+	</update> -->
 	
 	<!-- 답글 작성시 지정위치에 seq 취득  -->
 	<!-- <select id="selectMaxSeq" resultType="int">

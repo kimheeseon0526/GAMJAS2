@@ -12,24 +12,13 @@
 	                    <div class="col-1 small">조회수</div>
 		            </div>
 		        </div>
-	        	<a href="board_view.html" class="list-group-item list-group-item-action list-group-item-secondary">
-	            	<div class="row text-center align-items-center small text-muted">
-		                <div class="col-1 small ">1</div>
-		                <div class="col-1 small ">자유</div>
-		                <div class="col text-start fw-bold text-black ">제목</div>
-		                <div class="col-1 small "><span class="small">25.06.13</span></div>
-		                <div class="col-1 small"><span class="small">13</span></div>
-		            </div>
-	        	</a>
+	        	
 	            <c:forEach items="${boards}" var="board">
 	            <a href="view?bno=${board.bno}&${pageDto.cri.qs2}" class="list-group-item list-group-item-action">
 		            <div class="row text-center align-items-center small text-muted">
 		                <div class="col-1 small ">${board.bno}</div>
 		                <div class="col-1 small ">${board.cno}</div>
 		                <div class="col text-start fw-bold text-black ">
-		                	<%-- <c:if test="${board.bno != board.grp}"> --%>
-		                	<%-- <i class="fa-solid fa-reply text-secondary" style="transform:rotate(180deg); margin-left: ${(board.depth-2) *14}px"></i> --%>
-		                	<%-- </c:if> --%>
 		                	${board.title}
 		                	<span class="small text-danger fw--bold"> ${board.replyCnt}</span>
 			     			<c:if test="${board.attachCnt > 0}">

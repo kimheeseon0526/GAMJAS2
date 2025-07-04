@@ -57,13 +57,13 @@ public class Write extends HttpServlet{
 		}
 		//board 인스턴스 생성(4개)
 		
-		String id = req.getParameter("id");
-		String content = req.getParameter("content");
-		String title = req.getParameter("title");
-		int cno = Integer.parseInt(req.getParameter("cno"));
+//		String id = req.getParameter("id");
+//		String content = req.getParameter("content");
+//		String title = req.getParameter("title");
+//		int cno = Integer.parseInt(req.getParameter("cno"));
 		
-		Board board2 = Board.builder().id(id).content(content).title(title).cno(cno).build();
-		log.info("{}", board);
+//		Board board2 = Board.builder().id(id).content(content).title(title).cno(cno).build();
+//		log.info("{}", board);
 
 		//서비스 호출(board 객체가지고)
 		new BoardService().write(board);
