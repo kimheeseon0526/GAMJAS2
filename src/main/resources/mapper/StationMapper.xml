@@ -1,32 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mapper.StationMapper">
   
-  <resultMap id="stationMap" type="domain.Station">
-  <result property="id" column="BLDN_ID"/>
-  <result property="name" column="BLDN_NM"/>
-  <result property="lineName" column="ROUTE"/>
-  <result property="lat" column="LAT"/>
-  <result property="lng" column="LOT"/>
-</resultMap>
+   <resultMap id="stationMap" type="domain.Station">
+    <result property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="lineName" column="line_name"/>
+    <result property="lat" column="lat"/>
+    <result property="lng" column="lng"/>
+  </resultMap>
   
   <insert id="insert">
   insert into tbl_station (line_name, name, id, lat, lng) values (#{lineName}, #{name}, #{id}, #{lat}, #{lng})
   </insert>
   
   <select id="selectByLine" parameterType="String" resultMap="stationMap">
-  SELECT 
-    MIN(id) AS id,
-    name,
-    MIN(lat) AS lat,
-    MIN(lng) AS lng,
-    line_name
-  FROM tbl_station
-  WHERE line_name = #{lineName}
-  GROUP BY name
+    SELECT 
+      MIN(id) AS id,
+      name,
+      MIN(lat) AS lat,
+      MIN(lng) AS lng,
+      line_name
+    FROM tbl_station
+    WHERE line_name = #{lineName}
+    GROUP BY name
   </select>
   
   
-  </mapper>
+  </mapper> -->
