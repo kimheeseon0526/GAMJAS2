@@ -53,10 +53,10 @@
 		(select path from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) path,
 		grp, seq, depth
 		from tbl_board b
-		<include refid="criteria"/>
+		<!-- <include refid="criteria"/>
 		and title like concat('%', #{keyword}, '%')
 		order by grp desc, seq
-		limit #{amount} offset #{offset}
+		limit #{amount} offset #{offset} -->
 	</select>
 	<!-- 단일조회 -->
 	<select id="selectOne" resultMap="b">
