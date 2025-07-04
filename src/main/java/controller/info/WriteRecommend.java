@@ -67,6 +67,6 @@ public class WriteRecommend extends HttpServlet{
 		
 		log.info("{}", cri);
         //리디렉션(board/list)
-        AlertUtil.alert("글이 등록되었습니다", "/board/list?cno=" + cri.getCno() + "&amount=" + cri.getAmount(), req, resp); //글쓰기작성 후 1페이지로 보내겠다
+        AlertUtil.alert("글이 등록되었습니다", "/info/recommendlist?cno=" + cri.getCno() + "&amount=" + cri.getAmount(), req, resp); //글쓰기작성 후 1페이지로 보내겠다
 		}
 	}
