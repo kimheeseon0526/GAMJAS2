@@ -55,7 +55,7 @@
 
 				<!-- 카드 3 -->
 				<div class="col">
-				<a href="#" class="card h-100" data-type="">
+				<a href="#" class="card h-100" data-type="FESTIVAL">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">체험</h5>
@@ -90,7 +90,7 @@
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
-                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
+                <textarea id="editor1" name="apiSubcontent" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
             </div>
 
             <!-- 첨부파일 -->
@@ -119,9 +119,9 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="recomContenttype" id="recomContenttype" value="">
-            <input type="hidden" name="cno" value="1">
-            <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="recomContenttype" id="recomContenttyperecomContenttype" value="">
+            <input type="hidden" name="recomPlaceId" value="">
+            <input type="hidden" name="stationId" value="stationId">
             <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
 <!--             <input type="hidden" name="cno" value="1">
@@ -157,6 +157,11 @@
 			
 			console.log($("#apiInfo"))
 			$("#apiInfo").removeClass("apiInfo")
+		})
+		
+		$(".card").on("click", function(){
+			const type = $("this").data("type"); 
+			$("#recomContenttype").val(type);	
 		})
 		
 		

@@ -26,7 +26,7 @@ public class BoardServiceTest {
 
 	@Test
 	public void testListService() {
-	    Criteria cri = new Criteria(1, 10, 1);
+	    Criteria cri = new Criteria(1, 10, 1, null, null);
 	    List<Board> list = boardService.list(cri); 
 	    list.forEach(b -> log.info("{}", b.getTitle()));
 	}
