@@ -9,7 +9,7 @@ import domain.Station;
 public interface StationMapper {
 
 	void insert(Station station);
-	List<Station> getList();
-	List<Station> selectByLine(@Param("lineName")String lineName);
+	List<Station> List();
+	List<Station> selectByLine(String lineName);
 
 }
