@@ -13,9 +13,9 @@ public class RecommendMapperTest {
 	
 	private RecommendMapper mapper = MybatisUtil.getSqlSession().getMapper(RecommendMapper.class);
 	@Test
-	public void listTest() {
+	public void listTest(){
 		
-		mapper.list(new Criteria(1, 10, "T", "I"), RecommendContentType.ATTRACTION).forEach(a -> log.info("{}", a));
+		mapper.list(new Criteria(1, 5, "TCI", "축제"), RecommendContentType.FESTIVAL).forEach(a -> log.info("{}", a));
 		
 	}
 }
