@@ -12,7 +12,7 @@
   </resultMap>
   
   <insert id="insert">
-  insert into tbl_station (line_name, name, id, lat, lng) values (#{lineName}, #{name}, #{id}, #{lat}, #{lng})
+  insert into tbl_station (id, name, line_name, lat, lng) values ( #{id}, #{name}, #{lineName}, #{lat}, #{lng})
   </insert>
   
   <select id="selectByLine" parameterType="String" resultType="station">
