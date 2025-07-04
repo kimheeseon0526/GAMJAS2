@@ -13,14 +13,15 @@ import domain.Station;
 
 import service.StationService;
 
-@WebServlet("/map")
+@WebServlet("/kakaomap")
 public class MapList extends HttpServlet{
+	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		StationService service = new StationService();
 		List<Station> stationList = service.getLine2Stations();
 		req.setAttribute("stationList", stationList);
-		req.getRequestDispatcher("/WEB-INF/views/map/map.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/map/kakaomap.jsp").forward(req, resp);
 		
 		
 	}
