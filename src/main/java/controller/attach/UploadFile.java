@@ -100,7 +100,7 @@ public class UploadFile extends HttpServlet{
 	}
 	
 	private String genPath() {
-		return new SimpleDateFormat("yyyy/MM/dd").format(new Date().getTime() - 1000 * 60 * 60 * 24 );
+		return new SimpleDateFormat("yyyy/MM/dd").format(new Date().getTime());
 	}
 	
 	

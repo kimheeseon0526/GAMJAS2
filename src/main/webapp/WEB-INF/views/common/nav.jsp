@@ -2,15 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<head>
+<!-- <head>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</head>
+</head> -->
+
 <nav class="gamjas-navbar">
     <div class="main-header">
       <!-- 로고 -->
     
-        <a style="width: 160px;" class="d-flex align-items-center" href="#"><img src="img/logo.svg" alt="#" style="width: 160px; height: 28px; "></a>
+        <a  href="${cp}" style="width: 160px;" class="d-flex align-items-center"><img src="${cp}/img/logo.svg" alt="#" style="width: 160px; height: 28px; "></a>
      
       <!-- 중앙 메뉴 -->
       <div class="main-menu-area">
@@ -39,8 +40,8 @@
           </div>
           <div class="submenu-col">
             <a href="${cp}/board/list?cno=${c.cno}">자유게시판</a>
-            <a href="#">생생후기</a>
-            <a href="#">공지사항</a>
+            <a href="${cp}/board/list?cno=${c.cno}">생생후기</a>
+            <a href="${cp}/board/list?cno=${c.cno}">공지사항</a>
           </div>
           <div class="submenu-col">
             <a href="#">질문 게시판</a>

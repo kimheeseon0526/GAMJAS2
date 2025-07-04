@@ -20,11 +20,6 @@ public class Criteria {
 	private String type = ""; //TCI
 	private String keyword = "";
 	
-	public Criteria(int i, int j, int k) {
-		
-	}
-	
-	
 	public int getOffset() {
 		int offset = amount * (page - 1);
 		return offset;
@@ -71,4 +66,5 @@ public class Criteria {
 	}
 	
 	
+
 }

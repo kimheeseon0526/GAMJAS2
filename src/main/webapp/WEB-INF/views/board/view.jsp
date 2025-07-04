@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
-            <span class="px-2">${board.id}</span>
+            <span class="px-2">작성자: ${board.id}</span>
             <a href="" class="text-muted small">board.html</a>
             <span class="float-end text-muted small me-3">${board.regdate}</span>
         </div>
@@ -54,10 +54,10 @@
            		답글
           	</a>
            	
-            <div class="float-end">
+            <!-- <div class="float-end">
                 <button class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-share-nodes"></i> 공유</button>
                 <button class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-clipboard"></i> 스크랩</button>
-            </div>
+            </div> -->
         </div>
         
         <c:if test="${fn:length(board.attachs) > 0}">
@@ -73,7 +73,7 @@
 				data-path="${a.path}" 
 				data-size="${a.size}"
 				data-odr="${a.odr}">
-					<a href="/pbl/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
+					<a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
 					<!-- <i class="fa-solid fa-circle-xmark float-end text-danger"></i> -->
 				</li>
 				</c:forEach>
@@ -82,7 +82,7 @@
 				<c:forEach items="${board.attachs}" var="a">
 				<c:if test="${a.image}">
 				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('/pbl/display?uuid=t_${a.uuid}&path=${a.path}')">
+					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_${a.uuid}&path=${a.path}')">
 						<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
 					</div>
 				</div>

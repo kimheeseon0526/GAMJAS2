@@ -53,10 +53,10 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="user">
-            <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="id" value="${member.id}">
+            <input type="hidden" name="cno" value="${cri.cno}">
             <input type="hidden" name="page" value="1">
-            <input type="hidden" name="amount" value="10">
+            <input type="hidden" name="amount" value="${cri.amount}">
             <input type="hidden" name="encodedStr" value="">
             <c:if test="${not empty param.bno}">
                 <input type="hidden" name="bno" value="${param.bno}">
@@ -67,8 +67,17 @@
 </div>
 
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>
+   
+      $(function() {
+          CKEDITOR.replace('editor1', {
+              height: 400
+          });
+      });
+   
+  </script>
 
-  <script>
+<script>
 	$(function() {
 		 $( ".attach-list" ).sortable();
 		//return true / false
@@ -109,9 +118,9 @@
 
 		
 		
-		/* $("#uploadForm").submit(function() { */
-		/* 	event.preventDefault();  /* submit 막는거 */
-			const formData = new FormData(); /* 일단 빈 객체로만듬 */
+		// $("#uploadForm").submit(function() {
+			event.preventDefault();  //
+			const formData = new FormData(); //
 			
 			console.log(formData);
 			const files = this.files;
@@ -171,7 +180,7 @@
 			})
 			
 			$("#writeForm").submit(function(event) {
-			event.preventDefault();  /* submit 막는거 */
+			event.preventDefault();  // submit 막는거 
 			const data = [];
 			$(".attach-list li").each(function(event) {
 				data.push({...this.dataset});
@@ -186,18 +195,11 @@
 			})
 		})
 	})
-	<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    const editor = document.getElementById('editor1');
-    if (editor) {
-      CKEDITOR.replace('editor1', {
-        height: 400
-      });
-    }
-  });
+
+
 </script>
 
-	</script>
+
 <%@ include file="../common/footer.jsp" %>
 </body>
 </html>
