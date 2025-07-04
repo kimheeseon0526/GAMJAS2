@@ -119,7 +119,7 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="user">
+            <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
             <input type="hidden" name="amount" value="10">

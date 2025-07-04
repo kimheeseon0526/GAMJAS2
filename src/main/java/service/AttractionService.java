@@ -69,19 +69,15 @@ public class AttractionService { //최초 1회 수집용
 //			for(Attraction a : arr) {
 //				log.info("{}", a);
 //			}
-			
 			list.addAll(Arrays.asList(arr));
 			log.info("배열을 list로 담은 것");
 //			list.forEach(a -> log.info("{}", a.getPostSn()));
 			log.info("{}", Arrays.toString(page.split("/")));
-			String[] pages = page.split("/");
-			int subs = Integer.parseInt(pages[1]) - Integer.parseInt(pages[0]) + 1;
 			
 			startPage += pageSize;
-			if(subs > arr.length) {
+			if(pageSize > arr.length) {
 				break;
 			}
-//			if(arr.length < ) break;
 		}
 		return list;
 		
