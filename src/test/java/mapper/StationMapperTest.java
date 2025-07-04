@@ -13,6 +13,9 @@ public class StationMapperTest {
 
 	public StationMapper mapper = MybatisUtil.getSqlSession().getMapper(StationMapper.class);
 
+	/*
+	 * @Test public void ListTest() { List }
+	 */
 	@Test
 	public void selectByLineTest() {
 		String lineName = "3호선";
