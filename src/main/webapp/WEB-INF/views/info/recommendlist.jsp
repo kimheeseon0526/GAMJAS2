@@ -116,7 +116,9 @@
           </ul>
         </div>
 <script>
-
+	$(function({
+		
+	})
 </script>
  <%@ include file="../common/footer.jsp" %>
 </body>

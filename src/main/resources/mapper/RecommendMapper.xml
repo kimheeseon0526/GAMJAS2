@@ -21,7 +21,7 @@
 		</collection>
 	</resultMap>
 	-->
-	<sql id="criteria">
+	<sql id="cri">
 		<where>
 			<trim prefixOverrides="AND | OR">
 			and recom_contenttype = #{type}
@@ -32,10 +32,10 @@
 						title like concat('%', #{criteria.keyword}, '%')
 						</when>
 						<when test="t eq 'C'.toString()">
-						content like concat('%', #{criteria.keyword}, '%')
+						api_subcontent like concat('%', #{criteria.keyword}, '%')
 						</when>
 						<when test="t eq 'I'.toString()">
-						id like concat('%', #{criteria.keyword}, '%')
+						mem_no like concat('%', #{criteria.keyword}, '%')
 						</when>
 					</choose>
 				</foreach>
@@ -45,9 +45,20 @@
 	</sql>
 	<!-- 목록조회 -->
 	<select id="list" resultType="recommend">
-		select * from tbl_recommend_place
-		<include refid="criteria"/>
-		limit #{amount} offset #{offset}
+		select * from (
+		    SELECT trp.*, 
+		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title
+		    FROM tbl_recommend_place trp
+		    LEFT JOIN tbl_attraction ta 
+		        ON trp.recom_contenttype = 'ATTRACTION' AND ta.post_sn = trp.recom_place_id
+		    LEFT JOIN tbl_restaurant tr 
+		        ON trp.recom_contenttype = 'RESTAURANT' AND tr.post_sn = trp.recom_place_id
+		    LEFT JOIN tbl_festival tf 
+		        ON trp.recom_contenttype = 'FESTIVAL' AND tf.content_id = trp.recom_place_id
+		) a
+		<include refid="cri"/>
+		order by 1 desc 
+		limit #{criteria.amount} offset #{criteria.offset}
 	</select>
 	<!-- 단일조회 -->
 	<!-- 글 등록 -->
