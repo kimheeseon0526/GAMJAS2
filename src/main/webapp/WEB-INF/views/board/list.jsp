@@ -67,6 +67,9 @@
       <c:when test="${c.getCViewType() == 'NOTICE'}">
         <jsp:include page="list_template/notice.jsp" />
       </c:when>
+      <c:when test="${c.getCViewType() == 'QNA'}">
+        <jsp:include page="list_template/qna.jsp" />
+      </c:when>
     </c:choose>
   </c:if>
 </c:forEach>
