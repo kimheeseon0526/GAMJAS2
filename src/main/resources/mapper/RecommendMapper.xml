@@ -20,79 +20,42 @@
 			<result column="size" property="size"/>
 		</collection>
 	</resultMap>
+	-->
 	<sql id="criteria">
 		<where>
 			<trim prefixOverrides="AND | OR">
-			<if test="cno != null">		
-				and cno = #{cno}
-			</if>
-			<if test="types != null">
-				<foreach collection="types" item="t" open="and (" close=")" separator="or">
+			and recom_contenttype = #{type}
+			<if test="criteria.types != null">
+				<foreach collection="criteria.types" item="t" open="and (" close=")" separator="or">
 					<choose>
 						<when test="t eq 'T'.toString()">
-						title like concat('%', #{keyword}, '%')
+						title like concat('%', #{criteria.keyword}, '%')
 						</when>
 						<when test="t eq 'C'.toString()">
-						content like concat('%', #{keyword}, '%')
+						content like concat('%', #{criteria.keyword}, '%')
 						</when>
 						<when test="t eq 'I'.toString()">
-						id like concat('%', #{keyword}, '%')
+						id like concat('%', #{criteria.keyword}, '%')
 						</when>
 					</choose>
 				</foreach>
 			</if>
 			</trim>
 		</where>
-	</sql>-->
+	</sql>
 	<!-- 목록조회 -->
-	<select id="list" resultMap="b">
-		select bno, title, content, id, regdate, moddate, cnt, cno, 
-		(select count(*) from tbl_reply r where r.bno = b.bno) replyCnt,
-		(select count(*) from tbl_attach a where a.bno = b.bno) attachCnt,
-		(select uuid from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) uuid, 
-		(select path from tbl_attach a where a.bno = b.bno and image = 1 order by odr limit 1) path,
-		grp, seq, depth
-		from tbl_board b
-		<!-- <include refid="criteria"/>
-		and title like concat('%', #{keyword}, '%')
-		order by grp desc, seq
-		limit #{amount} offset #{offset} -->
+	<select id="list" resultType="recommend">
+		select * from tbl_recommend_place
+		<include refid="criteria"/>
+		limit #{amount} offset #{offset}
 	</select>
 	<!-- 단일조회 -->
-	<select id="selectOne" resultMap="b">
-		select *, a.bno a_bno, (select count(*) from tbl_reply r where r.bno = b.bno) replyCnt
-		from tbl_board b
-		left join tbl_attach a using(bno)
-		where bno = #{bno}
-		order by odr
-	</select>
-	
 	<!-- 글 등록 -->
 	<insert id="insert">
-		insert into tbl_recommend_place (recom_no, recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no, regdatetime, moddatetime) values (#{recomNo}, #{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo}, #{regdatetime}, #{moddatetime})
+		insert into tbl_recommend_place (recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no, regdatetime, moddatetime) values (#{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo}, #{regdatetime}, #{moddatetime})
 	<selectKey keyProperty="recomNo" resultType="long" order="AFTER">
 		select max(recom_no) from tbl_recommend_place 
 	</selectKey>
 	</insert>
-	
-	<!-- 게시글 갯수 -->
-	<!-- <select id="getCount" resultType="long">
-		select count(*) from tbl_board 
-		<include refid="criteria"/>
-	</select>
-	 -->
-	<!-- 글 수정 -->
-	<!-- <update id="update">
-		update tbl_board set 
-		title=#{title},
-		content=#{content},
-		moddate = now(),
-		cno = #{cno}
-		where bno = #{bno};
-	</update> -->
-	<!-- 글 삭제 --> 
-	<!-- <delete id="delete">
-	delete from tbl_board where bno = #{bno}
-	</delete>  -->
 	
 </mapper>
