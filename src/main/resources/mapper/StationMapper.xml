@@ -15,16 +15,10 @@
   insert into tbl_station (line_name, name, id, lat, lng) values (#{lineName}, #{name}, #{id}, #{lat}, #{lng})
   </insert>
   
-  <select id="selectByLine" parameterType="String" resultMap="stationMap">
-    SELECT 
-      MIN(id) AS id,
-      name,
-      MIN(lat) AS lat,
-      MIN(lng) AS lng,
-      line_name
-    FROM tbl_station
-    WHERE line_name = #{lineName}
-    GROUP BY name
+  <select id="selectByLine" parameterType="String" resultType="station">
+  select  id, name, line_name , lat, lng
+  from tbl_station
+  where line_name= #{lineName};
   </select>
   
   

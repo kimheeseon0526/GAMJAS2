@@ -2,6 +2,9 @@ package domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
+@Data
 public class Station {
 	
 	@SerializedName("BLDN_ID")
@@ -31,35 +34,22 @@ public class Station {
 	}
 
 
-	public String getId() {
-		return id;
-	}
-
-
-	public void setId(String id) {
+	public Station(String lineName, String name, String id, double lat, double lng) {
+		this.lineName = lineName;
+		this.name = name;
 		this.id = id;
-	}
-
-
-	public double getLat() {
-		return lat;
-	}
-
-
-	public void setLat(double lat) {
 		this.lat = lat;
-	}
-
-
-	public double getLng() {
-		return lng;
-	}
-
-
-	public void setLng(double lng) {
 		this.lng = lng;
 	}
 	
+	public Station(String name, String id, double lat, double lng) {
+		this.name = name;
+		this.id = id;
+		this.lat = lat;
+		this.lng = lng;
+	}
+
+
 	
 	
 }
