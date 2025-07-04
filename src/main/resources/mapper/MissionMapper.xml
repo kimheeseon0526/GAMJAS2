@@ -19,9 +19,9 @@
 	<select id="list" resultType="mission">
 		select * from tbl_mission
 	</select>
-  	<insert id="insert" >
+  	<!-- <insert id="insert" >
   		insert into tbl_mission  
-  	</insert>
+  	</insert> -->
 	<delete id="delete">
 	delete from tbl_mission where mission_no = #{missionNo}
 	</delete>

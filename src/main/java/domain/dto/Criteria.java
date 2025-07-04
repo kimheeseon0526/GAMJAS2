@@ -61,4 +61,14 @@ public class Criteria {
 	public String getQs2() {  //게시글 상세보기, 작성, 수정, 삭제 할 때 사용할거임
 		return getQs() + "&page=" + page;
 	}
+
+
+	public Criteria(int page, int amount, String type, String keyword) {
+		this.page = page;
+		this.amount = amount;
+		this.type = type;
+		this.keyword = keyword;
+	}
+	
+	
 }
