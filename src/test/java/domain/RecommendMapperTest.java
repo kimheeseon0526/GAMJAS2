@@ -15,7 +15,7 @@ public class RecommendMapperTest {
 	@Test
 	public void listTest() {
 		
-		mapper.list(new Criteria(), RecommendContentType.ATTRACTION).forEach(a -> log.info("{}", a));
+		mapper.list(new Criteria(1, 10, "T", "I"), RecommendContentType.ATTRACTION).forEach(a -> log.info("{}", a));
 		
 	}
 }
