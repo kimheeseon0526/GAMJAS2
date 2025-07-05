@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -91,13 +89,17 @@ public class StationService {
 			}
 		}
 		
-		public List<Station> getLine2Stations() {
+		public List<Station> getLine2Stations(String lineName) {
 			try (SqlSession session = MybatisUtil.getSqlSession()) {
 				StationMapper mapper = session.getMapper(StationMapper.class);
 				
 //				List<Station> list = mapper.li
-				return mapper.selectByLine("2호선") ; 
+				return mapper.selectByLine(lineName); 
 			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 		
