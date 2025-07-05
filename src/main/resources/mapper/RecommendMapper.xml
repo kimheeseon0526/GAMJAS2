@@ -69,4 +69,20 @@
 	</selectKey>
 	</insert>
 	
+	<select id="getCount" resultType="long">
+		select count(*) from (
+		    SELECT trp.*, 
+		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title
+		    FROM tbl_recommend_place trp
+		    LEFT JOIN tbl_attraction ta 
+		        ON trp.recom_contenttype = 'ATTRACTION' AND ta.post_sn = trp.recom_place_id
+		    LEFT JOIN tbl_restaurant tr 
+		        ON trp.recom_contenttype = 'RESTAURANT' AND tr.post_sn = trp.recom_place_id
+		    LEFT JOIN tbl_festival tf 
+		        ON trp.recom_contenttype = 'FESTIVAL' AND tf.content_id = trp.recom_place_id
+		) a
+		<include refid="cri"/>
+		order by 1 desc 
+		limit #{criteria.amount} offset #{criteria.offset}
+	</select>
 </mapper>

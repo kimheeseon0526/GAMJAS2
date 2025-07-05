@@ -8,6 +8,7 @@ import domain.Board;
 import domain.dto.Criteria;
 import domain.en.RecommendContentType;
 import domain.info.Recommend;
+import mapper.BoardMapper;
 import mapper.RecommendMapper;
 import util.MybatisUtil;
 
@@ -35,4 +36,16 @@ public class RecommendService {
 			e.printStackTrace();
 		}
 	}
+	
+	public long getCount(Criteria cri, RecommendContentType rct) { 
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			return mapper.getCount(cri, rct); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 }

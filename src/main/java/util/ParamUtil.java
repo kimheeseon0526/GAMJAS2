@@ -1,6 +1,7 @@
 package util;
 
 import java.lang.reflect.Field;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,15 +23,26 @@ public class ParamUtil {
 			Field[] fields = clazz.getDeclaredFields();
 			
 			for(Field f : fields) {
+				
+				
 				log.info("{} {}", f.getType(), f.getName());
 				String param = req.getParameter(f.getName());
-				if(param != null) {
+				log.info("{}", param);
+				if(f.getName().equals("keyword") || f.getName().equals("type")) {
+					param = param != null ? param : "" ;
+					param = URLDecoder.decode(param, "utf-8");
 					f.setAccessible(true);
 					Object o = convert(param, f.getType());
 					f.set(t, o);
 				}
-				if(f.getName().equals("bno")) {
+				if(param != null) {
+					f.setAccessible(true);
+					
+					Object o = convert(param, f.getType());
+					f.set(t, o);
 				}
+				
+				
 			}
 			
 			log.info("{}", t);
@@ -52,7 +64,7 @@ public class ParamUtil {
 		if(type == boolean.class || type == Boolean.class) return Boolean.parseBoolean(param);
 		//enum
 		if(type.isEnum()) {
-			Enum.valueOf(type.asSubclass(Enum.class), param.toUpperCase());
+			return Enum.valueOf(type.asSubclass(Enum.class), param.toUpperCase());
 		}
 		//String
 		return param;

@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 
+import domain.en.RecommendContentType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,11 +53,21 @@ public class Criteria {
 		String str = String.join("&", strs); 
 		return str;
 	}
-
+	
+	public String getQsRecom() {  //문자열 반환하는 메서드
+		String[] strs = {"amount=" + amount, "type=" + type, "keyword=" + keyword};
+		String str = String.join("&", strs); 
+		return str;
+	}
+	
+	
 	public String getQs2() {  //게시글 상세보기, 작성, 수정, 삭제 할 때 사용할거임
 		return getQs() + "&page=" + page;
 	}
-
+	
+	public String getQsRecom2(RecommendContentType recom) {  //게시글 상세보기, 작성, 수정, 삭제 할 때 사용할거임
+		return getQsRecom() + "&page=" + page;
+	}
 
 	public Criteria(int page, int amount, String type, String keyword) {
 		this.page = page;
