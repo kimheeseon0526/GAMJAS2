@@ -8,11 +8,11 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 
     .main-menu-area {position: relative;}
 
-    .main-menu {display: flex; justify-content: center; gap: 50px; list-style: none; margin: 0;padding: 0; }
+    .main-menu {display: flex; justify-content: center; gap: 80px; list-style: none; margin: 0;padding: 0; }
 
     .main-menu > li > a { text-decoration: none; color: #000;  font-weight: bold; padding: 10px 15px; transition: color 0.2s ease; }
 
-    .main-menu > li > a:hover {color: #007bff;}
+    .main-menu > li > a:hover {color:#6A8D73;}
 
     /* ====================== 서브메뉴 ====================== */
     .mega-submenu { display: none; position: absolute; top: 155%;left: -70PX; width: 140%; background: #fff; border-top: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -24,12 +24,17 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 
     .submenu-col a {display: block; text-decoration: none; color: #000; margin-bottom: 8px;font-size: 0.95rem; }
 
-    .submenu-col a:hover {color: #007bff;}
+    .submenu-col a:hover {color:#6A8D73;}
 
     .custom-language-dropdown {left: -5% !important;transform: translateX(-50%);}
+    
+    /* 메뉴 항목 hover 고정 */
+	.main-menu > li:hover > a {color: #6A8D73; /* 감자초록 강조 */font-weight: 600;
+	}
 
     /* ====================== Hover Trigger ====================== */
-    .main-menu-area:hover .mega-submenu {display: flex; animation: slideDown 0.3s ease-out; }
+    .main-menu-area:hover .mega-submenu, .mega-submenu:hover 
+    {display: flex; animation: slideDown 0.3s ease-out; }
 
     @keyframes slideDown {
       from {opacity: 0; transform: translateY(-10px);}

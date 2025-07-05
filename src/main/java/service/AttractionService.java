@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import api.Attraction;
+import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
 import util.APIUtil;
@@ -33,7 +34,7 @@ public class AttractionService { //최초 1회 수집용
 	int pageSize = 100;
 	int startPage = 1;
 	
-	public List<Attraction> getList() throws IOException {
+	public List<Attraction> getAPIList() throws IOException {
 		List<Attraction> list = new ArrayList<>();
 		while(true) {
 			int endPage = pageSize + startPage - 1;
@@ -69,19 +70,15 @@ public class AttractionService { //최초 1회 수집용
 //			for(Attraction a : arr) {
 //				log.info("{}", a);
 //			}
-			
 			list.addAll(Arrays.asList(arr));
 			log.info("배열을 list로 담은 것");
 //			list.forEach(a -> log.info("{}", a.getPostSn()));
 			log.info("{}", Arrays.toString(page.split("/")));
-			String[] pages = page.split("/");
-			int subs = Integer.parseInt(pages[1]) - Integer.parseInt(pages[0]) + 1;
 			
 			startPage += pageSize;
-			if(subs > arr.length) {
+			if(pageSize > arr.length) {
 				break;
 			}
-//			if(arr.length < ) break;
 		}
 		return list;
 		
@@ -98,6 +95,20 @@ public class AttractionService { //최초 1회 수집용
 //		return ti;
 //	}
 	
+	public List<Attraction> list() {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+			
+			List<Attraction> list = mapper.list();
+			
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void register(Attraction attraction) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
@@ -111,7 +122,7 @@ public class AttractionService { //최초 1회 수집용
 	public static void main(String[] args) throws IOException {
 		
 		AttractionService tis = new AttractionService();
-		List<Attraction> list = tis.getList();
+		List<Attraction> list = tis.getAPIList();
 		
 		for(Attraction a : list) {			
 			tis.register(a);

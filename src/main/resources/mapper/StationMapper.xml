@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mapper.StationMapper">
+  
+   <resultMap id="stationMap" type="domain.Station">
+    <result property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="lineName" column="line_name"/>
+    <result property="lat" column="lat"/>
+    <result property="lng" column="lng"/>
+  </resultMap>
+  
+  <insert id="insert">
+  insert into tbl_station (id, name, line_name, lat, lng) values ( #{id}, #{name}, #{lineName}, #{lat}, #{lng})
+  </insert>
+  
+  <select id="selectByLine" parameterType="String" resultType="station">
+  select  id, name, line_name , lat, lng
+  from tbl_station
+  where line_name= #{lineName};
+  </select>
+  
+  
+  </mapper>

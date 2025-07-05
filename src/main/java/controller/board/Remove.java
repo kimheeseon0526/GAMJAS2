@@ -25,7 +25,7 @@ public class Remove extends HttpServlet{
 		BoardService service = new BoardService();
 		service.remove(Long.valueOf(req.getParameter("bno")));
 		Criteria cri = Criteria.init(req);
-		AlertUtil.alert("글이 삭제되었습니다", "/board/list?=" + cri.getQs2(), req, resp); //글쓰기작성 후 1페이지로 보내겠다
+		AlertUtil.alert("글이 삭제되었습니다", "/board/list?=" + cri.getQs2(), req, resp); //글쓰기작성 후 1페이지로 이동
 	}
 	
 }
