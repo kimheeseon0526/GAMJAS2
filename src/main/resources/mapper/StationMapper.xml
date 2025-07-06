@@ -9,14 +9,15 @@
     <result property="lineName" column="line_name"/>
     <result property="lat" column="lat"/>
     <result property="lng" column="lng"/>
+    <result property="odr" column="odr"/>
   </resultMap>
   
   <insert id="insert">
   insert into tbl_station (id, name, line_name, lat, lng) values ( #{id}, #{name}, #{lineName}, #{lat}, #{lng})
   </insert>
   
-  <select id="selectByLine" parameterType="String" resultType="station">
-  select  id, name, line_name , lat, lng
+  <select id="selectByLine" parameterType="String" resultMap="stationMap">
+  select  id, name, line_name , lat, lng, odr
   from tbl_station
   where line_name= #{lineName}
   order by id;

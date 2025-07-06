@@ -89,17 +89,28 @@ public class StationService {
 			}
 		}
 		
-		public List<Station> getLine2Stations(String lineName) {
+		public List<Station> getLineStations(String lineName) {
+			
 			try (SqlSession session = MybatisUtil.getSqlSession()) {
 				StationMapper mapper = session.getMapper(StationMapper.class);
+				List<Station> list = mapper.selectByLine(lineName); 
 				
-//				List<Station> list = mapper.li
-				return mapper.selectByLine(lineName); 
+				if(list == null) {
+					System.out.println("조회된 지하철 역 데이터가 없음. lineName = " + lineName);
+					return new ArrayList<>();
+				}
+				
+				if("2호선".equals(lineName) && !list.isEmpty()) {
+					list.add(list.get(0));
+				}
+				
+		            System.out.println("조회된 역 개수: " + list.size());
+		            return list;
 			}
 			catch(Exception e) {
 				e.printStackTrace();
+				return new ArrayList<>();
 			}
-			return null;
 		}
 		
 		
