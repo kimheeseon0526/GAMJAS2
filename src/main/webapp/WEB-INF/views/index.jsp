@@ -73,19 +73,19 @@
     <div class="row g-4">
       <div class="col-md-3">
         <div class="p-4 bg-white border rounded-3 shadow-sm h-100">
-          <h5 class="mb-3 fw-bold">📢 공지사항</h5>
+          <a href="${cp}/board/view?bno=319&cno=3" style="text-decoration: none; color: black"><h5 class="mb-3 fw-bold">📢 공지사항</h5></a>
           <p class="mb-5 small text-secondary">감자마당 여름 이벤트 오픈! 지금 참여하고 감자티켓 받자 🥔</p>
         </div>
       </div>
       <div class="col-md-3">
         <div class="p-4 bg-white border rounded-3 shadow-sm h-100">
-          <h5 class="mb-3 fw-bold">🎉 이벤트 안내</h5>
+          <a href="${cp}/board/view?bno=314&cno=3" style="text-decoration: none; color: black"><h5 class="mb-3 fw-bold">📢 공지사항</h5></a>
           <p class="mb-0 small text-secondary">서울 인기 관광지 투표 이벤트 진행 중! 참여하면 선물이 팡팡!</p>
         </div>
       </div>
       <div class="col-md-3">
         <div class="p-4 bg-white border rounded-3 shadow-sm h-100">
-          <h5 class="mb-3 fw-bold">🎉 이벤트 안내</h5>
+          <a href="${cp}/board/view?bno=317&cno=3" style="text-decoration: none; color: black"><h5 class="mb-3 fw-bold">📢 공지사항</h5></a>
           <p class="mb-0 small text-secondary">뜨거운 여름날 이대로 보내기는 아쉽다! 추가 이벤트 오픈~</p>
         </div>
       </div>

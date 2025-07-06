@@ -58,7 +58,8 @@
 		    <a href="remove?bno=${board.bno}&${cri.qs2}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
-		    <c:if test="${board.cViewType.toString() == 'QNA'}">
+<%-- 		    <c:if test="${board.cViewType.toString() == 'QNA'}"> --%>
+		    <c:if test="${not empty member}">
 		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
 		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
 		    </a>
@@ -96,7 +97,7 @@
 			</div>
 		</div>
         </c:if>
-        <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}">
+        <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
         	<div class="small p-0 py-2  border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
         		<div class="col text-end">
 				    <c:if test="${empty member}">
@@ -114,12 +115,12 @@
 	        <div class="d-grid">
     			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
 			</div>
-		</c:if>
+		<%-- </c:if> --%>
      </main>
   </div>
   
   <!--Modal 전체 -->
-  <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}">
+  <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
 	  <div class="modal fade" id="reviewModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -153,7 +154,9 @@
 	    </div>
 	  </div>
 	</div>
-	</c:if>
+	<%-- </c:if> --%>
+	
+	
 <%@ include file="../common/footer.jsp" %>
 	<script>
 	

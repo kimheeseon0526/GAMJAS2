@@ -10,7 +10,7 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
-	<div class="container p-0 mt-4">
+	<div class="container p-0 mt-5 pt-5">
   <main>
     <!-- 검색 영역 -->
     <div class="clearfix py-0 row align-items-center mb-3">

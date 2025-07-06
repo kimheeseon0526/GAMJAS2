@@ -17,7 +17,7 @@
         <ul class="main-menu">
           <li><a href="#" >여행정보</a></li>
           <li><a href="${cp}/info/missionlist">미션투어</a></li>
-          <li><a href="#" >감자티켓</a></li>
+          <li><a href="${cp}/ticket/info" >감자티켓</a></li>
           <li><a href="${cp}/board/list" >감자마당</a></li>
           <li><a href="${cp}/board/list?cno=4" >QNA</a></li>
         </ul>
@@ -34,7 +34,7 @@
             <a href="#">먹거리</a>
           </div>
           <div class="submenu-col">
-            <a href="#">소개 & 이용안내</a>
+            <a href="${cp}/ticket/info">소개 & 이용안내</a>
             <a href="#">당첨자 발표</a>
           </div>
          <div class="submenu-col">
