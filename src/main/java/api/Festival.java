@@ -1,5 +1,7 @@
 package api;
 
+import org.apache.ibatis.type.Alias;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
@@ -7,6 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@Alias("festival")
 public class Festival {
 	 	@SerializedName("addr1")
 	    private String addr1;

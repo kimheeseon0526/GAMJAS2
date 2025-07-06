@@ -21,8 +21,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import api.Attraction;
 import api.Festival;
+import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
+import mapper.AttractionMapper;
 import mapper.FestivalMapper;
 //import mapper.FestivalMapper;
 import util.APIUtil;
@@ -106,6 +109,30 @@ public class FestivalService { //최초 1회 수집용
 		}
 	}
 	
+	public List<Festival> list(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			
+			List<Festival> list = mapper.list(cri);
+			
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public long getCount(Criteria cri) { 
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			return mapper.getCount(cri); //1page 10개씩
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	public static void main(String[] args) throws IOException {
 		
 		FestivalService tis = new FestivalService();

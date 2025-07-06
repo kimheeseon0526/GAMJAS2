@@ -25,6 +25,7 @@ import api.Attraction;
 import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
+import mapper.BoardMapper;
 import util.APIUtil;
 import util.MybatisUtil;
 
@@ -95,11 +96,11 @@ public class AttractionService { //최초 1회 수집용
 //		return ti;
 //	}
 	
-	public List<Attraction> list() {
+	public List<Attraction> list(Criteria cri) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
 			
-			List<Attraction> list = mapper.list();
+			List<Attraction> list = mapper.list(cri);
 			
 			return list;
 		}
@@ -117,6 +118,30 @@ public class AttractionService { //최초 1회 수집용
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Attraction findBy(String postSn) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+			
+			Attraction attr = mapper.selectOne(postSn);
+			return attr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public long getCount(Criteria cri) { 
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+			return mapper.getCount(cri); //1page 10개씩
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public static void main(String[] args) throws IOException {

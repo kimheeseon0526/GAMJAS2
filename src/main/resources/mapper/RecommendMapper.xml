@@ -63,10 +63,13 @@
 	<!-- 단일조회 -->
 	<!-- 글 등록 -->
 	<insert id="insert">
-		insert into tbl_recommend_place (recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no, regdatetime, moddatetime) values (#{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo}, #{regdatetime}, #{moddatetime})
+		insert into tbl_recommend_place (recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no) values (#{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo})
 	<selectKey keyProperty="recomNo" resultType="long" order="AFTER">
-		select max(recom_no) from tbl_recommend_place 
+		select max(recom_no) from tbl_recommend_place
 	</selectKey>
+	</insert>
+	<insert id="recomATTR">
+		insert into tbl_attraction (recom_no) values #{recomNo}
 	</insert>
 	
 	<select id="getCount" resultType="long">
@@ -82,7 +85,5 @@
 		        ON trp.recom_contenttype = 'FESTIVAL' AND tf.content_id = trp.recom_place_id
 		) a
 		<include refid="cri"/>
-		order by 1 desc 
-		limit #{criteria.amount} offset #{criteria.offset}
 	</select>
 </mapper>

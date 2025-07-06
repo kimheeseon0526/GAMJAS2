@@ -3,24 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mapper.RestaurantMapper">
-<!--   
-  	<resultMap id="yourResultMapId" type="domain.YourClassName">
-    <result property="postSn" column="post_sn"/>
-    <result property="langCodeId" column="lang_code_id"/>
-    <result property="postSj" column="post_sj"/>
-    <result property="postUrl" column="post_url"/>
-    <result property="address" column="address"/>
-    <result property="newAddress" column="new_address"/>
-    <result property="cmmnTelNo" column="cmmn_tel_no"/>
-    <result property="cmmnFax" column="cmmn_fax"/>
-    <result property="cmmnHmpgUrl" column="cmmn_hmpg_url"/>
-    <result property="cmmnUseTime" column="cmmn_use_time"/>
-    <result property="cmmnBsnde" column="cmmn_bsnde"/>
-    <result property="cmmnRstde" column="cmmn_rstde"/>
-    <result property="subwayInfo" column="subway_info"/>
-    <result property="tag" column="tag"/>
-    <result property="bfDesc" column="bf_desc"/>
-</resultMap> -->
+  
+  	<select id ="list" resultType="restaurant">
+		select * from tbl_restaurant
+		where recom_no is null and lang_code_id = 'ko'
+		order by 1 desc 
+		limit #{amount} offset #{offset}
+	</select> 
+	
+	<select id="getCount" resultType="long">
+		select count(*) from tbl_restaurant 
+		where recom_no is null and lang_code_id = 'ko'
+	</select>
+	
   	<insert id="insert" >
     insert into tbl_restaurant (post_sn, lang_code_id, post_sj, post_url, address, new_address, cmmn_tel_no, cmmn_hmpg_url
     , cmmn_use_time, subway_info, cmmn_hmpg_lang, fd_reprsnt_menu, recom_no)
