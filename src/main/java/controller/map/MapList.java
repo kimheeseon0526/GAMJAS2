@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import domain.Station;
 
 import service.StationService;
@@ -19,8 +21,10 @@ public class MapList extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		StationService service = new StationService();
-		List<Station> stationList = service.getLine2Stations();
-		req.setAttribute("stationList", stationList);
+		List<Station> stationList = service.getLine2Stations("2호선");
+		
+		String json = new Gson().toJson(stationList);
+		req.setAttribute("stationList", json);
 		req.getRequestDispatcher("/WEB-INF/views/map/kakaomap.jsp").forward(req, resp);
 		
 		

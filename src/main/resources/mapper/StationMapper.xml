@@ -18,7 +18,8 @@
   <select id="selectByLine" parameterType="String" resultType="station">
   select  id, name, line_name , lat, lng
   from tbl_station
-  where line_name= #{lineName};
+  where line_name= #{lineName}
+  order by id;
   </select>
   
   

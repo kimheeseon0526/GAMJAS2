@@ -1,77 +1,81 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>지하철 노선도</title>
 
 <script type="text/javascript"
        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6cc3b513c1123ed7909f8f5cf20cc721"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<script>
-  navigator.geolocation.getCurrentPosition(function(pos){
-    console.log(pos);
-    return function() {
-      return pos;
-    }
-  });
-  </script>
 </head>
 <body>
   <div id="map" style="width:100%;height:400px;"></div>
-  
-  <script>
-      navigator.geolocation.getCurrentPosition(function(pos){
-      
-      var lat = pos.coords.latitude;
-      var lng = pos.coords.longitude;
 
-      var container = document.getElementById('map'),
+  <script>
+  
+  	  const stationData = JSON.parse('${stationList}'); 
+  	  
+  	  const mainStations = stationData.filter(s => s.odr != null && s.odr !== 'null');
+      mainStations.sort((a, b) => a.odr - b.odr);
+  
+    	  
+      const centerLat = parseFloat(mainStations[0].LAT);
+      const centerLng = parseFloat(mainStations[0].LOT);
+
+      const container = document.getElementById('map'),
       		options = {
-		        center: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude), 
-		        level: 3
+		        center: new kakao.maps.LatLng(centerLat, centerLng), 
+		        level: 6
       };
       
-      var map = new kakao.maps.Map(container, options);
+      const map = new kakao.maps.Map(container, options);
       
-      var content = `
-      <div style="font-size: 30px; color: green;">
+
+      //지하철 마커
+      
+      const lineCoords = [];
+      
+      mainStations.forEach(station => {
+    	  const lat = parseFloat(station.LAT);
+    	  const lng = parseFloat(station.LOT);
+    	  const latlng = new kakao.maps.LatLng(lat, lng);
+    	  lineCoords.push(latlng);
+    	  
+      //아이콘  
+      const content = `
+      <div style="font-size: 18px; color: #33cc66;">
       <i class="fa-solid fa-train-subway"></i>
       </div>
       `;
-
-      var markerPosition  = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-
-      var marker = new kakao.maps.CustomOverlay({
-                position: markerPosition,
-                content : content,
-                yAnchor: 1
-            });
-      CustomOverlay.setMap(map);
+    	  
+      const marker = new kakao.maps.CustomOverlay({
+         position: latlng,
+         content : content,
+         yAnchor: 1,
+    	 map : map
+    	});
     });
+      //순환선
+      lineCoords.push(lineCoords[0]);
       
-      const stations = [
-    	  {
-    	    name: "강남역",
-    	    lat: 37.4979,
-    	    lng: 127.0276,
-    	    line: "2호선"
-    	  },
-    	  {
-    	    name: "서울역",
-    	    lat: 37.5547,
-    	    lng: 126.9706,
-    	    line: "1호선"
-    	  },
-    	  {
-    	    name: "홍대입구역",
-    	    lat: 37.5572,
-    	    lng: 126.9244,
-    	    line: "2호선"
-    	  }
-    	];
+      //선 연결하기
+      const polyline = new kakao.maps.Polyline({
+    	  map : map,
+    	  path : lineCoords,
+    	  strokeWeight : 4,
+    	  strokeColor : '#33cc66',
+    	  strokeOpacity : 0.9,
+    	  strokeStyle : 'solid'
+    	  });
+
+      
+      console.log("🚇 역 개수:", stationData.length);
+      console.log("✅ 순환선 메인 역 개수:", mainStations.length);
+      console.log("📦 정렬된 mainStations:", mainStations);
   </script>
 </body>
 </html>
