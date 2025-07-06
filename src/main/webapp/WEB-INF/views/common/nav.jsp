@@ -2,10 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- <head>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</head> -->
+<head>
+<%@ include file="../common/head.jsp" %>
+</head>
 
 <nav class="gamjas-navbar">
     <div class="main-header">
@@ -20,7 +19,7 @@
           <li><a href="${cp}/info/missionlist">미션투어</a></li>
           <li><a href="#" >감자티켓</a></li>
           <li><a href="${cp}/board/list" >감자마당</a></li>
-          <li><a href="#" >Q&A</a></li>
+          <li><a href="${cp}/board/list?cno=4" >QNA</a></li>
         </ul>
 
         <!-- 통합 서브메뉴 -->
@@ -38,16 +37,22 @@
             <a href="#">소개 & 이용안내</a>
             <a href="#">당첨자 발표</a>
           </div>
-          <div class="submenu-col">
-            <a href="${cp}/board/list?cno=${c.cno}">자유게시판</a>
-            <a href="${cp}/board/list?cno=${c.cno}">생생후기</a>
-            <a href="${cp}/board/list?cno=${c.cno}">공지사항</a>
-          </div>
-          <div class="submenu-col">
-            <a href="#">질문 게시판</a>
-          </div>
-        </div>
+         <div class="submenu-col">
+			  <c:forEach items="${cate}" var="c">
+			    <c:if test="${c.CViewType == 'FREE' || c.CViewType == 'REVIEW' || c.CViewType == 'NOTICE'}">
+			      <a href="${cp}/board/list?cno=${c.cno}" class="d-block mb-1">${c.cname}</a>
+			    </c:if>
+			  </c:forEach>
+		</div>
+		<div class="submenu-col">
+		  <c:forEach items="${cate}" var="c">
+		    <c:if test="${c.CViewType == 'QNA'}">
+		      <a href="${cp}/board/list?cno=${c.cno}" class="d-block mb-1">${c.cname}</a>
+		    </c:if>
+		  </c:forEach>
+		</div>
       </div>
+    </div>
 
       <!-- 로그인 & 언어 선택 -->
       <div class="right-menu d-flex align-items-center">

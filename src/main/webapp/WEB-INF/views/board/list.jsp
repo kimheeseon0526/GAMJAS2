@@ -36,13 +36,20 @@
 
         <input type="text" class="form-control form-control-sm w-75 border-secondary-subtle"
                placeholder="Search" name="keyword">
-
         <input type="hidden" name="page" value="1">
         <input type="hidden" name="amount" value="${pageDto.cri.amount}">
         <input type="hidden" name="cno" value="${pageDto.cri.cno}">
 
         <button class="btn btn-outline-secondary btn-sm" type="submit">검색</button>
       </form>
+  
+		<script>
+	      	$(".search-form").submit(function() {
+	      		event.preventDefault();
+	      		this.keyword.value = encodeURIComponent(this.keyword.value)
+	      		this.submit();
+	      	});
+	    </script>
 
       <div class="col-2">
         <a href="write?${pageDto.cri.qs2}" class="btn btn-outline-success btn-sm float-end">
@@ -50,9 +57,9 @@
         </a>
       </div>
     </div>
-	
 
 <!-- 게시판 템플릿 (유지) -->
+<%-- <jsp:include page="list_template/free.jsp" /> --%>
 <%-- <jsp:include page="list_template/free.jsp" /> --%>
 
 <c:forEach items="${cate}" var="c">
@@ -73,6 +80,7 @@
     </c:choose>
   </c:if>
 </c:forEach>
+
 
 <!-- 페이지네이션 -->
 <ul class="pagination pagination-sm justify-content-center mt-4" >

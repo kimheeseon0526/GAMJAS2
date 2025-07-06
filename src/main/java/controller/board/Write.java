@@ -50,8 +50,10 @@ public class Write extends HttpServlet{
         String encodedStr =  req.getParameter("encodedStr");
 		Type type =  new TypeToken<List<Attach>>() {}.getType();
 		List<Attach> list = new Gson().fromJson(encodedStr, type);  //이건 json이 수집했기 때문에 빌더쓰는거 아님
-//		log.info("{}", list);
+		log.info("{}", list);
 		Board board = ParamUtil.get(req, Board.class);  
+		
+
 		if(list != null) {
 			board.setAttachs(list);
 		}

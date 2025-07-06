@@ -23,7 +23,7 @@ public interface BoardMapper {
 	
 	void updateGrpMyself(Board board);
 	
-	void updateSeqIncease(Board parent); // 호출할 때 parent로
+	void updateSeqIncrease(Board parent); // 호출할 때 parent로
 	
 	void insertChild(Board board);
 	

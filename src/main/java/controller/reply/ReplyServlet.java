@@ -31,14 +31,6 @@ public class ReplyServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		System.out.println("health check");
-//		// uri
-//		// /review/list
-//		System.out.println(req.getContextPath());
-//		System.out.println(req.getRequestURI());
-//      //review_api/review/list/asdf
-		
 		String uri = getURI(req);
 		ReplyService service = new ReplyService();
 		Object o = null;
@@ -58,8 +50,6 @@ public class ReplyServlet extends HttpServlet{
 					
 				}
 			}
-			// uri를 판단해야함
-//			ret = gson.toJson(service.list());
 			
 		}
 		else { //단일조회
@@ -67,9 +57,6 @@ public class ReplyServlet extends HttpServlet{
 			
 		}
 		JsonRespUtil.writeJson(resp, o);
-		// json
-		
-		// /review/1
 	}    
 
 
@@ -77,48 +64,24 @@ public class ReplyServlet extends HttpServlet{
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uri = getURI(req);
 		Long rno = Long.valueOf(uri);
-		
-		
 		new ReplyService().remove(rno);  //서비스 호출
-		
 		JsonRespUtil.writeJson(resp, Map.of("result", true));
-		
-//		resp.setContentType("application/json; charset=utf-8");
-//		resp.getWriter().print(new Gson().toJson(Map.of("result", "true")));
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		req.setCharacterEncoding("utf-8");
-//		
-//		String ret = String.join("", req.getReader().lines().toList());
-//		
 		Reply reply= JsonRespUtil.readJson(req, Reply.class);
 		new ReplyService().register(reply);
 		JsonRespUtil.writeJson(resp, Map.of("result", true, "reply", reply));
-		
-//		resp.setContentType("application/json; charset=utf-8");
-//		resp.getWriter().print(new Gson().toJson(Map.of("result", true)));
-		
 		
 	}
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		String uri = getURI(req);
-//		Long rno = Long.valueOf(uri);
-//		
-//		String ret = String.join("", req.getReader().lines().toList());
 		Reply reply = JsonRespUtil.readJson(req, Reply.class);
-		
-		// 이 시점에서는 rno > null
 		new ReplyService().modify(reply);
-		// 이 시점에서는 rno > not null
-
 		JsonRespUtil.writeJson(resp, Map.of("result", true));
-//		resp.setContentType("application/json; charset=utf-8");
-//		resp.getWriter().print(new Gson().toJson(Map.of("result", true, "reply", reply)));  
-		/// "reply", reply 이거 추가한게 key value가 되고, 또하나의 Key value가 됨
+
 	
 	}
 	

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import domain.en.CategoryViewType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,15 +31,21 @@ public class Board {
 	private int attachCnt; // 첨부 파일 수
 
 
-//	// 답글을 위한 3개의 필드 
-//		private Long grp;  
-//		@Builder.Default
-//		private int seq = 1; 
-//		@Builder.Default
-//		private int depth = 1;
-//		
+//	   답글을 위한 3개의 필드 
+		private Long grp;  
 		
-
+		@Builder.Default
+		private int seq = 1; 
+		@Builder.Default
+		private int depth = 1;
+		
+//     categoryViewType 자유, 후기, 공지, qna 가져오기 위한
+		private CategoryViewType cViewType;
+		
+		public CategoryViewType getCViewType() {
+		    return this.cViewType;
+		}
+		
 	public Board(Long bno, String title, String content, String id, String regdate, String moddate, Integer cnt,
 				Integer cno, int replyCnt, int attachCnt) {
 			super();

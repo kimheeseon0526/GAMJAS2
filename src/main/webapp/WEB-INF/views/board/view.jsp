@@ -16,24 +16,29 @@
 <%@ include file="../common/nav.jsp" %>
 <div class="container p-0">
 		<main>
-        <div class="small border-bottom border-3 border-primary p-0 pb-2">
-        	<a href="" class="small">
-       		<span class="text-primary">
-      		<c:forEach items="${cate}" var="c">
-       			<c:if test="${c.cno == cri.cno}">
-       			${c.cname}
-       			</c:if>
-      		</c:forEach>
-        	</span>
-        	 카테고리
-        	 </a>
-        	 </div>
+        <div class="small border-bottom border-3" style="border-color: #6A8D73;">
+		  <a href="" class="small" style="color: #4a5c48;">
+		    <span style="color: #6A8D73;">
+		      <c:forEach items="${cate}" var="c">
+		        <c:if test="${c.cno == cri.cno}">
+		          ${c.cname}
+		        </c:if>
+		      </c:forEach>
+		    </span>
+		    카테고리
+		  </a>
+		</div>
+
         <div class="small p-0 py-2">
-            <span class="px-2 border-end border-1">잡담</span>
+       		<c:forEach items="${cate}" var="c">
+		        <c:if test="${c.cno == cri.cno}">
+		         <span class="px-2 border-end border-1"> ${c.cname} </span>
+		        </c:if>
+		      </c:forEach>
             <span class="px-2">${board.title}</span>
             <div class="float-end small">
-                <span class="text-muted"><i class="fa-solid fa-eye"></i>${ board.cnt}</span>
-                <span class="text-muted"><i class="fa-solid fa-comment-dots"></i> 3</span>
+                <span class="text-muted"><i class="fa-solid fa-eye"></i>${board.cnt}</span>
+                <span class="text-muted"><i class="fa-solid fa-comment-dots"></i> ${board.replyCnt}</span>
             </div>
         </div>
         <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
@@ -41,25 +46,25 @@
             <a href="" class="text-muted small">board.html</a>
             <span class="float-end text-muted small me-3">${board.regdate}</span>
         </div>
-    ${board.content}
-        <div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
-        <div>
-            <a href="list?${cri.qs2}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-list-ul"></i> 목록</a>
-            <a href="modify?bno=${board.bno}&${cri.qs2}" class="btn btn-warning btn-sm "><i class="fa-solid fa-pen-to-square"></i>수정</a>
-            <a href="remove?bno=${board.bno}&${cri.qs2}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
-            	<i class="fa-solid fa-trash-can"></i> 삭제
-           	</a>
-           	<a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-primary btn-sm">
-           		<i class="fa-solid fa-reply " style="transform:rotate(180deg);"></i> 
-           		답글
-          	</a>
-           	
-            <!-- <div class="float-end">
-                <button class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-share-nodes"></i> 공유</button>
-                <button class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-clipboard"></i> 스크랩</button>
-            </div> -->
-        </div>
-        
+	    ${board.content}
+	    <div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
+		       <div class="mt-4">
+		    <a href="list?${cri.qs2}" class="btn btn-outline-secondary btn-sm">
+		        <i class="fa-solid fa-list-ul"></i> 목록
+		    </a>
+		    <a href="modify?bno=${board.bno}&${cri.qs2}" class="btn btn-outline-secondary btn-sm">
+		        <i class="fa-solid fa-pen-to-square"></i> 수정
+		    </a>
+		    <a href="remove?bno=${board.bno}&${cri.qs2}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+		        <i class="fa-solid fa-trash-can"></i> 삭제
+		    </a>
+		    <c:if test="${board.cViewType.toString() == 'QNA'}">
+		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
+		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
+		    </a>
+		    </c:if>
+		</div>
+
         <c:if test="${fn:length(board.attachs) > 0}">
         <div class="d-grid my-2 attach-area">
 			<div class="small my-1"><i class="fa-solid fa-paperclip"></i>첨부파일</div>
@@ -91,34 +96,37 @@
 			</div>
 		</div>
         </c:if>
+        <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}">
         	<div class="small p-0 py-2  border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
-        		<div class="col">        		
-		          <i class="fa-regular fa-comment-dots"></i><span class="px-1 text-primary">Reply</span>
-        		 </div>
-        		 <div class="col text-end">
-        		 	  <c:if test="${empty member}">
-        		 	  <a class="small text-primary" href="${cp}/member/login">댓글을 작성하려면 로그인이 필요합니다</a>
-        		 	  </c:if>
-        		 	  <c:if test="${not empty member}">
-			          <button class="btn-write-form btn btn-sm btn-primary">댓글작성</button>
-			          </c:if>
-        		 </div>
+        		<div class="col text-end">
+				    <c:if test="${empty member}">
+				        <a class="small" href="${cp}/member/signin" style="color: #4a5c48;">
+						    댓글을 작성하려면 로그인이 필요합니다
+						</a>
+						</c:if>
+						
+				    <c:if test="${not empty member}">
+				        <button class="btn btn-sm btn-write-form" style="background-color: #4a5c48; color: white;">댓글작성</button>
+				    </c:if>
+				</div>
         	</div>
-	        <ul class="list-group list-group-flush mt-3 reviews">
-	        </ul>
+	        <ul class="list-group list-group-flush mt-3 reviews"></ul>
 	        <div class="d-grid">
-	        	<button class="btn btn-primary btn-block btn-reply-more d-none">댓글 더보기</button>
-	        </div>
+    			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
+			</div>
+		</c:if>
      </main>
   </div>
+  
   <!--Modal 전체 -->
+  <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}">
 	  <div class="modal fade" id="reviewModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Reply Form</h4>
+	        <h4 class="modal-title">댓글 작성</h4>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	      </div>
 	
@@ -126,11 +134,11 @@
 	      <div class="modal-body">
 	        <form action="/action_page.php">
 	            <div class="mb-3 mt-3">
-	                <label for="content" class="form-label text-primary"><i class="fa-solid fa-comment"></i> Content</label>
+	                <label for="content" class="form-label text-primary"><i class="fa-solid fa-comment"></i> 댓글 내용</label>
 	                <textarea class="form-control resize-none" id="content" placeholder="Enter content" name="content" rows="5"></textarea>
 	            </div>
 	            <div class="mb-3">
-	                <label for="writing" class="form-label text-primary"><i class="fa-solid fa-user"></i> Writer</label>
+	                <label for="writing" class="form-label text-primary"><i class="fa-solid fa-user"></i> 작성자</label>
 	                <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${member.id}" disabled="disabled">
 	            </div>
 	        </form>
@@ -138,15 +146,22 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary btn-sm btn-write-submit">Write</button>
-	        <button type="button" class="btn btn-warning btn-sm btn-modify-submit">Modify</button>
-	        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
-	      </div>
+		   	<button type="button" class="btn btn-sm btn-write-submit" style="background-color: #4a5c48; color: white;">작성</button>
+			<button type="button" class="btn btn-sm btn-write-submit" style="background-color: #6c7a68; color: white;">수정</button>
+			<button type="button" class="btn btn-sm" style="background-color: #a94442; color: white;" data-bs-dismiss="modal">닫기</button>
+		  </div>
 	    </div>
 	  </div>
 	</div>
+	</c:if>
 <%@ include file="../common/footer.jsp" %>
 	<script>
+	
+	$.ajaxSetup({
+		contentType : 'application/json',
+		dataType : 'json'
+	})
+	
 		dayjs.extend(window.dayjs_plugin_relativeTime);
 		dayjs.locale('ko');
 		const dayForm = 'YYYY-MM-DD HH:mm:ss';
@@ -157,6 +172,7 @@
             const url = '${cp}' + '/reply/';
             const modal = new bootstrap.Modal($("#reviewModal").get(0), {})
             
+            console.log("bno 값 체크:", '${board.bno}');
             //makeReplyLi(reply) > str
             
             function makeReplyLi(r){
@@ -168,8 +184,10 @@
                          </p>
                          <p class="small ws-pre-line">
                              \${r.content}</p>
-                             <button class="btn btn-danger btn-sm float-end btn-remove-submit">삭제</button>
-                             <button class="btn btn-warning btn-sm float-end mx-3 btn-modify-form">수정</button>
+                             <button class="btn btn-danger btn-sm float-end btn-remove-submit">
+                             <i class="fa-solid fa-trash-can"></i> 삭제
+                             </button>
+                             <button class="btn btn-outline-secondary btn-sm float-end mx-3 btn-modify-form">수정</button>
                 	</li>
                      `;
            }
