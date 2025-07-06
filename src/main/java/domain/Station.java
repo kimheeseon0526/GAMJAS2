@@ -2,9 +2,13 @@ package domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Station {
 	
 	@SerializedName("BLDN_ID")
@@ -19,7 +23,7 @@ public class Station {
 	private double lng;
 	
 	private boolean isTransfer;	//환승역 여부
-	private int odr;
+	private Integer odr;
 	private String createdAt;	//등록일
 	private String updatedAt;	//수정일
 	private String markerIcon;	//마커 아이콘(사용 여부 확인)
