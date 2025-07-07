@@ -28,12 +28,11 @@
 	
 	<main>
 		
- 		<form id="cardform" method="GET" action="${cp}/info/writerecommend">
 		 	<div class="row row-cols-1 row-cols-md-3 g-4 ">
     
 				<!-- 카드 1 -->
 				<div class="col">
-				<div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" style="cursor: pointer;" data-type="ATTRACTION" >
+				<div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" data-type="ATTRACTION" >
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 						<h5 class="card-title fs-6">관광</h5>
@@ -44,7 +43,7 @@
 
 				<!-- 카드 2 -->
 				<div class="col">
-				<div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" style="cursor: pointer;" data-type="RESTAURANT">
+				<div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" data-type="RESTAURANT">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">먹거리</h5>
@@ -55,7 +54,7 @@
 
 				<!-- 카드 3 -->
 				<div class="col">
-				<div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" style="cursor: pointer;" data-type="FESTIVAL">
+				<div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" data-type="FESTIVAL">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">체험</h5>
@@ -65,17 +64,14 @@
 				</div>
 			
 			</div>
-			<input type="hidden" id="cardtype" name="recomContenttype">
-			</form>
-			
-		<form method="POST" id="writeForm" action="${cp}/info/writerecommend">
+
 			<div id="apilist">
 				<ul class="list-group" id="tourMap">
 				<c:forEach items="${apilist}" var="a">
 					<c:if test="${recommend.recomContenttype != null}">
 						<c:choose>
 							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
-								<li class="list-group-item" style="cursor: pointer;">
+								<li class="list-group-item">
 								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}" 
 								data-postsn="${a.postSn}"  data-title="${a.postSj}" data-url="${a.postUrl}" data-address="${a.newAddress}"
        							data-opentime="${a.cmmnUseTime}" data-subway="${a.subwayInfo}">
@@ -83,7 +79,7 @@
 								</li>
 							</c:when>
 							<c:otherwise>
-								<li class="list-group-item" style="cursor: pointer;">
+								<li class="list-group-item" >
 								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}" 
 								data-contentid="${a.contentId}" data-title="${a.title}" data-address1="${a.addr1}" data-address2="${a.addr2}"
        							data-startdate="${a.eventStartDate}" data-enddate="${a.eventEndDate}" >
@@ -93,52 +89,185 @@
 					</c:if>
 				</c:forEach>
 				</ul>
-				
 			</div>
-			<!-- 페이지네이션 -->
-        <div class="mt-4 d-flex justify-content-center">
-          <ul class="pagination">
-	          <c:if test="${pageDto.doubleLeft}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
-			  </c:if>
-			  <c:if test="${pageDto.left}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
-			  </c:if>
-			  <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
-			  	<li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
-			  </c:forEach>
-			  <c:if test="${pageDto.right}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
-			  </c:if>
-			  <c:if test="${pageDto.doubleRight}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
-			  </c:if>
-          </ul>
-        </div>
 			
-			<div class="m-0 auto border apiInfo" id="apiInfo">
-				<c:choose>
-							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
-								<span>장소명 <p id="infotitle"></p></span> 				
-								<span>url 정보 <p id="infourl"></p></span> 				
-								<span>주소 <p id="infoaddress"></p></span> 				
-								<span>운영시간<p id="infoopentime"></p></span> 				
-								<span>지하철 정보 <p id="infosubway"></p></span> 		
-							</c:when>
-							<c:otherwise>
-								<span>축제/체험명 <p id="infotitle"></p></span> 
-								<span>주소<p id=infoaddress></p></span> 
-								<span>시작날짜 <p id="infostartdate"></p></span> 
-								<span>종료날짜 <p id="infoenddate"></p></span> 
-							</c:otherwise>
-				</c:choose>	 
-			</div>
+			
+			<c:choose>
+				<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">						
+					<div class="container my-4">
+					  <div class="row">
+					    <!-- 왼쪽 컬럼 -->
+					    <div class="col-md-6">
+					      <ul class="list-group list-group-flush">
+					
+					        <c:if test="${not empty attraction.cmmnTelNo}">
+					          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${attraction.cmmnTelNo}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.address}">
+					          <li class="list-group-item"><span class="fw-bold">주소</span> : ${attraction.address}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnRstde}">
+					          <li class="list-group-item"><span class="fw-bold">휴일</span> : ${attraction.cmmnRstde}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.tag}">
+					          <li class="list-group-item"><span class="fw-bold">판매 품목</span> : ${attraction.tag}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.bfDesc}">
+					          <li class="list-group-item"><span class="fw-bold">화장실</span> : ${attraction.bfDesc}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.subwayInfo}">
+					          <li class="list-group-item"><span class="fw-bold">지하철</span> : ${attraction.subwayInfo}</li>
+					        </c:if>
+					
+					      </ul>
+					    </div>
+					
+					    <!-- 오른쪽 컬럼 -->
+					    <div class="col-md-6">
+					      <ul class="list-group list-group-flush">
+					
+					        <c:if test="${not empty attraction.cmmnHmpgUrl}">
+					          <li class="list-group-item"><span class="fw-bold">홈페이지</span> : 
+					            <a href="${attraction.cmmnHmpgUrl}" target="_blank">${attraction.cmmnHmpgUrl}</a>
+					          </li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnUseTime}">
+					          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${attraction.cmmnUseTime}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnBsnde}">
+					          <li class="list-group-item"><span class="fw-bold">주차</span> : ${attraction.cmmnBsnde}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.newAddress}">
+					          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${attraction.newAddress}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnFax}">
+					          <li class="list-group-item"><span class="fw-bold">팩스</span> : ${attraction.cmmnFax}</li>
+					        </c:if>
+					
+					      </ul>
+					    </div>
+					  </div>
+					</div>
+				</c:when>
+			<c:when test="${recommend.recomContenttype == 'RESTAURANT'}">						
+				<div class="container my-4">
+				  <div class="row">
+				    <!-- 왼쪽 컬럼 -->
+				    <div class="col-md-6">
+				      <ul class="list-group list-group-flush">
+				
+				        <c:if test="${not empty restaurant.cmmnTelNo}">
+				          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${restaurant.cmmnTelNo}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty restaurant.address}">
+				          <li class="list-group-item"><span class="fw-bold">주소</span> : ${restaurant.address}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty restaurant.newAddress}">
+				          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${restaurant.newAddress}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty restaurant.fdReprsntMenu}">
+				          <li class="list-group-item"><span class="fw-bold">대표메뉴</span> : ${restaurant.fdReprsntMenu}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty restaurant.subwayInfo}">
+				          <li class="list-group-item"><span class="fw-bold">지하철 정보</span> : ${restaurant.subwayInfo}</li>
+				        </c:if>
+
+				      </ul>
+				    </div>
+				
+				    <!-- 오른쪽 컬럼 -->
+				    <div class="col-md-6">
+				      <ul class="list-group list-group-flush">
+				        <c:if test="${not empty restaurant.cmmnHmpgUrl}">
+				          <li class="list-group-item">
+				            <span class="fw-bold">홈페이지</span> :
+				            <a href="${restaurant.cmmnHmpgUrl}" target="_blank">${restaurant.cmmnHmpgUrl}</a>
+				          </li>
+				        </c:if>
+				        <c:if test="${not empty restaurant.cmmnUseTime}">
+				          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${restaurant.cmmnUseTime}</li>
+				        </c:if>
+				        <c:if test="${not empty restaurant.cmmnHmpgLang}">
+				          <li class="list-group-item"><span class="fw-bold">홈페이지 언어</span> : ${restaurant.cmmnHmpgLang}</li>
+				        </c:if>
+				      </ul>
+				    </div>
+				  </div>
+				</div>
+
+			</c:when>
+			<c:otherwise>
+				<div class="container my-4">
+					 <c:if test="${not empty festival.firstImage}">
+			           <div style="max-width: 600px; margin: 0 auto;">
+			            <img src="${festival.firstImage}" class="img-fluid mt-2" alt="축제 이미지">
+			           	<span class="fw-bold">대표 이미지</span><br>
+			           </div>
+			        </c:if>
+				  <div class="row">
+				    <!-- 왼쪽 컬럼 -->
+				    <div class="col-md-6">
+				      <ul class="list-group list-group-flush">
+				
+				        <c:if test="${not empty festival.title}">
+				          <li class="list-group-item"><span class="fw-bold">행사명</span> : ${festival.title}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty festival.tel}">
+				          <li class="list-group-item"><span class="fw-bold">문의처</span> : ${festival.tel}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty festival.addr1}">
+				          <li class="list-group-item"><span class="fw-bold">주소</span> : ${festival.addr1}
+				            <c:if test="${not empty festival.addr2}"> ${festival.addr2}</c:if>
+				          </li>
+				        </c:if>
+				      </ul>
+				    </div>
+				
+				    <!-- 오른쪽 컬럼 -->
+				    <div class="col-md-6">
+				      <ul class="list-group list-group-flush">
+				
+				        <c:if test="${not empty festival.eventStartDate}">
+				          <li class="list-group-item"><span class="fw-bold">시작일</span> : ${festival.eventStartDate}</li>
+				        </c:if>
+				
+				        <c:if test="${not empty festival.eventEndDate}">
+				          <li class="list-group-item"><span class="fw-bold">종료일</span> : ${festival.eventEndDate}</li>
+				        </c:if>
+				        <c:if test="${not empty festival.progressType}">
+				          <li class="list-group-item"><span class="fw-bold">진행 형태</span> : ${festival.progressType}</li>
+				        </c:if>
+				        
+				        <c:if test="${not empty festival.festivalType}">
+				          <li class="list-group-item"><span class="fw-bold">축제 유형</span> : ${festival.festivalType}</li>
+				        </c:if>
+				      </ul>
+				    </div>
+				  </div>
+				</div>
+			</c:otherwise>
+		</c:choose>
        
-	
+		<form method="POST" id="writeForm" action="${cp}/info/modify">
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
-                <textarea id="editor1" name="apiSubcontent" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
+                <textarea id="editor1" name="apiSubcontent" rows="10" class="form-control" placeholder="내용을 입력하세요" required>${recommend.apiSubcontent}</textarea>
             </div>
 
             <!-- 첨부파일 -->
@@ -162,7 +291,7 @@
 
                 <!-- 글쓰기 버튼 커스텀 색상 적용 -->
                 <button type="submit" class="btn btn-sm" style="background-color:#6A8D73; color:#fff;">
-                    <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+                    <i class="fa-solid fa-pen-fancy"></i> 글수정
                 </button>
             </div>
 
@@ -172,13 +301,9 @@
             <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
             <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
-<!--             <input type="hidden" name="cno" value="1">
-            <input type="hidden" name="page" value="1">
-            <input type="hidden" name="amount" value="10"> -->
             <c:if test="${not empty param.recomNo}">
                 <input type="hidden" name="recomNo" value="${param.recomNo}">
             </c:if>
-
         </form>
     </main>
 </div>

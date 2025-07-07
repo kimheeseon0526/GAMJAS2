@@ -61,6 +61,14 @@
 		select max(recom_no) from tbl_recommend_place
 	</selectKey>
 	</insert>
+	<update id="update">
+		update tbl_recommend_place trp
+		set 
+		api_subcontent = #{apiSubcontent},
+		moddatetime = now()
+		where trp.recom_no = #{recomNo}
+	</update>
+	
 	<update id="recomATTR">
 		update tbl_attraction ta
 		join tbl_recommend_place tr on ta.post_sn = tr.recom_place_id

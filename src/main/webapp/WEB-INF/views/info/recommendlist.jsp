@@ -50,7 +50,7 @@
 
     <!-- 글쓰기 버튼 오른쪽 고정 -->
     <div class="ms-auto align-items-center">
-      <a href="${cp}/info/writerecommend" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</a>
+      <a href="${cp}/info/write" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</a>
     </div>
 
     <!-- 검색바 중앙 고정 -->

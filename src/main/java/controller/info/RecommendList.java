@@ -46,11 +46,4 @@ public class RecommendList extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/views/info/recommendlist.jsp").forward(req, resp);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
-	
-	
-	
 }

@@ -96,7 +96,9 @@ public class RecommendService {
 		}
 		
 		return null;
-	}
+	} 
+	
+	
 	
 	public long getApiCount(Criteria cri, RecommendContentType rct) { 
 		if(rct.equals(RecommendContentType.ATTRACTION)) {
@@ -114,6 +116,16 @@ public class RecommendService {
 			return service.getCount(cri);
 		}
 		return 0;
+	}
+
+	public void modify(Recommend recommend) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			mapper.update(recommend); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
