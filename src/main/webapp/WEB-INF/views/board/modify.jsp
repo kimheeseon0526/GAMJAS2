@@ -14,8 +14,8 @@
  		<main>
  		
         	<form method="post" action="modify" id="modifyForm">
-            <div class="small border-bottom border-3 border-primary p-0 pb-2">
-            <span class="text-primary">
+            <div class="small border-bottom border-3" style="border-color: #6A8D73;">
+            <span style="color: #6A8D73;">
             <c:forEach items="${cate}" var="c">
         			<c:if test="${c.cno == cri.cno}">
         			${c.cname}
@@ -28,15 +28,14 @@
             <div class="p-0 py-3 ps-1 small border-bottom border-1 border-muted">
                 <textarea name="content" id="editor1" class="form-control resize-none">${board.content}</textarea>
             </div>
-            <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
-                <span class="px-2"></span>
-                <a href="" class="text-muted small">board.html</a>
-                <span class="float-end text-muted small me-3">2025-06-13 11:20</span>
-            </div>
-            <div class="my-2">
-                <a href="${cp}/board/list?${cri.qs2}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-list-ul"></i> 목록</a>
+            <div class="my-4">
+                <a href="${cp}/board/list?${cri.qs2}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa-solid fa-list-ul"></i> 목록
+                </a>
                 <div class="float-end">
-                    <button class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글수정</button>
+                    <button class="btn btn-outline-success btn-sm">
+                        <i class="fa-solid fa-pen-fancy"></i> 글수정
+                    </button>
                 </div>
             </div>
             <input type="hidden" name="id" value="${member.id}">
@@ -48,10 +47,10 @@
             <input type="hidden" name="keyword" value="${cri.keyword}">
             <input type="hidden" name="encodedStr" value="">
         </form>
-        
+
         <div class="d-grid my-2 attach-area">
 			<div class="small my-1"><i class="fa-solid fa-paperclip"></i>첨부파일</div>
-			<label class="btn btn-info">파일첨부<input type="file" multiple="" class="d-none" id="f1"></label>
+			<label class="btn btn-outline-secondary btn-sm">파일첨부<input type="file" multiple="" class="d-none" id="f1"></label>
 			<ul class="list-group my-3 attach-list">
 				<c:forEach items="${board.attachs}" var="a">
 				<li class="list-group-item d-flex align-items-center justify-content-between" 
@@ -61,7 +60,7 @@
 				data-path="${a.path}" 
 				data-size="${a.size}"
 				data-odr="${a.odr}">
-					<a href="/pbl/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
+					<a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
 					<i class="fa-solid fa-circle-xmark float-end text-danger"></i> 
 				</li>
 				</c:forEach>
@@ -70,7 +69,7 @@
 				<c:forEach items="${board.attachs}" var="a">
 				<c:if test="${a.image}">
 				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('/pbl/display?uuid=t_${a.uuid}&path=${a.path}')">
+					<div class="my-2" style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_${a.uuid}&path=${a.path}'); border: 1px solid #6A8D73; border-radius: 5px;">
 						<i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i>
 					</div>
 				</div>

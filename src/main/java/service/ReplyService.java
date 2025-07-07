@@ -60,8 +60,4 @@ public class ReplyService {
 			e.printStackTrace();
 		}
 	}
-//	public static void main(String[] args) {
-//		new ReplyService().list(3L);
-//	}
-//	
 }

@@ -108,7 +108,7 @@
 		}  //이것이 유효성 체크
 
 		
-	$(".attach-area").on("click", "i", function() {  
+	$(".container").on("click", "i", function() {  
 		// li가 실제로는 없기 때문에 위임을 해줘야하고, 그래서 attach-list에 주면됨. 그리고 on을 써서 실제로 이벤트주는건 i에 주는 거고, this는i를 가리킴
 		const uuid = $(this).closest("[data-uuid]").data("uuid");
 		$('[data-uuid="' + uuid + '"]').remove()
