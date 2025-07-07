@@ -35,12 +35,14 @@ public class MemberService {
 	}
 	
 	//로그인
-	public boolean signin(String id, String pw) {
+	public Member signin(String id, String pw) {
 		Member member = findById(id);
-		if(member == null) {
-			return false;
-		}
-		return PasswordEncoder.matches(pw, member.getPw());
-	}
+
+			if(member != null && PasswordEncoder.matches(pw, member.getPw())) {
+				return member;
+			}
+		return null;
 	
-}
+		}
+	}
+

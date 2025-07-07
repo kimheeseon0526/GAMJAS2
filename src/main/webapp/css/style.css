@@ -82,3 +82,14 @@ nav.gamjas-navbar {border-bottom: 1px solid #e0e0e0;background: #fff;padding: 10
 @media (max-width: 991px) {
   .mega-menu {display: none !important;}
 }
+
+/* ====================== 여행정보 > 지하철 노선도 ====================== */
+.line-selectors { display: flex; justify-content: center; gap: 20px; margin: 30px 0 10px; }
+.line-btn { width: 50px; height: 50px; border-radius: 50%; font-size: 18px; color: white; font-weight: bold; border: none; cursor: pointer;}
+.line-1 { background: #0052A4; }
+.line-2 { background: #00A84D; }
+.line-3 { background: #EF7C1C; }
+.line-4 { background: #00A5DE; }
+.line-5 { background: #996CAC; }
+.line-labels { text-align: center; margin-bottom: 20px; }
+.line-labels span {margin: 0 40px; font-weight: bold;}

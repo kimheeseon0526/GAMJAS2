@@ -25,7 +25,7 @@
         <!-- 통합 서브메뉴 -->
         <div class="mega-submenu">
           <div class="submenu-col">
-            <a href="#">지하철 노선도</a>
+            <a href="${cp}/map/lineinfodetail">지하철 노선도</a>
             <a href="${cp}/info/recommendlist">상세 여행정보</a>
           </div>
           <div class="submenu-col">
