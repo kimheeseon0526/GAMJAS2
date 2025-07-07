@@ -120,11 +120,11 @@ public class AttractionService { //최초 1회 수집용
 		}
 	}
 	
-	public Attraction findBy(String postSn) {
+	public Attraction findBy(Long recomNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
 			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
 			
-			Attraction attr = mapper.selectOne(postSn);
+			Attraction attr = mapper.selectOne(recomNo);
 			return attr;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,15 +144,14 @@ public class AttractionService { //최초 1회 수집용
 		return 0;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		AttractionService tis = new AttractionService();
-		List<Attraction> list = tis.getAPIList();
-		
-		for(Attraction a : list) {			
-			tis.register(a);
-		}
-		
-
-	}
+//	public static void main(String[] args) throws IOException {
+//		
+//		AttractionService tis = new AttractionService();
+//		List<Attraction> list = tis.getAPIList();
+//		
+//		for(Attraction a : list) {			
+//			tis.register(a);
+//		}
+//		
+//	}
 }

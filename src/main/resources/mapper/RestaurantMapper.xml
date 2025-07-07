@@ -22,4 +22,8 @@
   	values (#{postSn}, #{langCodeId}, #{postSj}, #{postUrl}, #{address}, #{newAddress}, #{cmmnTelNo}, #{cmmnHmpgUrl},
     #{cmmnUseTime}, #{subwayInfo}, #{cmmnHmpgLang}, #{fdReprsntMenu}, #{recomNo})
   	</insert>
+  	<select id="selectOne" resultType="restaurant">
+		select * from tbl_restaurant 
+		where recom_no = #{recomNo}
+	</select>
   </mapper>

@@ -23,10 +23,12 @@ import com.google.gson.JsonParser;
 
 import api.Attraction;
 import api.Festival;
+import api.Restaurant;
 import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
 import mapper.FestivalMapper;
+import mapper.RestaurantMapper;
 //import mapper.FestivalMapper;
 import util.APIUtil;
 import util.MybatisUtil;
@@ -122,6 +124,19 @@ public class FestivalService { //최초 1회 수집용
 		}
 		return null;
 	}
+	
+	public Festival findBy(Long recomNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			
+			Festival fest = mapper.selectOne(recomNo);
+			return fest;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public long getCount(Criteria cri) { 
 		try(SqlSession session = MybatisUtil.getSqlSession()) {

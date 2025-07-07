@@ -20,5 +20,11 @@ public interface RecommendMapper {
 	
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
 
-	void recomATTR();
+	void recomATTR(Long recomNo);
+
+	void recomREST(Long recomNo);
+
+	void recomFEST(Long recomNo);
+
+	Recommend selectOne(Long recomNo);
 }

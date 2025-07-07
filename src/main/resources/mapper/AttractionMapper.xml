@@ -22,6 +22,6 @@
 	</select>
 	<select id="selectOne" resultType="attraction">
 		select * from tbl_attraction 
-		where post_sn = #{postSn}
+		where recom_no = #{recomNo}
 	</select>
   </mapper>

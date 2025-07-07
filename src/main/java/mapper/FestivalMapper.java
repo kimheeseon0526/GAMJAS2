@@ -12,4 +12,6 @@ public interface FestivalMapper {
 	List<Festival> list(Criteria cri);
 
 	long getCount(Criteria cri);
+
+	Festival selectOne(Long recomNo);
 }
