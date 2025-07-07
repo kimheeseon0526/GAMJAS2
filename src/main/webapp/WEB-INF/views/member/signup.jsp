@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="css/style.css">
@@ -13,6 +13,7 @@
 <body>
 
 <!-- 메인 콘텐츠: 회원가입 -->
+
 <main class="join-container"
       style="max-width: 480px; margin: 60px auto; background: white; padding: 30px 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
   <h4 class="text-center mb-4 fw-bold">회원가입</h4>
@@ -37,7 +38,8 @@
 
     <!-- 이름 -->
     <div class="mb-3">
-      <label for="name" class="form-label fw-semibold">이름</label>
+      <label for="name" class="form-label fw-semibold">
+     <span class="text-danger">*</span> 이름</label>
       <input type="text" class="form-control border border-success-subtle" id="name" name="name" placeholder="이름을 입력하세요">
     </div>
 
@@ -65,6 +67,18 @@
         <option>기타</option>
       </select>
     </div>
+    
+    <!-- 약관 동의 -->
+    <h4>약관 동의</h4>
+  <label>
+    <input type="checkbox" name="terms1" id="terms1">
+    (필수) 이용약관에 동의합니다
+  </label><br>
+  <label>
+    <input type="checkbox" name="terms2" id="terms2">
+    (필수) 개인정보 수집 및 이용에 동의합니다
+  </label><br>
+
 
     <!-- 버튼 -->
     <div class="d-grid">

@@ -28,14 +28,14 @@ public class SigninServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		String id = req.getParameter("id");
 //		String pw = req.getParameter("pw");
-		
 		Member member = ParamUtil.get(req, Member.class);
-		boolean ret = new MemberService().signin(member.getId(), member.getPw());
+		
+		Member signinUser =  new MemberService().signin(member.getId(), member.getPw());
 
-		if(ret) {
+		if(signinUser != null) {
 			HttpSession session = req.getSession();
 			session.setMaxInactiveInterval(60 * 10);
-			session.setAttribute("member", new MemberService().findById(member.getId()));
+			session.setAttribute("member", signinUser);
 			
 			String url = req.getParameter("url");
 			if(url == null) {//로그인 성공
@@ -48,7 +48,8 @@ public class SigninServlet extends HttpServlet {
 					resp.sendRedirect(decodeUrl + "?" + cri.getQs2()); 
 				}
 			}else {
-				resp.sendRedirect("login fail");
+				resp.sendRedirect(req.getContextPath() + "/?error=loginFail");
+				
 			}	
 		}
 	}

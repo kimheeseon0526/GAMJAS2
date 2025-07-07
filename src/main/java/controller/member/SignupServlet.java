@@ -30,6 +30,15 @@ public class SignupServlet extends HttpServlet{
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 		String nation = req.getParameter("nation");
+		String terms1 = req.getParameter("terms1");
+		String terms2 = req.getParameter("terms2");
+		
+		if(terms1 == null || terms2 == null) {
+			req.setAttribute("msg", "필수 약관에 동의해야 가입이 가능합니다");
+			req.getRequestDispatcher("/WEB-INF/views/member/signup.jsp").forward(req, resp);
+			return;
+		}
+
 		
 		Member member = Member.builder().id(id).pw(pw).name(name).email(email).nation(nation).build();
 		

@@ -21,6 +21,7 @@ public class Station {
 	private double lat;
 	@SerializedName("LOT")
 	private double lng;
+	private String lineColor;
 	
 	private boolean isTransfer;	//환승역 여부
 	private Integer odr;

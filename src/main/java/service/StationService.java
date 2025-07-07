@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import com.google.gson.Gson;
@@ -27,6 +28,18 @@ public class StationService {
 	
 	int pageSize = 100;
 	int startPage = 1;
+	
+	private static final Map<String, String> LINECOLOR_MAP = Map.ofEntries(
+		    Map.entry("1호선", "#0052A4"),
+		    Map.entry("2호선", "#009D3E"),
+		    Map.entry("3호선", "#EF7C1C"),
+		    Map.entry("4호선", "#00A5DE"),
+		    Map.entry("5호선", "#996CAC"),
+		    Map.entry("6호선", "#CD7C2F"),
+		    Map.entry("7호선", "#747F00"),
+		    Map.entry("8호선", "#E6186C"),
+		    Map.entry("9호선", "#BDB092")
+		);
 	
 	public List<Station> getList() throws IOException {
 		List<Station> list = new ArrayList<>();
@@ -96,12 +109,16 @@ public class StationService {
 				List<Station> list = mapper.selectByLine(lineName); 
 				
 				if(list == null) {
-					System.out.println("조회된 지하철 역 데이터가 없음. lineName = " + lineName);
+					System.out.println("역 데이터가 없음. lineName = " + lineName);
 					return new ArrayList<>();
+				}
+				String lineColor = LINECOLOR_MAP.getOrDefault(lineName, "#999999");
+				for(Station station : list) {
+					station.setLineColor(lineColor);
 				}
 				
 				if("2호선".equals(lineName) && !list.isEmpty()) {
-					list.add(list.get(0));
+					list.add(list.get(0));	//2호선만
 				}
 				
 		            System.out.println("조회된 역 개수: " + list.size());
@@ -112,20 +129,8 @@ public class StationService {
 				return new ArrayList<>();
 			}
 		}
-		
-		
-		
-			public static void main(String[] args) throws IOException {
-				
-				StationService tis = new StationService();
-				List<Station> list = tis.getList();
-				
-				for(Station a : list) {			
-				tis.register(a);
-				}
-			
 
-			}
-		}
+			
+	}
 		
 		
