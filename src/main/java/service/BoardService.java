@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import domain.Attach;
+import domain.AttachRef;
 import domain.Board;
 import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttachMapper;
+import mapper.AttachRefMapper;
 import mapper.BoardMapper;
 import mapper.ReplyMapper;
 import util.MybatisUtil;
@@ -66,10 +69,28 @@ public class BoardService {
 			}
 			
 			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
+			
+			// 첨부파일 insert(원래)
 			board.getAttachs().forEach(a -> {
 				a.setBno(board.getBno());
 				attachMapper.insert(a);
 			});
+				
+				
+//			
+//			// attachRef 추가. 첨부파일 연결  
+//			board.getAttachs().forEach(attach -> {
+//				AttachRef ref = AttachRef.builder()
+//						.ano(attach.getAno())
+//						.refType(AttachRef.AttachRefType.BOARD)
+//						.refNo(board.getBno())
+//						.build();
+//				
+//				attachRefMapper.insert(ref);
+//			});
+//				
+					
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();

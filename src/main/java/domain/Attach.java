@@ -28,6 +28,7 @@ public class Attach {
 	private long size;  //null이 올 필요가 없는 애들
 	private Long bno;
 	private Long rno;  // --> attachRef에서 Long ref로 처리
+	private Long ano;
 	
 	public Attach(String uuid, String path, boolean image, String origin, int odr, long size, Long bno) {
 		super();
