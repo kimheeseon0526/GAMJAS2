@@ -126,6 +126,18 @@ public class RestaurantService { //최초 1회 수집용
 		return 0;
 	}
 	
+	public Restaurant findBy(Long recomNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			
+			Restaurant rest = mapper.selectOne(recomNo);
+			return rest;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public void register(Restaurant restaurant) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){

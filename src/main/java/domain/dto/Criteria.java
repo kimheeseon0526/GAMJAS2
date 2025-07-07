@@ -54,7 +54,7 @@ public class Criteria {
 		return str;
 	}
 	
-	public String getQsRecom() {  //문자열 반환하는 메서드
+	public String getQsRecom() {
 		String[] strs = {"amount=" + amount, "type=" + type, "keyword=" + keyword};
 		String str = String.join("&", strs); 
 		return str;
@@ -65,7 +65,7 @@ public class Criteria {
 		return getQs() + "&page=" + page;
 	}
 	
-	public String getQsRecom2(RecommendContentType recom) {  //게시글 상세보기, 작성, 수정, 삭제 할 때 사용할거임
+	public String getQsRecom2(RecommendContentType recom) { 
 		return getQsRecom() + "&page=" + page;
 	}
 

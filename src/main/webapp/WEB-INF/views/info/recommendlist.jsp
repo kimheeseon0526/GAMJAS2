@@ -49,7 +49,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4 search-container">
 
     <!-- 글쓰기 버튼 오른쪽 고정 -->
-    <div class="ms-auto">
+    <div class="ms-auto align-items-center">
       <a href="${cp}/info/writerecommend" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</a>
     </div>
 
@@ -88,8 +88,8 @@
 		      <div class="card h-100">
 		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
 		        <div class="card-body">
-		          <h5 class="card-title">${r.title}</h5>
-		          <p class="card-text text-truncate">${r.apiSubcontent}</p>
+		          <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div> 
+		          <div><p class="card-text">${r.apiSubcontent}</p></div> 
 		        </div>
 		      </div>
 		    </div>	

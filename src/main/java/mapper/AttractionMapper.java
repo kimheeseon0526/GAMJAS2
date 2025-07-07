@@ -11,5 +11,5 @@ public interface AttractionMapper {
 	List<Attraction> list(Criteria cri); 
 	void insert(Attraction attraction);
 	long getCount(Criteria cri);
-	Attraction selectOne(String postSn);
+	Attraction selectOne(Long recomNo);
 }

@@ -3,24 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.RecommendMapper">
-	<!-- <resultMap type="recommend" id="r">
-		<id column="recomNo" property="recomNo"/>
-		<result column="title" property="title" />
-		<result column="content" property="content" />
-		<result column="id" property="id" />
-		<result column="regdate" property="regdate" />
-		<result column="moddate" property="moddate" />
-		<collection property="attachs" ofType="attach">
-			<result column="uuid" property="uuid"/>
-			<result column="path" property="path"/>
-			<result column="image" property="image"/>
-			<result column="origin" property="origin"/>
-			<result column="a_bno" property="bno"/>
-			<result column="odr" property="odr"/>
-			<result column="size" property="size"/>
-		</collection>
+	<resultMap id="r" type="recommend">
+  		<id property="recomNo" column="recom_no"/>
+  		<result property="recomContenttype" column="recom_contenttype"/>
+  		<result property="recomPlaceId" column="recom_place_id"/>
+  		<result property="apiSubcontent" column="api_subcontent"/>
+  		<result property="stationId" column="station_id"/>
+  		<result property="memNo" column="mem_no"/>
+  		<result property="regdatetime" column="regdatetime"/>
+  		<result property="moddatetime" column="moddatetime"/>
+  		<result property="title" column="title"/>
 	</resultMap>
-	-->
 	<sql id="cri">
 		<where>
 			<trim prefixOverrides="AND | OR">
@@ -44,7 +37,7 @@
 		</where>
 	</sql>
 	<!-- 목록조회 -->
-	<select id="list" resultType="recommend">
+	<select id="list" resultMap="r">
 		select * from (
 		    SELECT trp.*, 
 		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title
@@ -64,13 +57,34 @@
 	<!-- 글 등록 -->
 	<insert id="insert">
 		insert into tbl_recommend_place (recom_contenttype, recom_place_id, api_subcontent, station_id, mem_no) values (#{recomContenttype}, #{recomPlaceId}, #{apiSubcontent}, #{stationId}, #{memNo})
-	<selectKey keyProperty="recomNo" resultType="long" order="AFTER">
+	<selectKey keyProperty="recomNo" resultType="Long" order="AFTER">
 		select max(recom_no) from tbl_recommend_place
 	</selectKey>
 	</insert>
-	<insert id="recomATTR">
-		insert into tbl_attraction (recom_no) values #{recomNo}
-	</insert>
+	<update id="recomATTR">
+		update tbl_attraction ta
+		join tbl_recommend_place tr on ta.post_sn = tr.recom_place_id
+		set ta.recom_no = tr.recom_no
+		where tr.recom_contenttype ="ATTRACTION";
+	</update>
+	
+	<update id="recomREST">
+		update tbl_restaurant tr
+		join tbl_recommend_place trp on tr.post_sn = trp.recom_place_id
+		set tr.recom_no = trp.recom_no
+		where trp.recom_contenttype ="RESTAURANT";
+	</update>
+	
+	<update id="recomFEST">
+		update tbl_festival tf
+		join tbl_recommend_place trp on tf.content_id = trp.recom_place_id
+		set tf.recom_no = trp.recom_no
+		where trp.recom_contenttype ="FESTIVAL";
+	</update>
+	
+	<select id="selectOne" resultMap="r">
+		select * from tbl_recommend_place where recom_no = #{recomNo}
+	</select>
 	
 	<select id="getCount" resultType="long">
 		select count(*) from (

@@ -23,4 +23,8 @@
     #{firstImage}, #{firstImage2}, #{cpyrhtDivCd}, #{mapX}, #{mapY}, #{mLevel}, #{modifiedTime}, #{areaCode}, #{sigunguCode}, #{tel}, #{title},
     #{lDongRegnCd}, #{lDongSignguCd}, #{lclsSystm1}, #{lclsSystm2}, #{lclsSystm3}, #{progressType}, #{festivalType})
   	</insert>
+  	<select id="selectOne" resultType="festival">
+		select * from tbl_festival 
+		where recom_no = #{recomNo}
+	</select>
   </mapper>

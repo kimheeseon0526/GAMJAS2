@@ -37,8 +37,15 @@ public class RecommendService {
 			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
 //			
 				mapper.insert(recommend);   // 글 작성
-//				
-				recomATTR();
+				
+			switch(recommend.getRecomContenttype()) {
+				case RecommendContentType.ATTRACTION : mapper.recomATTR(recommend.getRecomNo()); break;
+				
+				case RecommendContentType.RESTAURANT : mapper.recomREST(recommend.getRecomNo()); break;
+				
+				case RecommendContentType.FESTIVAL : mapper.recomFEST(recommend.getRecomNo()); break;
+			}
+				
 			
 			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 
 			
@@ -49,20 +56,7 @@ public class RecommendService {
 			session.close();
 		}  //try catch -> 롤백해라
 	}
-	
-	public void recomATTR() {
-		try(SqlSession session = MybatisUtil.getSqlSession()) {
-			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
-			mapper.recomATTR();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
-	
+
 	public long getCount(Criteria cri, RecommendContentType rct) { 
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
@@ -73,6 +67,18 @@ public class RecommendService {
 		}
 		return 0;
 	}
+	
+	public Recommend findBy(Long recomNo) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			return mapper.selectOne(recomNo); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public List<?> apiList(Criteria cri, RecommendContentType rct) {
 		
