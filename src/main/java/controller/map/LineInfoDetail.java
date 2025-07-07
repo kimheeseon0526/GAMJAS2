@@ -9,16 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import org.apache.ibatis.session.SqlSession;
-
 import com.google.gson.Gson;
 
 import domain.Station;
-import mapper.StationMapper;
-import util.MybatisUtil;
+import lombok.extern.slf4j.Slf4j;
+import service.StationService;
 
 @WebServlet("/map/lineinfodetail")
+@Slf4j
 public class LineInfoDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,19 +24,14 @@ public class LineInfoDetail extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//2호선 리스트 가져오기
-		try(SqlSession sqlsession = MybatisUtil.getSqlSession()) {
-			StationMapper mapper = sqlsession.getMapper(StationMapper.class);
-			List<Station> list = mapper.selectByLine("2호선");
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(list);
-			
-			req.setAttribute("stationDetailLsit", json);
-			req.getRequestDispatcher("/WEB-INF/views/map/lineinfodetail.jsp").forward(req, resp);			
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		StationService stationService = new StationService();
+		List<Station> list = stationService.getLineStations("7호선");
+		log.info("{}", list);
+		Gson gson = new Gson();
+		String json = gson.toJson(list);
+		
+		req.setAttribute("stationDetailList", json);
+		req.getRequestDispatcher("/WEB-INF/views/map/lineinfodetail.jsp").forward(req, resp);			
 
 	}
 

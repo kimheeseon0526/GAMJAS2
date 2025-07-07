@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,17 +30,19 @@ public class StationService {
 	int pageSize = 100;
 	int startPage = 1;
 	
-	private static final Map<String, String> LINECOLOR_MAP = Map.ofEntries(
-		    Map.entry("1호선", "#0052A4"),
-		    Map.entry("2호선", "#009D3E"),
-		    Map.entry("3호선", "#EF7C1C"),
-		    Map.entry("4호선", "#00A5DE"),
-		    Map.entry("5호선", "#996CAC"),
-		    Map.entry("6호선", "#CD7C2F"),
-		    Map.entry("7호선", "#747F00"),
-		    Map.entry("8호선", "#E6186C"),
-		    Map.entry("9호선", "#BDB092")
-		);
+	private static final Map<String, String> lineColorMap = new HashMap<>();
+	 static {
+	        lineColorMap.put("1호선", "#0052A4");
+	        lineColorMap.put("2호선", "#009D3E");
+	        lineColorMap.put("3호선", "#EF7C1C");
+	        lineColorMap.put("4호선", "#00A5DE");
+	        lineColorMap.put("5호선", "#996CAC");
+	        lineColorMap.put("6호선", "#CD7C2F");
+	        lineColorMap.put("7호선", "#747F00");
+	        lineColorMap.put("8호선", "#E6186C");
+	        lineColorMap.put("9호선", "#BDB092");
+	    }
+
 	
 	public List<Station> getList() throws IOException {
 		List<Station> list = new ArrayList<>();
@@ -106,15 +109,18 @@ public class StationService {
 			
 			try (SqlSession session = MybatisUtil.getSqlSession()) {
 				StationMapper mapper = session.getMapper(StationMapper.class);
-				List<Station> list = mapper.selectByLine(lineName); 
+
+				List<Station> list = mapper.selectByLine(lineName);
 				
 				if(list == null) {
 					System.out.println("역 데이터가 없음. lineName = " + lineName);
 					return new ArrayList<>();
 				}
-				String lineColor = LINECOLOR_MAP.getOrDefault(lineName, "#999999");
+				String lineColor = lineColorMap.getOrDefault(lineName, "#999999");
 				for(Station station : list) {
 					station.setLineColor(lineColor);
+					log.info(lineColor);
+					
 				}
 				
 				if("2호선".equals(lineName) && !list.isEmpty()) {
