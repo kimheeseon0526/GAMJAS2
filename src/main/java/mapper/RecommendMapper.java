@@ -19,4 +19,6 @@ public interface RecommendMapper {
 	void delete(Long recomNo);
 	
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
+
+	void recomATTR();
 }

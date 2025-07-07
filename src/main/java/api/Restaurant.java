@@ -1,10 +1,13 @@
 package api;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@Alias("restaurant")
 public class Restaurant {
 	private String postSn;
 	private String langCodeId;

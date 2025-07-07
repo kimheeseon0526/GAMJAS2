@@ -27,66 +27,114 @@
 <div class="container my-5" style="max-width: 768px; margin-top: 194px;">
 	
 	<main>
-		<form method="post" id="writeForm" action="${cp}/info/writerecommend">
- 	
+		
+ 		<form id="cardform" method="GET" action="${cp}/info/writerecommend">
 		 	<div class="row row-cols-1 row-cols-md-3 g-4 ">
     
 				<!-- 카드 1 -->
 				<div class="col">
-				<a href="#" class="card h-100" data-type="ATTRACTION">
+				<div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" style="cursor: pointer;" data-type="ATTRACTION">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
-						<h5 class="card-title fs-6">관광지</h5>
-						<p class="card-text line-clamp-2 small">자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
+						<h5 class="card-title fs-6">관광</h5>
+						<p class="card-text line-clamp-2 small">서울 내 자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
 					</div>
-				</a>
+				</div>
 				</div>
 
 				<!-- 카드 2 -->
 				<div class="col">
-				<a href="#" class="card h-100" data-type="RESTAURANT">
+				<div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" style="cursor: pointer;" data-type="RESTAURANT">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
-					<h5 class="card-title fs-6">음식점</h5>
-					<p class="card-text line-clamp-2 small">지역별 음식점 정보를 확인하고 선택할 수 있습니다.</p>
+					<h5 class="card-title fs-6">먹거리</h5>
+					<p class="card-text line-clamp-2 small">서울내 음식점 정보를 확인하고 선택할 수 있습니다.</p>
 					</div>
-				</a>
+				</div>
 				</div>
 
 				<!-- 카드 3 -->
 				<div class="col">
-				<a href="#" class="card h-100" data-type="FESTIVAL">
+				<div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" style="cursor: pointer;" data-type="FESTIVAL">
 					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
 					<div class="card-body">
 					<h5 class="card-title fs-6">체험</h5>
-					<p class="card-text line-clamp-2 small">공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
+					<p class="card-text line-clamp-2 small">서울 내 공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
 					</div>
-				</a>
 				</div>
-
+				</div>
+			
 			</div>
-			<div id="apiList">
+			<input type="hidden" id="cardtype" name="recomContenttype">
+			</form>
+			
+		<form method="POST" id="writeForm" action="${cp}/info/writerecommend">
+			<div id="apilist">
 				<ul class="list-group" id="tourMap">
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Active item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1">Active item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1">Active item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input"  name="optradio" value="option1" >Second item</li>
-				  <li class="list-group-item" style="cursor: pointer;"><input type="radio" class="form-check-input" name="optradio" value="option1" >Third item</li>
+				<c:forEach items="${apilist}" var="a">
+					<c:if test="${recommend.recomContenttype != null}">
+						<c:choose>
+							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
+								<li class="list-group-item" style="cursor: pointer;">
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}" 
+								data-postsn="${a.postSn}"  data-title="${a.postSj}" data-url="${a.postUrl}" data-address="${a.newAddress}"
+       							data-opentime="${a.cmmnUseTime}" data-subway="${a.subwayInfo}">
+								${a.postSj} 
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="list-group-item" style="cursor: pointer;">
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}" 
+								data-contentid="${a.contentId}" data-title="${a.title}" data-address1="${a.addr1}" data-address2="${a.addr2}"
+       							data-startdate="${a.eventStartDate}" data-enddate="${a.eventEndDate}" >
+								${a.title}</li>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
 				</ul>
+				
 			</div>
+			<!-- 페이지네이션 -->
+        <div class="mt-4 d-flex justify-content-center">
+          <ul class="pagination">
+	          <c:if test="${pageDto.doubleLeft}">
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+			  </c:if>
+			  <c:if test="${pageDto.left}">
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
+			  </c:if>
+			  <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
+			  	<li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
+			  </c:forEach>
+			  <c:if test="${pageDto.right}">
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
+			  </c:if>
+			  <c:if test="${pageDto.doubleRight}">
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
+			  </c:if>
+          </ul>
+        </div>
+			
 			<div class="m-0 auto border apiInfo" id="apiInfo">
-				<p>가나다라마바사아자차카타파하</p> 
-				<p>가나다라마바사아자차카타파하</p> 
-				<p>가나다라마바사아자차카타파하</p> 
-				<p>가나다라마바사아자차카타파하</p> 
-				<p>가나다라마바사아자차카타파하</p> 				
+				<c:choose>
+							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
+								<span>장소명 <p id="infotitle"></p></span> 				
+								<span>url 정보 <p id="infourl"></p></span> 				
+								<span>주소 <p id="infoaddress"></p></span> 				
+								<span>운영시간<p id="infoopentime"></p></span> 				
+								<span>지하철 정보 <p id="infosubway"></p></span> 		
+							</c:when>
+							<c:otherwise>
+								<span>축제/체험명 <p id="infotitle"></p></span> 
+								<span>주소<p id=infoaddress></p></span> 
+								<span>시작날짜 <p id="infostartdate"></p></span> 
+								<span>종료날짜 <p id="infoenddate"></p></span> 
+							</c:otherwise>
+				</c:choose>	 
 			</div>
-            
-
+       
+	
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
@@ -119,9 +167,9 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="recomContenttype" id="recomContenttyperecomContenttype" value="">
-            <input type="hidden" name="recomPlaceId" value="">
-            <input type="hidden" name="stationId" value="stationId">
+            <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
+            <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
+            <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
             <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
 <!--             <input type="hidden" name="cno" value="1">
@@ -146,10 +194,26 @@
    
   </script>
   <script>
+  	
 	$(function() {
+
+		$(".card").on("click", function(){
+			$(".card").removeClass("card-select")
+			$(this).addClass("card-select")
+			const type = $(this).data("type"); 
+			
+			
+			console.log(type);
+			
+			$("#cardtype").val(type);
+			
+			
+			console.log($("#cardtype").val()); 
+			$("#cardform").submit();
+		})
 		
-		$("#apiList").on("click", "li", function() {
-			$("#apiList li").removeClass("active");
+		$("#apilist").on("click", "li", function() {
+			$("#apilist li").removeClass("active");
 			$(".form-check-input").prop("checked", false)
 
 			$(this).addClass("active");
@@ -157,12 +221,36 @@
 			
 			console.log($("#apiInfo"))
 			$("#apiInfo").removeClass("apiInfo")
+			
+			
+			
+			const placeId = $(this).children("input").val();
+			const title = $(this).children("input").data("title");
+			
+			if ("${recommend.recomContenttype}" !== "FESTIVAL") {				
+		        const url = $(this).children("input").data("url");
+		        const address = $(this).children("input").data("address");
+		        const opentime = $(this).children("input").data("opentime");
+		        const subway = $(this).children("input").data("subway");
+		        
+		        $("#infotitle").text(title);
+		        $("#infourl").text(url);
+		        $("#infoaddress").text(address);
+		        $("#infoopentime").text(opentime);
+		        $("#infosubway").text(subway);
+			}
+	  		else {
+	        const address = $(this).children("input").data("address1"); // addr1
+	        const startdate = $(this).children("input").data("startdate");
+	        const enddate = $(this).children("input").data("enddate");
+	 
+	        $("#infotitle").text(title);
+	        $("#infoaddress").text(address);
+	        $("#infostartdate").text(startdate);
+	        $("#infoenddate").text(enddate);
+	    	}
 		})
 		
-		$(".card").on("click", function(){
-			const type = $("this").data("type"); 
-			$("#recomContenttype").val(type);	
-		})
 		
 		
 		
@@ -267,6 +355,8 @@
 				}
 			})
 			
+		
+		
 			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
@@ -278,6 +368,16 @@
 			data.forEach((item, idx) => item.odr = idx);
 			
 			$("[name='encodedStr']").val(JSON.stringify(data));
+			
+			alert($(".form-check-input:checked").length);
+			
+			if($(".form-check-input:checked").length === 0) {
+				alert("api를 선택하여 주세요.")
+				return;
+			}
+			/* const type = $(".card-select").data("type"); 
+			$("#writeForm").find("input[name='recomContenttype']").val(type);
+			console.log($("#recomContenttype").val(type)); */
 			this.submit();
 		
 			})

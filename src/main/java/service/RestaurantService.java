@@ -23,6 +23,7 @@ import com.google.gson.JsonParser;
 
 import api.Attraction;
 import api.Restaurant;
+import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttractionMapper;
 import mapper.RestaurantMapper;
@@ -99,6 +100,32 @@ public class RestaurantService { //최초 1회 수집용
 //		
 //		return ti;
 //	}
+	
+	public List<Restaurant> list(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			
+			List<Restaurant> list = mapper.list(cri);
+			
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public long getCount(Criteria cri) { 
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			return mapper.getCount(cri); //1page 10개씩
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	
 	public void register(Restaurant restaurant) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
