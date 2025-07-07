@@ -27,7 +27,7 @@ public class MapList extends HttpServlet{
 //		if(line == null) line = "2호선";
 		
 		StationService service = new StationService();
-		List<Station> stationList = service.getLineStations("3호선");
+		List<Station> stationList = new StationService().getLineStations("2호선");
 		
 		if (stationList == null || stationList.isEmpty()) {
 		    System.out.println("❌ stationList가 null 또는 비어있음");

@@ -13,16 +13,11 @@
   <%@ include file="../common/nav.jsp" %>
 </head>
 <style>
-.line-wrapper { display: flex; justify-content: center; gap: 16px; margin: 20px 0; margin-top: 40px;}
 
-  .line-item { display: flex; flex-direction: column;align-items: center;}
-
-  .line-item button { width: 48px; height: 48px; border-radius: 50%; border: none; color: white; font-weight: bold; font-size: 16px; cursor: pointer;}
-
-  .line-item span { margin-top: 6px; font-size: 14px; font-weight: bold;}
 </style>
 
-<script type="application/json" id="station-json">${stationDetailLsit}</script>
+<script type="application/json" id="station-json">${stationDetailList}</script>
+
 <body>
 
   <!-- 노선 버튼 영역 -->
@@ -48,11 +43,12 @@
   </div>
   
  
-  <div class="container" style="display: flex;">
-  <img src="${cp}/img/all.jpg" alt="지하철 전체 노선도" style= "width :1000px; height: 700px;">
-  </div>
-  <!-- 역 주변 장소 정보 표시 영역 -->
+  <div class="map-container" style="display: flex;">
+  <c:set var="stationList" value="${stationDetailList}" />
+  <%@ include file="../map/kakaomap.jsp" %>
   <div id="nearby-info" style="margin: 30px; padding: 10px;"></div>
+  </div>
+  
   
   
 

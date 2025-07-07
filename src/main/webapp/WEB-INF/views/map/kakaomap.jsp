@@ -26,17 +26,16 @@
   }
 </style>
 <body>
-  <div id="map" style="width:100%;height:400px;"></div>
+  <div id="map" style="width:70%; height:600px;"></div>
 
 
-  <script type="application/json" id="station-json">
-  ${stationList}
-</script>
+  <script type="application/json" id="station-json">${stationList}</script>
 
   <script>
+  
     const rawJson = document.getElementById("station-json").textContent.trim();
     const stationData = JSON.parse(rawJson);
-
+	console.log(stationData)
     const lineName = stationData[0].lineName?.trim();
     stationData.forEach(s => s.odr = Number(s.odr));
 
