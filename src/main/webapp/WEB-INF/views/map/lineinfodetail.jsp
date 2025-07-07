@@ -22,24 +22,26 @@
 
   <!-- 노선 버튼 영역 -->
   <div class="line-selectors">
-  	<div class="line-item">
-	    <button class="line-btn line-1" data-line="1" style="background-color: #0052A4;">1</button><span>1호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-2" data-line="2" style="background-color: #009D3E;">2</button><span>2호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-3" data-line="3" style="background-color: #EF7C1C;">3</button><span>3호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-4" data-line="4" style="background-color: #00A5DE;">4</button><span>4호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-5" data-line="5" style="background-color: #996CAC;">5</button><span>5호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-5" data-line="6" style="background-color: #CD7C2F;">6</button><span>6호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-5" data-line="7" style="background-color: #747F00;">7</button><span>7호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-5" data-line="8" style="background-color: #E6186C;">8</button><span>8호선</span></div>
-	<div class="line-item">
-	    <button class="line-btn line-5" data-line="9" style="background-color: #BDB092;">9</button><span>9호선</span></div>
+  	<div class="line-wrap" style="display: flex; gap: 12px; flex-wrap: wrap;">
+  <div class="line-item">
+    <button style="background-color: #0052A4;" value="1호선">1</button><span>1호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #00A84D;" value="2호선">2</button><span>2호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #EF7C1C;" value="3호선">3</button><span>3호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #00A4E3;" value="4호선">4</button><span>4호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #996CAC;" value="5호선">5</button><span>5호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #CD7C2F;" value="6호선">6</button><span>6호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #747F00;" value="7호선">7</button><span>7호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #E6186C;" value="8호선">8</button><span>8호선</span></div>
+  <div class="line-item">
+    <button style="background-color: #BDB092;" value="9호선">9</button><span>9호선</span></div>
+</div>
   </div>
   
  
@@ -49,7 +51,19 @@
   <div id="nearby-info" style="margin: 30px; padding: 10px;"></div>
   </div>
   
-  
+<!--   <script>
+    // 버튼 클릭 시 loadLine 함수 호출
+    document.querySelectorAll(".line-item button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (typeof loadLine === 'function') {
+          loadLine(btn.value); // 전역 함수 호출
+        } else {
+          console.error("loadLine 함수가 정의되지 않았습니다!");
+        }
+      });
+    });
+  </script> -->
+
   
 
 
