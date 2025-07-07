@@ -115,7 +115,7 @@
 
       console.log("역:", name, lat, lng);
     }
-
+ 
     console.log("역 개수:", stationData.length);
     console.log("순환선역 개수:", mainStations.length);
     console.log("mainStations:", mainStations);
