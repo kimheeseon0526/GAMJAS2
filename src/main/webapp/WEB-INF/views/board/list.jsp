@@ -57,6 +57,9 @@
         </a>
       </div>
     </div>
+${c.cViewType}
+${b.cViewType}
+${board.cViewType}
 
 <!-- 게시판 템플릿 (유지) -->
 <%-- <jsp:include page="list_template/free.jsp" /> --%>

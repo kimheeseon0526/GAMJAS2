@@ -58,12 +58,13 @@
 		    <a href="remove?bno=${board.bno}&${cri.qs2}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
-<%-- 		    <c:if test="${board.cViewType.toString() == 'QNA'}"> --%>
-		    <c:if test="${not empty member}">
+		    
+		    <c:if test="${not empty member and c.cViewType == 'QNA'}">
 		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
 		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
 		    </a>
 		    </c:if>
+		    
 		</div>
 
         <c:if test="${fn:length(board.attachs) > 0}">
@@ -97,30 +98,31 @@
 			</div>
 		</div>
         </c:if>
-        <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
-        	<div class="small p-0 py-2  border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
+        <c:if test="${c.cViewType == 'FREE' or c.cViewType == 'REVIEW'}">
+        	<div class="small p-0 py-2 border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
         		<div class="col text-end">
 				    <c:if test="${empty member}">
 				        <a class="small" href="${cp}/member/signin" style="color: #4a5c48;">
 						    댓글을 작성하려면 로그인이 필요합니다
 						</a>
-						</c:if>
-						
+					</c:if>
+					
 				    <c:if test="${not empty member}">
 				        <button class="btn btn-sm btn-write-form" style="background-color: #4a5c48; color: white;">댓글작성</button>
 				    </c:if>
 				</div>
         	</div>
+		</c:if>
 	        <ul class="list-group list-group-flush mt-3 reviews"></ul>
 	        <div class="d-grid">
     			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
 			</div>
-		<%-- </c:if> --%>
+		
      </main>
   </div>
   
   <!--Modal 전체 -->
-  <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
+  <c:if test="${c.cViewType == 'FREE' or c.cViewType == 'REVIEW'}">
 	  <div class="modal fade" id="reviewModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -154,9 +156,7 @@
 	    </div>
 	  </div>
 	</div>
-	<%-- </c:if> --%>
-	
-	
+	</c:if>
 <%@ include file="../common/footer.jsp" %>
 	<script>
 	
@@ -195,6 +195,7 @@
                      `;
            }
             
+           
             
             function list(bno, lastRno){
             	lastRno = lastRno ?  ('/' + lastRno) : '';
@@ -225,6 +226,9 @@
             list(bno);
 
             // myModal.show();
+            
+            // 댓글 버튼 숨기기
+            
 
             //글쓰기 폼 활성화 btn-write-form
             $(".btn-write-form").click(function(){

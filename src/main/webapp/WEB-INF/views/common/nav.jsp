@@ -35,7 +35,7 @@
           </div>
           <div class="submenu-col">
             <a href="${cp}/ticket/info">소개 & 이용안내</a>
-            <a href="#">당첨자 발표</a>
+            <a href="${cp}/board/list?cno=${c.cno}">당첨자 발표</a>
           </div>
          <div class="submenu-col">
 			  <c:forEach items="${cate}" var="c">
