@@ -16,6 +16,22 @@
 <%@ include file="../common/nav.jsp" %>
 <div class="container p-0">
 		<main>
+		<div class="container my-3">
+			  <!-- 탭 메뉴 -->
+		  <form>
+		  <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
+		    <li class="nav-item" role="presentation">
+		      <a href="${cp}/info/recommendlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'ATTRACTION' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">관광</a>
+		    </li>
+		    <li class="nav-item" role="presentation">
+		      <a href="${cp}/info/recommendlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'RESTAURANT' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">먹거리</a>
+		    </li>
+		    <li class="nav-item" role="presentation">
+		      <a href="${cp}/info/recommendlist?recomContenttype=FESTIVAL" class="nav-link px-4 ${recommend.recomContenttype == 'FESTIVAL' ? 'active' : ''} " id="festival-tab" type="button" role="tab">체험</a>
+		    </li>
+		  </ul>
+		  </form>
+		  </div>
         <div class="small border-bottom border-3" style="border-color: #6A8D73;">
 		  <a href="" class="small" style="color: #4a5c48;">
 		    <span style="color: #6A8D73;">
@@ -52,71 +68,71 @@
         </div>
        
        <c:choose>
-			<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">						
-				<div class="container my-4">
-				  <div class="row">
-				    <!-- 왼쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				
-				        <c:if test="${not empty attraction.cmmnTelNo}">
-				          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${attraction.cmmnTelNo}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.address}">
-				          <li class="list-group-item"><span class="fw-bold">주소</span> : ${attraction.address}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.cmmnRstde}">
-				          <li class="list-group-item"><span class="fw-bold">휴일</span> : ${attraction.cmmnRstde}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.tag}">
-				          <li class="list-group-item"><span class="fw-bold">판매 품목</span> : ${attraction.tag}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.bfDesc}">
-				          <li class="list-group-item"><span class="fw-bold">화장실</span> : ${attraction.bfDesc}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.subwayInfo}">
-				          <li class="list-group-item"><span class="fw-bold">지하철</span> : ${attraction.subwayInfo}</li>
-				        </c:if>
-				
-				      </ul>
-				    </div>
-				
-				    <!-- 오른쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				
-				        <c:if test="${not empty attraction.cmmnHmpgUrl}">
-				          <li class="list-group-item"><span class="fw-bold">홈페이지</span> : 
-				            <a href="${attraction.cmmnHmpgUrl}" target="_blank">${attraction.cmmnHmpgUrl}</a>
-				          </li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.cmmnUseTime}">
-				          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${attraction.cmmnUseTime}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.cmmnBsnde}">
-				          <li class="list-group-item"><span class="fw-bold">주차</span> : ${attraction.cmmnBsnde}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.newAddress}">
-				          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${attraction.newAddress}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty attraction.cmmnFax}">
-				          <li class="list-group-item"><span class="fw-bold">팩스</span> : ${attraction.cmmnFax}</li>
-				        </c:if>
-				
-				      </ul>
-				    </div>
-				  </div>
-				</div>
-			</c:when>
+				<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">						
+					<div class="container my-4">
+					  <div class="row">
+					    <!-- 왼쪽 컬럼 -->
+					    <div class="col-md-6">
+					      <ul class="list-group list-group-flush">
+					
+					        <c:if test="${not empty attraction.cmmnTelNo}">
+					          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${attraction.cmmnTelNo}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.address}">
+					          <li class="list-group-item"><span class="fw-bold">주소</span> : ${attraction.address}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnRstde}">
+					          <li class="list-group-item"><span class="fw-bold">휴일</span> : ${attraction.cmmnRstde}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.tag}">
+					          <li class="list-group-item"><span class="fw-bold">판매 품목</span> : ${attraction.tag}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.bfDesc}">
+					          <li class="list-group-item"><span class="fw-bold">화장실</span> : ${attraction.bfDesc}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.subwayInfo}">
+					          <li class="list-group-item"><span class="fw-bold">지하철</span> : ${attraction.subwayInfo}</li>
+					        </c:if>
+					
+					      </ul>
+					    </div>
+					
+					    <!-- 오른쪽 컬럼 -->
+					    <div class="col-md-6">
+					      <ul class="list-group list-group-flush">
+					
+					        <c:if test="${not empty attraction.cmmnHmpgUrl}">
+					          <li class="list-group-item"><span class="fw-bold">홈페이지</span> : 
+					            <a href="${attraction.cmmnHmpgUrl}" target="_blank">${attraction.cmmnHmpgUrl}</a>
+					          </li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnUseTime}">
+					          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${attraction.cmmnUseTime}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnBsnde}">
+					          <li class="list-group-item"><span class="fw-bold">주차</span> : ${attraction.cmmnBsnde}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.newAddress}">
+					          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${attraction.newAddress}</li>
+					        </c:if>
+					
+					        <c:if test="${not empty attraction.cmmnFax}">
+					          <li class="list-group-item"><span class="fw-bold">팩스</span> : ${attraction.cmmnFax}</li>
+					        </c:if>
+					
+					      </ul>
+					    </div>
+					  </div>
+					</div>
+				</c:when>
 			<c:when test="${recommend.recomContenttype == 'RESTAURANT'}">						
 				<div class="container my-4">
 				  <div class="row">
@@ -194,15 +210,6 @@
 				            <c:if test="${not empty festival.addr2}"> ${festival.addr2}</c:if>
 				          </li>
 				        </c:if>
-				
-				        <c:if test="${not empty festival.progressType}">
-				          <li class="list-group-item"><span class="fw-bold">진행 형태</span> : ${festival.progressType}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty festival.festivalType}">
-				          <li class="list-group-item"><span class="fw-bold">축제 유형</span> : ${festival.festivalType}</li>
-				        </c:if>
-				
 				      </ul>
 				    </div>
 				
@@ -217,26 +224,35 @@
 				        <c:if test="${not empty festival.eventEndDate}">
 				          <li class="list-group-item"><span class="fw-bold">종료일</span> : ${festival.eventEndDate}</li>
 				        </c:if>
-				
-				        <c:if test="${not empty festival.contentTypeId}">
-				          <li class="list-group-item"><span class="fw-bold">콘텐츠 유형 ID</span> : ${festival.contentTypeId}</li>
+				        <c:if test="${not empty festival.progressType}">
+				          <li class="list-group-item"><span class="fw-bold">진행 형태</span> : ${festival.progressType}</li>
+				        </c:if>
+				        
+				        <c:if test="${not empty festival.festivalType}">
+				          <li class="list-group-item"><span class="fw-bold">축제 유형</span> : ${festival.festivalType}</li>
 				        </c:if>
 				      </ul>
 				    </div>
 				  </div>
 				</div>
-
 			</c:otherwise>
 		</c:choose>
+		
+		<div class="container my-4">
+		  <div class="p-3 bg-light border rounded shadow-sm">
+		    <p class="mb-0 fw-semibold text-secondary">${recommend.apiSubcontent}</p>
+		  </div>
+		</div>
+		
 	    <div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
 		       <div class="mt-4">
-		    <a href="list?RecomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+		    <a href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
-		    <a href="recommendmodify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+		    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-pen-to-square"></i> 수정
 		    </a>
-		    <a href="recommendremove?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		</div>
@@ -272,7 +288,7 @@
 			</div>
 		</div>
         </c:if>
-        <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
+         <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> 
         	<div class="small p-0 py-2  border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
         		<div class="col text-end">
 				    <c:if test="${empty member}">
@@ -289,14 +305,14 @@
 	        <ul class="list-group list-group-flush mt-3 reviews"></ul>
 	        <div class="d-grid">
     			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
-			</div>
-		<%-- </c:if> --%>
+			</div> 
+		 </c:if> 
      </main>
   </div>
   
   <!--Modal 전체 -->
   <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
-	  <div class="modal fade" id="reviewModal">
+	 <%--  <div class="modal fade" id="reviewModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	
@@ -328,7 +344,7 @@
 		  </div>
 	    </div>
 	  </div>
-	</div>
+	</div> --%>
 	<%-- </c:if> --%>
 	
 	

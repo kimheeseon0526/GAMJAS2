@@ -28,7 +28,7 @@
 	
 	<main>
 		
- 		<form id="cardform" method="GET" action="${cp}/info/writerecommend">
+ 		<form id="cardform" method="GET" action="${cp}/info/write">
 		 	<div class="row row-cols-1 row-cols-md-3 g-4 ">
     
 				<!-- 카드 1 -->
@@ -68,7 +68,7 @@
 			<input type="hidden" id="cardtype" name="recomContenttype">
 			</form>
 			
-		<form method="POST" id="writeForm" action="${cp}/info/writerecommend">
+		<form method="POST" id="writeForm" action="${cp}/info/write">
 			<div id="apilist">
 				<ul class="list-group" id="tourMap">
 				<c:forEach items="${apilist}" var="a">
@@ -99,19 +99,19 @@
         <div class="mt-4 d-flex justify-content-center">
           <ul class="pagination">
 	          <c:if test="${pageDto.doubleLeft}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
 			  </c:if>
 			  <c:if test="${pageDto.left}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
 			  </c:if>
 			  <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
-			  	<li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
+			  	<li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
 			  </c:forEach>
 			  <c:if test="${pageDto.right}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
 			  </c:if>
 			  <c:if test="${pageDto.doubleRight}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/writerecommend?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
 			  </c:if>
           </ul>
         </div>

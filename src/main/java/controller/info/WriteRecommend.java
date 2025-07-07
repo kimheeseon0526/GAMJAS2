@@ -28,7 +28,7 @@ import util.AlertUtil;
 import util.ParamUtil;
 
 @Slf4j
-@WebServlet("/info/writerecommend")
+@WebServlet("/info/write")
 public class WriteRecommend extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
