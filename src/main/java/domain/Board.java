@@ -47,7 +47,7 @@ public class Board {
 		}
 		
 	public Board(Long bno, String title, String content, String id, String regdate, String moddate, Integer cnt,
-				Integer cno, int replyCnt, int attachCnt) {
+				Integer cno, int replyCnt, int attachCnt, CategoryViewType cViewType) {
 			super();
 			this.bno = bno;
 			this.title = title;
@@ -59,7 +59,10 @@ public class Board {
 			this.cno = cno;
 			this.replyCnt = replyCnt;
 			this.attachCnt = attachCnt;
+			this.cViewType = cViewType;
 		}
+
+
 
 
 

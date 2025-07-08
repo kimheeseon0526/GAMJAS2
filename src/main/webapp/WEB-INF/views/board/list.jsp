@@ -22,7 +22,6 @@
           <option>100개씩 보기</option>
         </select>
       </div>
-
       <form class="col input-group search-form">
         <select class="form-select form-select-sm border-secondary-subtle" name="type">
           <option value="T">제목</option>
@@ -43,6 +42,8 @@
         <button class="btn btn-outline-secondary btn-sm" type="submit">검색</button>
       </form>
   
+  ${board }
+<p>cViewType: ${board.cViewType}</p>
 		<script>
 	      	$(".search-form").submit(function() {
 	      		event.preventDefault();

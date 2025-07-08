@@ -35,11 +35,11 @@
           </div>
           <div class="submenu-col">
             <a href="${cp}/ticket/info">소개 & 이용안내</a>
-            <a href="${cp}/board/list?cno=${c.cno}">당첨자 발표</a>
+            <a href="${cp}/board/list?cno=3">당첨자 발표</a>
           </div>
          <div class="submenu-col">
 			  <c:forEach items="${cate}" var="c">
-			    <c:if test="${c.CViewType == 'FREE' || c.CViewType == 'REVIEW' || c.CViewType == 'NOTICE'}">
+			    <c:if test="${c.CViewType == 'FREE' || c.CViewType == 'REVIEW' || c.CViewType == 'NOTICE' and c.cname != '당첨자 발표'}">
 			      <a href="${cp}/board/list?cno=${c.cno}" class="d-block mb-1">${c.cname}</a>
 			    </c:if>
 			  </c:forEach>

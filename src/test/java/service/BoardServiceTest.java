@@ -26,9 +26,11 @@ public class BoardServiceTest {
 
 	@Test
 	public void testListService() {
-	    Criteria cri = new Criteria(1, 10, 1, null, null);
+	    Criteria cri = new Criteria(1, 10, 4, null, null);
 	    List<Board> list = boardService.list(cri); 
 	    list.forEach(b -> log.info("{}", b.getTitle()));
+	    
+	    list.forEach(b -> log.info("bno={}, cViewType={}", b.getBno(), b.getCViewType()));
 	}
 
 }
