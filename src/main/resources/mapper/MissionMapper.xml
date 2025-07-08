@@ -16,12 +16,47 @@
 		  <result property="placeId" column="place_id"/>
 		  <result property="recomNo" column="recom_no"/>
 	</resultMap>
-	<select id="list" resultType="mission">
-		select * from tbl_mission
+	<sql id="cri">
+		<where>
+			<trim prefixOverrides="AND | OR">
+			and contenttype = #{type}
+			<if test="criteria.types != null">
+				<foreach collection="criteria.types" item="t" open="and (" close=")" separator="or">
+					<choose>
+						<when test="t eq 'T'.toString()">
+						title like concat('%', #{criteria.keyword}, '%')
+						</when>
+						<when test="t eq 'C'.toString()">
+						summary like concat('%', #{criteria.keyword}, '%')
+						</when>
+						<when test="t eq 'I'.toString()">
+						created_by like concat('%', #{criteria.keyword}, '%')
+						</when>
+					</choose>
+				</foreach>
+			</if>
+			</trim>
+		</where>
+	</sql>
+	<select id="list" resultMap="m">
+		select * from (
+		select m.*, trp.recom_contenttype as contenttype
+		from tbl_mission m 
+		LEFT JOIN tbl_recommend_place trp 
+		ON m.recom_no = trp.recom_no 
+		) a
+		<include refid="cri"/>
 	</select>
-  	<!-- <insert id="insert" >
-  		insert into tbl_mission  
-  	</insert> -->
+	
+  	<select id="getCount" resultType="long">
+		select count(*) from (
+		select m.*, trp.recom_contenttype as contenttype
+		from tbl_mission m 
+		LEFT JOIN tbl_recommend_place trp 
+		ON m.recom_no = trp.recom_no 
+		) a
+		<include refid="cri"/>
+	</select>
 	<delete id="delete">
 	delete from tbl_mission where mission_no = #{missionNo}
 	</delete>

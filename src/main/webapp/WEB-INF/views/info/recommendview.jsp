@@ -245,68 +245,50 @@
 		</div>
 		
 	    <div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
-		       <div class="mt-4">
+		<div class="mt-4">
 		    <a href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
 		    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-pen-to-square"></i> 수정
 		    </a>
-		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		</div>
 
         <c:if test="${fn:length(board.attachs) > 0}">
-        <div class="d-grid my-2 attach-area">
-			<div class="small my-1"><i class="fa-solid fa-paperclip"></i>첨부파일</div>
-			<!-- <label class="btn btn-info">파일첨부<input type="file" multiple="" class="d-none" id="f1"></label> -->
-			<ul class="list-group my-3 attach-list">
-				<c:forEach items="${board.attachs}" var="a">
-				<li class="list-group-item d-flex align-items-center justify-content-between" 
-				data-uuid="${a.uuid}"
-				data-origin="${a.origin}" 
-				data-image="${a.image}" 
-				data-path="${a.path}" 
-				data-size="${a.size}"
-				data-odr="${a.odr}">
-					<a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
-					<!-- <i class="fa-solid fa-circle-xmark float-end text-danger"></i> -->
-				</li>
-				</c:forEach>
-			</ul>
-			<div class="row justify-content-arround w-75 mx-auto attach-thumb">
-				<c:forEach items="${board.attachs}" var="a">
-				<c:if test="${a.image}">
-				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_${a.uuid}&path=${a.path}')">
-						<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
+	        <div class="d-grid my-2 attach-area">
+				<div class="small my-1"><i class="fa-solid fa-paperclip"></i>첨부파일</div>
+				<!-- <label class="btn btn-info">파일첨부<input type="file" multiple="" class="d-none" id="f1"></label> -->
+				<ul class="list-group my-3 attach-list">
+					<c:forEach items="${board.attachs}" var="a">
+					<li class="list-group-item d-flex align-items-center justify-content-between" 
+					data-uuid="${a.uuid}"
+					data-origin="${a.origin}" 
+					data-image="${a.image}" 
+					data-path="${a.path}" 
+					data-size="${a.size}"
+					data-odr="${a.odr}">
+						<a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
+						<!-- <i class="fa-solid fa-circle-xmark float-end text-danger"></i> -->
+					</li>
+					</c:forEach>
+				</ul>
+				<div class="row justify-content-arround w-75 mx-auto attach-thumb">
+					<c:forEach items="${board.attachs}" var="a">
+					<c:if test="${a.image}">
+					<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
+						<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_${a.uuid}&path=${a.path}')">
+							<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
+						</div>
 					</div>
+					</c:if>
+					</c:forEach>
 				</div>
-				</c:if>
-				</c:forEach>
 			</div>
-		</div>
         </c:if>
-         <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> 
-        	<div class="small p-0 py-2  border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
-        		<div class="col text-end">
-				    <c:if test="${empty member}">
-				        <a class="small" href="${cp}/member/signin" style="color: #4a5c48;">
-						    댓글을 작성하려면 로그인이 필요합니다
-						</a>
-						</c:if>
-						
-				    <c:if test="${not empty member}">
-				        <button class="btn btn-sm btn-write-form" style="background-color: #4a5c48; color: white;">댓글작성</button>
-				    </c:if>
-				</div>
-        	</div>
-	        <ul class="list-group list-group-flush mt-3 reviews"></ul>
-	        <div class="d-grid">
-    			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
-			</div> 
-		 </c:if> 
+			<div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
      </main>
   </div>
   

@@ -3,9 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mapper.FestivalMapper">
+  <sql id="cri">
+		<where>
+			recom_no is null
+			<if test="types != null">
+				<foreach collection="types" item="t" open="and (" close=")" separator="or">
+					<choose>
+						<when test="t eq 'T'.toString()">
+						title like concat('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</foreach>
+			</if>
+		</where>
+	</sql>
 	<select id ="list" resultType="festival">
 		select * from tbl_festival
-		where recom_no is null
+		<include refid="cri"/>
 		order by 1 desc 
 		limit #{amount} offset #{offset}
 	</select> 

@@ -39,11 +39,11 @@ public class RecommendService {
 				mapper.insert(recommend);   // 글 작성
 				
 			switch(recommend.getRecomContenttype()) {
-				case RecommendContentType.ATTRACTION : mapper.recomATTR(recommend.getRecomNo()); break;
+				case RecommendContentType.ATTRACTION : mapper.insertRecomAttr(recommend.getRecomNo()); break;
 				
-				case RecommendContentType.RESTAURANT : mapper.recomREST(recommend.getRecomNo()); break;
+				case RecommendContentType.RESTAURANT : mapper.insertRecomRest(recommend.getRecomNo()); break;
 				
-				case RecommendContentType.FESTIVAL : mapper.recomFEST(recommend.getRecomNo()); break;
+				case RecommendContentType.FESTIVAL : mapper.insertRecomFest(recommend.getRecomNo()); break;
 			}
 				
 			
@@ -106,12 +106,12 @@ public class RecommendService {
 			return service.getCount(cri);
 		}
 		else if(rct.equals(RecommendContentType.RESTAURANT)) {
-			log.info("레스토랑 들어갔는지 확인용");
+			
 			RestaurantService service = new RestaurantService();
 			return service.getCount(cri);
 		}
 		else if(rct.equals(RecommendContentType.FESTIVAL)) {
-			log.info("레스토랑 들어갔는지 확인용");
+			
 			FestivalService service = new FestivalService();
 			return service.getCount(cri);
 		}
@@ -127,5 +127,32 @@ public class RecommendService {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void remove(Recommend recommend) {
+		SqlSession session = MybatisUtil.getSqlSession(false);
+		try {	
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+				
+			switch(recommend.getRecomContenttype()) {
+				case RecommendContentType.ATTRACTION : mapper.removeRecomAttr(recommend.getRecomNo()); break;
+				
+				case RecommendContentType.RESTAURANT : mapper.removeRecomRest(recommend.getRecomNo()); break;
+				
+				case RecommendContentType.FESTIVAL : mapper.removeRecomFest(recommend.getRecomNo()); break;
+			}
+			
+			mapper.delete(recommend);
+			
+			session.commit();  //session에 수동커밋을 한다. 하나가 실패하면 다 실패함. 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();  // 아까 데이터가 나타나지 않아서 선생님이 적어주심
+		} finally {
+			session.close();
+		}  //try catch -> 롤백해라
+	}
+		
 }
+	
+

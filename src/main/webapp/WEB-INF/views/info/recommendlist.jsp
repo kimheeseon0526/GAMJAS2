@@ -48,31 +48,31 @@
   <!-- 🔍 검색바 + 📝 글쓰기 버튼 -->
   <div class="d-flex justify-content-between align-items-center mb-4 search-container">
 
-    <!-- 글쓰기 버튼 오른쪽 고정 -->
-    <div class="ms-auto align-items-center">
-      <a href="${cp}/info/write" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-fancy"></i> 글쓰기</a>
+  <!-- 검색바 먼저 -->
+  <form class="search-form d-flex align-items-center" method="get">
+    <div class="search-center d-flex align-items-center">
+      <input type="hidden" name="recomContenttype" value="${recommend.recomContenttype}">
+      <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
+        <option value="T">제목</option>
+        <option value="C">내용</option>
+        <option value="TC">제목+내용</option>
+      </select>
+      <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력" value="${pageDto.cri.keyword}">
+      <input type="hidden" name="page" value="1">
+      <input type="hidden" name="amount" value="${pageDto.cri.amount}">
+      <button class="btn btn-outline-secondary btn-sm search-button" type="submit">검색</button>
     </div>
+  </form>
 
-    <!-- 검색바 중앙 고정 -->
-    <form class="search-form" method="get">
-	    <div class="search-center">
-	      <input type="hidden" name="recomContenttype" value="${recommend.recomContenttype}">
-	      <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
-	        <option value="T">제목</option>
-	   		<option value="C">내용</option>
-	   		<option value="I">작성자</option>
-	   		<option value="TC">제목+내용</option>
-	   		<option value="TI">제목+작성자</option>
-	   		<option value="CI">내용+작성자</option>
-	   		<option value="TCI">제목+내용+작성자</option>
-	      </select>
-	      <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
-	      <input type="hidden" name="page" value="1">
-	      <input type="hidden" name="amount" value="${pageDto.cri.amount}">
-	      <button class="btn btn-outline-secondary btn-sm search-button" type="submit">검색</button>
-	    </div>
-    </form>
+  <!-- 글쓰기 버튼은 오른쪽 -->
+  <div class="d-flex align-items-center ms-3">
+    <a href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
+      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+    </a>
   </div>
+
+</div>
+
   <script>
             	$(".search-form").submit(function() { // keyword에 대하여 encoding 해주는 역할
             		event.preventDefault();
@@ -101,7 +101,7 @@
         <div class="mt-4 d-flex justify-content-center">
           <ul class="pagination">
 	          <c:if test="${pageDto.doubleLeft}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/recommendlist?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/recommendlist?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
 			  </c:if>
 			  <c:if test="${pageDto.left}">
 			  	<li class="page-item"><a class="page-link" href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
