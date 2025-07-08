@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:set var="cp" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,14 +14,8 @@
 
   <%@ include file="../common/nav.jsp" %>
 </head>
-<style>
-
-</style>
-
-<script type="application/json" id="station-json">${stationDetailList}</script>
 
 <body>
-
   <!-- 노선 버튼 영역 -->
   <div class="line-selectors">
   	<div class="line-wrap" style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -43,31 +39,102 @@
     <button style="background-color: #BDB092;" value="9호선">9</button><span>9호선</span></div>
 </div>
   </div>
+ <!--지도 -->
+  <div id="map" style="width:50%; height:600px;"></div>
   
- 
-  <div class="map-container" style="display: flex;">
-  <c:set var="stationList" value="${stationDetailList}" />
-  <%@ include file="../map/kakaomap.jsp" %>
-  <div id="nearby-info" style="margin: 30px; padding: 10px;"></div>
-  </div>
-  
-<!--   <script>
-    // 버튼 클릭 시 loadLine 함수 호출
+
+  <script>
+  	const map = new kakao.maps.Map(document.getElementById("map"), {
+      center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
+      level: 6
+    });
+
+    let markers = [];
+    let polyline = null;
+
+    function clearMap() {
+      markers.forEach(marker => marker.setMap(null));
+      markers = [];
+      if (polyline) {
+        polyline.setMap(null);
+        polyline = null;
+      }
+    }
+
+    function renderStations(data) {
+    	console.log(data);
+      const lineCoords = [];
+
+      data.forEach(station => {
+        const lat = parseFloat(station.LAT);
+        const lng = parseFloat(station.LOT);
+        const latlng = new kakao.maps.LatLng(lat, lng);
+        lineCoords.push(latlng);
+
+        const markerContent = document.createElement('div');
+        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:\${station.lineColor}; cursor:pointer;'></i>`;
+        markerContent.style.position = 'relative';
+        markerContent.style.transform = 'translate(-50%, -50%)';
+        markerContent.style.display = 'inline-block';
+
+        const customOverlay = new kakao.maps.CustomOverlay({
+          position: latlng,
+          content: markerContent,
+          map: map
+        });
+
+        const infowindow = new kakao.maps.InfoWindow({
+          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
+          removable : true
+        });
+
+        markerContent.addEventListener('click', () => {
+          infowindow.setPosition(latlng);
+          infowindow.open(map);
+        });
+        markers.push(customOverlay);
+      });
+
+      if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
+        lineCoords.push(lineCoords[0]);
+      }
+
+      polyline = new kakao.maps.Polyline({
+        map: map,
+        path: lineCoords,
+        strokeWeight: 4,
+        strokeColor: data[0].lineColor,
+        strokeOpacity: 0.9,
+        strokeStyle: 'solid'
+      });
+    }
+
+    // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
       btn.addEventListener("click", () => {
-        if (typeof loadLine === 'function') {
-          loadLine(btn.value); // 전역 함수 호출
-        } else {
-          console.error("loadLine 함수가 정의되지 않았습니다!");
-        }
+        const line = btn.value;	//각 호선
+        fetch(`${cp}/lineinfo?lineName=\${line}`)
+          .then(resp => resp.json())	//json으로 변환
+          .then(data => {
+            clearMap();
+            renderStations(data);
+          })
+          .catch(err => {
+            console.error("노선 정보 불러오기 실패:", err);
+          });
       });
     });
-  </script> -->
 
+    // 1호선 디폴트
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.querySelector("button[value='1호선']");
+      console.log(btn.innerHTML);
+      if (btn) btn.click();
+    });
+  </script>
   
-
-
-
 <%@ include file="../common/footer.jsp" %> 
 </body>
 </html>
+
+

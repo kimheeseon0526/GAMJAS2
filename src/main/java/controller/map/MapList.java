@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import domain.Station;
-
 import service.StationService;
 
 @WebServlet("/kakaomap")
