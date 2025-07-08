@@ -26,11 +26,9 @@ public class Attach {
 	private String origin; //파일 원본
 	private int odr;  //integer 은 기본값이 0
 	private long size;  //null이 올 필요가 없는 애들
-	private Long bno;
-	private Long rno;  // --> attachRef에서 Long ref로 처리
 	private Long ano;
 	
-	public Attach(String uuid, String path, boolean image, String origin, int odr, long size, Long bno) {
+	public Attach(String uuid, String path, boolean image, String origin, int odr, long size) {
 		super();
 		this.uuid = uuid;
 		this.path = path;
@@ -38,7 +36,6 @@ public class Attach {
 		this.origin = origin;
 		this.odr = odr;
 		this.size = size;
-		this.bno = bno;
 	}
 	
 	public File toFile() {  // 물리적 경로에 있는 파일명이 중요
@@ -46,7 +43,7 @@ public class Attach {
 	}
 
 	public Attach toThumb() { // 새 객체를 만들어서 리턴
-		return Attach.builder().bno(bno).image(image).uuid("t_" + uuid).origin(origin).odr(odr). size(size).build();
+		return Attach.builder().image(image).uuid("t_" + uuid).origin(origin).odr(odr). size(size).build();
 	}
 
 }

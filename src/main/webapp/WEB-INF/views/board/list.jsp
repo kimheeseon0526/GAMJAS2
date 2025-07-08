@@ -42,8 +42,7 @@
         <button class="btn btn-outline-secondary btn-sm" type="submit">검색</button>
       </form>
   
-  ${board }
-<p>cViewType: ${board.cViewType}</p>
+<%-- <p>cViewType: ${c.cViewType}</p> --%>
 		<script>
 	      	$(".search-form").submit(function() {
 	      		event.preventDefault();
@@ -58,9 +57,6 @@
         </a>
       </div>
     </div>
-${c.cViewType}
-${b.cViewType}
-${board.cViewType}
 
 <!-- 게시판 템플릿 (유지) -->
 <%-- <jsp:include page="list_template/free.jsp" /> --%>

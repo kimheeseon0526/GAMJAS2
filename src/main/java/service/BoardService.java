@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import domain.Attach;
 import domain.AttachRef;
+import domain.AttachRef.AttachRefType;
 import domain.Board;
 import domain.dto.Criteria;
 import lombok.extern.slf4j.Slf4j;
@@ -68,28 +69,22 @@ public class BoardService {
 				mapper.insertChild(board);
 			}
 			
-			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
-			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
 			
-			// 첨부파일 insert(원래)
-			board.getAttachs().forEach(a -> {
-				a.setBno(board.getBno());
-				attachMapper.insert(a);
-			});
-				
-				
-//			
-//			// attachRef 추가. 첨부파일 연결  
-//			board.getAttachs().forEach(attach -> {
-//				AttachRef ref = AttachRef.builder()
-//						.ano(attach.getAno())
-//						.refType(AttachRef.AttachRefType.BOARD)
-//						.refNo(board.getBno())
-//						.build();
-//				
-//				attachRefMapper.insert(ref);
+			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+			
+//			// 첨부파일 insert(원래)
+//			board.getAttachs().forEach(a -> {
+//				a.setBno(board.getBno());
+//				attachMapper.insert(a);
 //			});
-//				
+			
+			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
+			board.getAttachs().stream() 
+				.peek(attachMapper::insert)  // 지금 attachref 상태
+				.map(a -> AttachRef.builder().ano(a.getAno()).attachreftype(AttachRefType.BOARD).refno(board.getBno()).build())
+				.forEach(attachRefMapper::insert);
+			
+//			NotificationSocket.broadcast(board.getBno() + "번 게시글 등록<br>" + board.getTitle());
 					
 			session.commit();
 		} catch (Exception e) {
@@ -114,17 +109,30 @@ public class BoardService {
 		SqlSession session = MybatisUtil.getSqlSession(false);
 		try {
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
-			mapper.update(board);
+			mapper.update(board); // 내용 수정
 			
 			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
-			// 기존 첨부파일 메타데이터 제거
-			attachMapper.deleteByBno(board.getBno());
+			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
+	
+			Long bno = board.getBno(); // 수정중인 글의 번호
 			
-			// 새로 첨부파일 메타데이터 등록
-			board.getAttachs().forEach(a -> {
-				a.setBno(board.getBno());
-				attachMapper.insert(a);
-			});
+			// 1. 기존 첨부 삭제 
+			AttachRef ar = AttachRef.builder().refno(bno).attachreftype(AttachRefType.BOARD).build();
+			attachRefMapper.list(ar).stream() // 게시글에 연결된 attachref 리스트 불러오기
+			.peek(attachRefMapper::delete)
+			.map(a -> a.getAno())
+			.forEach(attachMapper::delete);  // 불러온 attachref 삭제
+			
+			// 2. 새로운 첨부 추가
+			board.getAttachs().stream() 
+				.peek(attachMapper::insert)  // 새로 저장
+				.map(a -> AttachRef.builder()
+						.ano(a.getAno())
+						.attachreftype(AttachRefType.BOARD)
+						.refno(board.getBno())
+						.build())
+				.forEach(attachRefMapper::insert); // 추가된 attachref 정보 추가
+				
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();
@@ -140,9 +148,17 @@ public class BoardService {
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
 			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
 			ReplyMapper replyMapper = session.getMapper(ReplyMapper.class);
+			AttachRefMapper attachRefMapper = session.getMapper(AttachRefMapper.class);
 			
 			replyMapper.deleteByBno(bno);
-			attachMapper.deleteByBno(bno);
+			
+			AttachRef ar = AttachRef.builder().refno(bno).attachreftype(AttachRefType.BOARD).build();
+			attachRefMapper.list(ar).stream()
+			.peek(attachRefMapper::delete)  // 지금 attachref 상태
+			.map(a -> a.getAno())
+			.forEach(attachMapper::delete);
+		
+			
 			mapper.delete(bno);
 			
 			session.commit();

@@ -59,7 +59,7 @@
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		    
-		    <c:if test="${not empty member and c.cViewType == 'QNA'}">
+		    <c:if test="${not empty member and board.getCViewType() == 'QNA'}">
 		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
 		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
 		    </a>
@@ -98,7 +98,7 @@
 			</div>
 		</div>
         </c:if>
-        <c:if test="${c.cViewType == 'FREE' or c.cViewType == 'REVIEW'}">
+        <c:if test="${board.getCViewType() == 'FREE' or board.getCViewType() == 'REVIEW'}">
         	<div class="small p-0 py-2 border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
         		<div class="col text-end">
 				    <c:if test="${empty member}">
@@ -122,7 +122,7 @@
   </div>
   
   <!--Modal 전체 -->
-  <c:if test="${c.cViewType == 'FREE' or c.cViewType == 'REVIEW'}">
+  <c:if test="${board.getCViewType() == 'FREE' or board.getCViewType() == 'REVIEW'}">
 	  <div class="modal fade" id="reviewModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">

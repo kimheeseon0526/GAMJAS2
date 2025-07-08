@@ -12,11 +12,11 @@ public class BoardMapperTest {
 	
 	@Test
 	public void testList() {
-		mapper.list(new Criteria(1, 10, 1, null, null)).forEach(b -> {
+		mapper.list(new Criteria(1, 10, 2, null, null)).forEach(b -> {
 			log.info("{}", b);
-			log.info("{}" , b.getCViewType());
-			log.info("{}" , b.getTitle());
-			log.info("{}" , b.getBno());
+//			log.info("{}" , b.getCViewType());
+//			log.info("{}" , b.getTitle());
+//			log.info("{}" , b.getBno());
 			
 		});
 	}
