@@ -57,7 +57,10 @@
 		) a
 		<include refid="cri"/>
 	</select>
+	<select id="selectOne" resultMap="m">
+		select * from tbl_mission where mission_no = #{missionNo}
+	</select>
 	<delete id="delete">
-	delete from tbl_mission where mission_no = #{missionNo}
+		delete from tbl_mission where mission_no = #{missionNo}
 	</delete>
   </mapper>

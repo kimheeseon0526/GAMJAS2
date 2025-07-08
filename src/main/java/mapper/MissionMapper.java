@@ -18,4 +18,6 @@ public interface MissionMapper {
 	void delete(Long missionNo);
 
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
+
+	Mission selectOne(Long recomNo);
 }
