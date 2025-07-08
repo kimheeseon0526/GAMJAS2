@@ -33,9 +33,11 @@ public class WriteRecommend extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RecommendService recommendService = new RecommendService();
+		log.info("{}",req.getParameter("recomContenttype"));
 		Recommend recommend = ParamUtil.get(req, Recommend.class);
 		Criteria cri = ParamUtil.get(req, Criteria.class);
 		
+		log.info("{}", recommend);
 		if(recommend == null) {
 			recommend = Recommend.builder().recomContenttype(RecommendContentType.ATTRACTION).build();
 		} else if (recommend.getRecomContenttype() == null) {
@@ -43,7 +45,6 @@ public class WriteRecommend extends HttpServlet{
 		}
 		
 		PageDto dto = new PageDto(cri, recommendService.getApiCount(cri, recommend.getRecomContenttype()));
-		
 		log.info("{}", dto);
 		
 		req.setAttribute("pageDto", dto);

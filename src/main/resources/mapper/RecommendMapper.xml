@@ -69,25 +69,25 @@
 		where trp.recom_no = #{recomNo}
 	</update>
 	
-	<update id="recomATTR">
+	<update id="insertRecomAttr">
 		update tbl_attraction ta
 		join tbl_recommend_place tr on ta.post_sn = tr.recom_place_id
 		set ta.recom_no = tr.recom_no
-		where tr.recom_contenttype ="ATTRACTION";
+		where tr.recom_contenttype ="ATTRACTION"
 	</update>
 	
-	<update id="recomREST">
+	<update id="insertRecomRest">
 		update tbl_restaurant tr
 		join tbl_recommend_place trp on tr.post_sn = trp.recom_place_id
 		set tr.recom_no = trp.recom_no
-		where trp.recom_contenttype ="RESTAURANT";
+		where trp.recom_contenttype ="RESTAURANT"
 	</update>
 	
-	<update id="recomFEST">
+	<update id="insertRecomFest">
 		update tbl_festival tf
 		join tbl_recommend_place trp on tf.content_id = trp.recom_place_id
 		set tf.recom_no = trp.recom_no
-		where trp.recom_contenttype ="FESTIVAL";
+		where trp.recom_contenttype ="FESTIVAL"
 	</update>
 	
 	<select id="selectOne" resultMap="r">
@@ -108,4 +108,26 @@
 		) a
 		<include refid="cri"/>
 	</select>
+	
+	<delete id="delete">
+		delete from tbl_recommend_place 
+		where recom_no = #{recomNo}
+	</delete>
+	
+	<update id="removeRecomAttr">
+		update tbl_attraction ta
+		set ta.recom_no = null
+		where ta.recom_no = #{recomNo}
+	</update>
+	
+	<update id="removeRecomRest">
+		update tbl_restaurant tr
+		set tr.recom_no = null
+		where tr.recom_no = #{recomNo}
+	</update>
+	<update id="removeRecomFest">
+		update tbl_festival tf
+		set tf.recom_no = null
+		where tf.recom_no = #{recomNo}
+	</update>
 </mapper>

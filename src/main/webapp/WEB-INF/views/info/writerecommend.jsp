@@ -65,10 +65,20 @@
 				</div>
 			
 			</div>
-			<input type="hidden" id="cardtype" name="recomContenttype">
+			<input type="hidden" id="cardtype" name="recomContenttype" value="${recommend.recomContenttype}">
+			    <div class="search-center">
+			      <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
+			        <option value="T">제목</option>
+			      </select>
+			      <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+			      <input type="hidden" name="page" value="1">
+			      <input type="hidden" name="amount" value="${pageDto.cri.amount}">
+			      <button class="btn btn-outline-secondary btn-sm search-button" type="submit">검색</button>
+			    </div>
 			</form>
 			
 		<form method="POST" id="writeForm" action="${cp}/info/write">
+			
 			<div id="apilist">
 				<ul class="list-group" id="tourMap">
 				<c:forEach items="${apilist}" var="a">
@@ -99,7 +109,7 @@
         <div class="mt-4 d-flex justify-content-center">
           <ul class="pagination">
 	          <c:if test="${pageDto.doubleLeft}">
-			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?&ecomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
 			  </c:if>
 			  <c:if test="${pageDto.left}">
 			  	<li class="page-item"><a class="page-link" href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
@@ -356,7 +366,7 @@
 			})
 			
 		
-		
+			})
 			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
@@ -369,21 +379,19 @@
 			
 			$("[name='encodedStr']").val(JSON.stringify(data));
 			
-			alert($(".form-check-input:checked").length);
 			
-			if($(".form-check-input:checked").length === 0) {
-				alert("api를 선택하여 주세요.")
-				return;
-			}
-			/* const type = $(".card-select").data("type"); 
-			$("#writeForm").find("input[name='recomContenttype']").val(type);
-			console.log($("#recomContenttype").val(type)); */
-			this.submit();
+			const result = [...document.querySelectorAll("#tourMap input")].some(input => input.checked);
+			
 		
-			})
+			if(!result) {
+					alert("api를 선택하여 주세요.")
+					return;
+			}
+			
+			this.submit();
+	
 		})
 	})
-
 	</script>
 <%@ include file="../common/footer.jsp" %>
 </body>

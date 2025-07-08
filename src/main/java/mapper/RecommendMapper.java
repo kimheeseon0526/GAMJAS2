@@ -16,15 +16,22 @@ public interface RecommendMapper {
 	
 	void update(Recommend Recommend);
 
-	void delete(Long recomNo);
+	void delete(Recommend recommend);
 	
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
 
-	void recomATTR(Long recomNo);
+	void insertRecomAttr(Long recomNo);
 
-	void recomREST(Long recomNo);
+	void insertRecomRest(Long recomNo);
 
-	void recomFEST(Long recomNo);
+	void insertRecomFest(Long recomNo);
 
 	Recommend selectOne(Long recomNo);
+
+	void removeRecomAttr(Long recomNo);
+	
+	void removeRecomRest(Long recomNo);
+
+	void removeRecomFest(Long recomNo);
+
 }

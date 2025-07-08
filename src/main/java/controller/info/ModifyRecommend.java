@@ -36,10 +36,16 @@ public class ModifyRecommend extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		Criteria cri = ParamUtil.get(req, Criteria.class);
-		Long recomNo = Long.valueOf(req.getParameter("recomNo"));
+		Recommend recommend = ParamUtil.get(req, Recommend.class);
+		Long recomNo = recommend.getRecomNo();
 		log.info("{}", recomNo);
+		if(req.getParameter("recomNo") == null) {
+			AlertUtil.alert("잘못된 접근입니다", "/info/recommendlist", req, resp);
+			return;
+		}
+		
 		RecommendService service = new RecommendService();
-		Recommend recommend =  service.findBy(recomNo);
+		recommend = service.findBy(recomNo);
 		log.info("{}", recommend);
 		
 		switch (recommend.getRecomContenttype()) {
@@ -48,10 +54,6 @@ public class ModifyRecommend extends HttpServlet{
 			case RecommendContentType.FESTIVAL :  req.setAttribute("festival", new FestivalService().findBy(recommend.getRecomNo())); break;
 		}
 		
-//		if(req.getParameter("recomNo") == null) {
-//			AlertUtil.alert("잘못된 접근입니다", "/info/recommendlist", req, resp);
-//			return;
-//		}
 		
 
 //		if(req.getSession().getAttribute("member") == null) {
