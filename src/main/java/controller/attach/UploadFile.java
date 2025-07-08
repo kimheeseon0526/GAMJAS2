@@ -24,12 +24,13 @@ import domain.Attach;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
+import util.S3Util;
 
 @WebServlet("/upload")
 @MultipartConfig(location = "d:/upload/tmp", 
 	maxRequestSize = 50 * 1024 * 1024,  // 한번의 요청당 최대 파일 크기
 	maxFileSize = 10 * 1024 * 1024, //파일 하나당 최대 크기
-	fileSizeThreshold = 1 * 1024 * 1024) // 이 크기를 넘어가면 location위치에 buffer를 기록
+	fileSizeThreshold = 10 * 1024 * 1024) // 이 크기를 넘어가면 location위치에 buffer를 기록
 @Slf4j
 public class UploadFile extends HttpServlet{
 	public static final String UPLOAD_PATH = "d:/upload/files";
@@ -76,8 +77,10 @@ public class UploadFile extends HttpServlet{
 			part.write(realPath + fileName);  //원본을 저장시켜라
 			if(image) {
 				try {
-					Thumbnails.of(new File(realPath + fileName)).size(150, 150).toFile(realPath + "t_" + fileName);
-				}
+						File thumb = new File(realPath + "t_" + fileName);
+						Thumbnails.of(new File(realPath + fileName)).size(150, 150).toFile(realPath + "t_" + fileName);
+						S3Util.upload(thumb, "upload/" + path + "/t_" + fileName);				}
+				
 				catch(Exception e) {
 					image = false; 
 				}

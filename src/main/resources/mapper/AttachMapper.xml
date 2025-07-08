@@ -3,10 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="mapper.AttachMapper">
- 	<!-- 댓글 리스트 조회 -->
- 	<select id="list" resultType="attach">
- 		select * from tbl_attach where bno = #{bno} order by odr
- 	</select>
  	
  	<!-- 단일 댓글 조회 -->
  	<select id="selectOne" resultType="attach">
@@ -15,16 +11,15 @@
  	
  	<!-- 첨부파일 등록  -->
  	<insert id="insert">
- 		insert into tbl_attach (uuid, origin, path, image, odr, bno, size) values (#{uuid}, #{origin}, #{path}, #{image}, #{odr}, #{bno}, #{size})
+ 		insert into tbl_attach (uuid, origin, path, image, odr, size) values (#{uuid}, #{origin}, #{path}, #{image}, #{odr}, #{size})
+ 		<selectKey order="AFTER" keyProperty="ano" resultType="long">
+ 		select max(ano) from tbl_attach
+ 		</selectKey>
  	</insert>
  	
  	<!-- 첨부파일 삭제  -->
  	<delete id="delete">
- 		delete from tbl_attach where uuid = #{uuid}
- 	</delete>
- 	<!-- 게시글 삭제되면 같이 삭제되는거 -->
- 	<delete id="deleteByBno">
- 		delete from tbl_attach where bno = #{bno}
+ 		delete from tbl_attach where ano = #{ano}
  	</delete>
  	<select id="selectYesterdayList" resultType="attach">
  		select * from tbl_attach ta where path = DATE_FORMAT(DATE_SUB(now(), INTERVAL 1 DAY), '%Y/%m/%d')

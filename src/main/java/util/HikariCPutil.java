@@ -21,8 +21,7 @@ public class HikariCPutil {
 		// Properties <String, String> 이 친구는 hashtable의 자손이다. 
 		//설정 정보 관리, 파일
 		
-		Properties props= new Properties();
-		
+		Properties props = PropsLoaderUtil.getProperties("secret/db.properties"); // properties		
 		//현재 실행중인 스레드의 컨텍스트 클래스로더의 위치에서 resource를 stream형태로 가져오기
 		try(InputStream is = Thread.currentThread()
 									.getContextClassLoader()

@@ -5,25 +5,27 @@
    <mapper namespace="mapper.AttachRefMapper">
    
    <!-- 목록 조회  --> 
-     <select id="list" resultType="AttachRef">
+     <select id="list" resultType="domain.AttachRef">
      	select * from tbl_attach_ref 
-		where attach_ref_type = #{refType}
-		and ref_no = #{refNo}
+		where attachreftype = #{attachreftype}
+		and refno = #{refno}
      </select>
      
-   <!-- 추가  -->
+   <!-- 등록  -->
     <insert id="insert"> 
-	   	insert into tbl_attach_ref (attach_ref_type, ref_no)
-		values (#{refType}, #{refNo})
+	   	insert into tbl_attach_ref (attachreftype, refno)
+		values (#{attachreftype}, #{refno})
     </insert>
     
     
    <!-- 삭제 -->
     <delete id="delete"> 
     	delete from tbl_attach_ref
-		where attach_ref_type = #{refType}
-		and ref_no = #{refNo}
+		where attachreftype = #{attachreftype}
+		and refno = #{refno}
     </delete>
+    
+    
     
  	</mapper>
    
