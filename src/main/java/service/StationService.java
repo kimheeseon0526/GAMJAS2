@@ -31,6 +31,7 @@ public class StationService {
 	int startPage = 1;
 	
 	private static final Map<String, String> lineColorMap = new HashMap<>();
+	//호선 증가시에 key, value 값만 넣어주면 됨
 	 static {
 	        lineColorMap.put("1호선", "#0052A4");
 	        lineColorMap.put("2호선", "#009D3E");
@@ -105,21 +106,27 @@ public class StationService {
 			}
 		}
 		
+//=======================================================================================
+		
+		
 		public List<Station> getLineStations(String lineName) {
 			
 			try (SqlSession session = MybatisUtil.getSqlSession()) {
 				StationMapper mapper = session.getMapper(StationMapper.class);
 
 				List<Station> list = mapper.selectByLine(lineName);
+				log.info("{}", list );
 				
 				if(list == null) {
-					System.out.println("역 데이터가 없음. lineName = " + lineName);
+					log.info("{}", lineName);
 					return new ArrayList<>();
 				}
-				String lineColor = lineColorMap.getOrDefault(lineName, "#999999");
+				
+				//호선 컬러
+				String lineColor = lineColorMap.getOrDefault(lineName, "#000000");
 				for(Station station : list) {
 					station.setLineColor(lineColor);
-					log.info(lineColor);
+					log.info("{}", lineColor);
 					
 				}
 				
@@ -127,7 +134,7 @@ public class StationService {
 					list.add(list.get(0));	//2호선만
 				}
 				
-		            System.out.println("조회된 역 개수: " + list.size());
+		            log.info("{}", list.size());
 		            return list;
 			}
 			catch(Exception e) {

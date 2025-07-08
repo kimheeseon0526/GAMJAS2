@@ -16,26 +16,23 @@
 </head>
 <style>
   .station-label {
-    background: white;
-    border: 1px solid #333;
-    padding: 4px 8px;
-    border-radius: 5px;
-    font-size: 10px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-    color: black;
-  }
+    background: white; border: 1px solid #333; padding: 4px 8px; border-radius: 5px;
+    font-size: 10px; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); color: black;}
 </style>
+
+
 <body>
   <div id="map" style="width:70%; height:600px;"></div>
 
 
-  <script type="application/json" id="station-json">${stationList}</script>
+ <!-- <script type="application/json" id="station-json">${stationList}</script> -->
 
   <script>
   
     const rawJson = document.getElementById("station-json").textContent.trim();
     const stationData = JSON.parse(rawJson);
-	console.log(stationData)
+	console.log(stationData) 
+	
     const lineName = stationData[0].lineName?.trim();
     stationData.forEach(s => s.odr = Number(s.odr));
 
@@ -46,6 +43,7 @@
     const centerLng = parseFloat(mainStations[0].LOT);
 
     const container = document.getElementById('map');
+    
     const map = new kakao.maps.Map(container, {
       center: new kakao.maps.LatLng(centerLat, centerLng),
       level: 6
@@ -119,6 +117,18 @@
     console.log("역 개수:", stationData.length);
     console.log("순환선역 개수:", mainStations.length);
     console.log("mainStations:", mainStations);
+  </script>
+  
+  <script>
+  /* 버튼 클릭시, fetchfh 서버에 데이터 요청  */
+  document.querySelectorAll(".line-btn").forEach(btn => {
+	    btn.addEventListener("click", () => {
+	      fetch(`/lineinfo?line=${btn.dataset.line}`)
+	        .then(res => res.json())
+	        .then(data => {
+	        });
+	    });
+  
   </script>
 </body>
 </html>
