@@ -21,8 +21,7 @@ import domain.en.RecommendContentType;
 import domain.info.Mission;
 import domain.info.Recommend;
 import lombok.extern.slf4j.Slf4j;
-import service.BoardService;
-import service.RecommendService;
+import service.*;
 import util.AlertUtil;
 import util.ParamUtil;
 
@@ -32,7 +31,7 @@ public class WriteMission extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RecommendService recommendService = new RecommendService();
+		MissionService service = new MissionService();
 		log.info("{}",req.getParameter("recomContenttype"));
 		Recommend recommend = ParamUtil.get(req, Recommend.class);
 		Criteria cri = ParamUtil.get(req, Criteria.class);
@@ -43,14 +42,22 @@ public class WriteMission extends HttpServlet{
 		} else if (recommend.getRecomContenttype() == null) {
 			recommend.setRecomContenttype(RecommendContentType.ATTRACTION);
 		}
-		
-		PageDto dto = new PageDto(cri, recommendService.getApiCount(cri, recommend.getRecomContenttype()));
+
+		switch (recommend.getRecomContenttype()) {
+			case RecommendContentType.ATTRACTION :  req.setAttribute("attraction", new AttractionService().findBy(recommend.getRecomNo())); break;
+			case RecommendContentType.RESTAURANT :  req.setAttribute("restaurant", new RestaurantService().findBy(recommend.getRecomNo())); break;
+			case RecommendContentType.FESTIVAL :  req.setAttribute("festival", new FestivalService().findBy(recommend.getRecomNo())); break;
+		}
+
+
+		PageDto dto = new PageDto(cri, service.getRecomApiCount(cri, recommend.getRecomContenttype()));
 		log.info("{}", dto);
 		
 		req.setAttribute("pageDto", dto);
 		req.setAttribute("recommend", recommend);
-		log.info("{}", recommendService.apiList(cri, recommend.getRecomContenttype()));
-		req.setAttribute("apilist", recommendService.apiList(cri, recommend.getRecomContenttype()));
+
+		req.setAttribute("apirecomlist", service.apiRecomList(cri, recommend.getRecomContenttype()));
+
         req.setAttribute("cri", cri);
         req.getRequestDispatcher("/WEB-INF/views/info/writemission.jsp").forward(req, resp);
 	}

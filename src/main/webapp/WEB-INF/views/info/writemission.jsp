@@ -1,5 +1,6 @@
+<%@ page import="util.ParamUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
 <div class="container my-5" style="max-width: 768px; margin-top: 194px;">
 	
 	<main>
-        <form id="cardform" method="GET" action="${cp}/info/write">
+        <form id="cardform" method="GET" action="${cp}/info/missionwrite">
             <div class="row row-cols-1 row-cols-md-3 g-4 ">
                 <!-- 카드 1 -->
                 <div class="col">
@@ -77,76 +78,70 @@
             </div>
         </form>
 
-        <div id="apilist">
-            <ul class="list-group" id="tourMap">
-                <c:forEach items="${apilist}" var="a">
-                    <c:if test="${recommend.recomContenttype != null}">
-                        <c:choose>
-                            <c:when test="${recommend.recomContenttype != 'FESTIVAL'}">
-                                <c:if test="${mission.recomNo == attraction.recomNo || mission.recomNo == restaurant.recomNo}">
-                                    <li class="list-group-item" style="cursor: pointer;">
-                                        <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}">
-                                            ${a.postSj}
-                                    </li>
-                                </c:if>
-                            </c:when>
-                            <c:otherwise>
-                            <c:if test="${mission.recomNo == festival.recomNo}">
-                                <li class="list-group-item" style="cursor: pointer;">
-                                    <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}">
-                                        ${a.title}
-                                </li>
-                            </c:if>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:if>
-                </c:forEach>
-            </ul>
-        </div>
-        <!-- 페이지네이션 -->
-        <div class="mt-4 d-flex justify-content-center">
-            <ul class="pagination">
-                <c:if test="${pageDto.doubleLeft}">
-                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
-                </c:if>
-                <c:if test="${pageDto.left}">
-                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
-                </c:if>
-                <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
-                    <li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
-                </c:forEach>
-                <c:if test="${pageDto.right}">
-                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
-                </c:if>
-                <c:if test="${pageDto.doubleRight}">
-                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
-                </c:if>
-            </ul>
-        </div>
-
-        <c:choose>
-            <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
-                <c:if test="${mission.recomNo == attraction.recomNo}">
-                    <c:set var="api" value="${attraction}" scope="request"/>
-                    <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
-                </c:if>
-            </c:when>
-            <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
-                <c:if test="${mission.recomNo == restaurant.recomNo}">
-                    <c:set var="api" value="${restaurant}" scope="request"/>
-                    <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <c:if test="${mission.recomNo == festival.recomNo}">
-                    <c:set var="api" value="${festival}" scope="request"/>
-                    <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
-                </c:if>
-            </c:otherwise>
-        </c:choose>
-		
-	
 		<form method="POST" id="writeForm" action="${cp}/info/missionwrite">
+            <div id="apilist">
+                <ul class="list-group" id="tourMap">
+                    <c:forEach items="${apirecomlist}" var="a">
+                                <c:choose>
+                                    <c:when test="${recommend.recomContenttype != 'FESTIVAL'}">
+                                        <li class="list-group-item" style="cursor: pointer;" >
+                                            <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
+                                                ${a.postSj}
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                            <li class="list-group-item" style="cursor: pointer;" >
+                                                <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
+                                                    ${a.title}
+                                            </li>
+                                    </c:otherwise>
+                                </c:choose>
+                    </c:forEach>
+                </ul>
+            </div>
+            <!-- 페이지네이션 -->
+            <div class="mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    <c:if test="${pageDto.doubleLeft}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+                    </c:if>
+                    <c:if test="${pageDto.left}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
+                    </c:if>
+                    <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
+                        <li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
+                    </c:forEach>
+                    <c:if test="${pageDto.right}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
+                    </c:if>
+                    <c:if test="${pageDto.doubleRight}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
+                    </c:if>
+                </ul>
+            </div>
+
+            <div class="m-0 auto border apiInfo" id="apiInfo">
+            <c:choose>
+                <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
+                        <c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
+                        <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
+                        </c:if>
+                </c:when>
+                <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
+                		<c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
+                        <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
+                        </c:if>
+                </c:when>
+                <c:otherwise>
+                		<c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
+                        <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
+                        </c:if>
+                </c:otherwise>
+            </c:choose>
+            </div>
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="title" class="form-label fw-semibold">제목</label>
@@ -193,7 +188,7 @@
             <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
             <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
-<!--             <input type="hidden" name="cno" value="1">
+            <!-- <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
             <input type="hidden" name="amount" value="10"> -->
             <c:if test="${not empty param.recomNo}">
@@ -217,7 +212,7 @@
   <script>
   	
 	$(function() {
-
+		
 		$(".card").on("click", function(){
 			$(".card").removeClass("card-select")
 			$(this).addClass("card-select")
@@ -241,35 +236,27 @@
 			$(this).children("input").prop("checked", true)
 			
 			console.log($("#apiInfo"))
+			console.log($(this).children("input").val());
+			
+			const recomNo = $(this).children("input").val();
+			
+			//const selectedCard = document.querySelector(".card-select") ;
+			//const recomContenttype = selectedCard ? selectedCard.data("type") : null ;
+			const recomContenttype = $("#recomContenttype").val();
+			$.ajax({
+				url: `${cp}/info/apipreview`,	
+				type: "GET",
+				data: {
+				 recomNo: recomNo,
+				 recomContenttype: recomContenttype
+				}, 
+				success: function(data) {
+					$("#apiInfo").html(data).show();
+				}
+			})
+
 			$("#apiInfo").removeClass("apiInfo")
 			
-			
-			
-			const placeId = $(this).children("input").val();
-			const title = $(this).children("input").data("title");
-			
-			if ("${recommend.recomContenttype}" !== "FESTIVAL") {				
-		        const url = $(this).children("input").data("url");
-		        const address = $(this).children("input").data("address");
-		        const opentime = $(this).children("input").data("opentime");
-		        const subway = $(this).children("input").data("subway");
-		        
-		        $("#infotitle").text(title);
-		        $("#infourl").text(url);
-		        $("#infoaddress").text(address);
-		        $("#infoopentime").text(opentime);
-		        $("#infosubway").text(subway);
-			}
-	  		else {
-	        const address = $(this).children("input").data("address1"); // addr1
-	        const startdate = $(this).children("input").data("startdate");
-	        const enddate = $(this).children("input").data("enddate");
-	 
-	        $("#infotitle").text(title);
-	        $("#infoaddress").text(address);
-	        $("#infostartdate").text(startdate);
-	        $("#infoenddate").text(enddate);
-	    	}
 		})
 		
 		

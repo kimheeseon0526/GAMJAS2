@@ -60,6 +60,41 @@ public class MissionService {
 		}
 		return null;
 	}
-	
-	
+
+	public List<?> apiRecomList(Criteria cri, RecommendContentType rct) {
+
+		if(rct.equals(RecommendContentType.ATTRACTION)) {
+			AttractionService service = new AttractionService();
+			return service.getRecomList(cri);
+		}
+		else if(rct.equals(RecommendContentType.RESTAURANT)) {
+			RestaurantService service = new RestaurantService();
+			return service.getRecomList(cri);
+		}
+		else if(rct.equals(RecommendContentType.FESTIVAL)) {
+			FestivalService service = new FestivalService();
+			return service.getRecomList(cri);
+		}
+
+		return null;
+	}
+	public long getRecomApiCount(Criteria cri, RecommendContentType rct) {
+		if(rct.equals(RecommendContentType.ATTRACTION)) {
+			AttractionService service = new AttractionService();
+			return service.getRecomCount(cri);
+		}
+		else if(rct.equals(RecommendContentType.RESTAURANT)) {
+
+			RestaurantService service = new RestaurantService();
+			return service.getRecomCount(cri);
+		}
+		else if(rct.equals(RecommendContentType.FESTIVAL)) {
+
+			FestivalService service = new FestivalService();
+			return service.getRecomCount(cri);
+		}
+		return 0;
+	}
+
+
 }
