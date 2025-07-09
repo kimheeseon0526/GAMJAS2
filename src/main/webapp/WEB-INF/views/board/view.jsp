@@ -15,7 +15,7 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 <div class="container p-0">
-	
+
 		<main>
         <div class="small border-bottom border-3" style="border-color: #6A8D73;">
 		  <a href="" class="small" style="color: #4a5c48;">
@@ -285,7 +285,7 @@
                 
                 const content = $("#content").val().trim();
                 const id = $("#writer").val().trim();
-                
+
                 const obj = {content, id, bno};
                 console.log(obj);
                 console.log("글쓰기 전송");

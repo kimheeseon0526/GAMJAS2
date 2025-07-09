@@ -14,7 +14,7 @@ public class PropsLoaderUtil {
 				.getContextClassLoader()
 				.getResourceAsStream(file)) {
 			if (is == null) {	
-				throw new FileNotFoundException("Cannot find db.priperites in classpath");
+				throw new FileNotFoundException("Cannot find db.properites in classpath");
 			}
 			props.load(is);
 		} catch(IOException e) {
