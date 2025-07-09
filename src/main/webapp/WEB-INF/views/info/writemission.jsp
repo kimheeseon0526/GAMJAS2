@@ -27,29 +27,136 @@
 <div class="container my-5" style="max-width: 768px; margin-top: 194px;">
 	
 	<main>
-		
-		<c:forEach items="${apilist}" var="a">
-			<c:if test="${mission.recomNo == a.recomNo}">
-				<c:choose>
-					<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">		
-						<c:set var="api" value="${a}" scope="request" />				
-						<jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
-					</c:when>
-					<c:when test="${recommend.recomContenttype == 'RESTAURANT'}">	
-						<c:set var="api" value="${a}" scope="request" />					
-						<jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
-					</c:when>
-					<c:otherwise>
-						<c:set var="api" value="${a}" scope="request" />
-						<jsp:include page="contenttype_template/festival.jsp"></jsp:include>
-					</c:otherwise>
-				</c:choose>		
-			</c:if>
-		</c:forEach> 
+        <form id="cardform" method="GET" action="${cp}/info/write">
+            <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <!-- 카드 1 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" style="cursor: pointer;" data-type="ATTRACTION">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">관광</h5>
+                            <p class="card-text line-clamp-2 small">서울 내 자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 2 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" style="cursor: pointer;" data-type="RESTAURANT">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">먹거리</h5>
+                            <p class="card-text line-clamp-2 small">서울내 음식점 정보를 확인하고 선택할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 3 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" style="cursor: pointer;" data-type="FESTIVAL">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">체험</h5>
+                            <p class="card-text line-clamp-2 small">서울 내 공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" id="cardtype" name="recomContenttype" value="${recommend.recomContenttype}">
+            <div class="search-center">
+                <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
+                    <option value="T">제목</option>
+                </select>
+                <div class="mb-3">
+                    <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+                </div>
+                <input type="hidden" name="page" value="1">
+                <input type="hidden" name="amount" value="${pageDto.cri.amount}">
+                <button class="btn btn-outline-secondary btn-sm search-button mb-3" type="submit">검색</button>
+            </div>
+        </form>
+
+        <div id="apilist">
+            <ul class="list-group" id="tourMap">
+                <c:forEach items="${apilist}" var="a">
+                    <c:if test="${recommend.recomContenttype != null}">
+                        <c:choose>
+                            <c:when test="${recommend.recomContenttype != 'FESTIVAL'}">
+                                <c:if test="${mission.recomNo == attraction.recomNo || mission.recomNo == restaurant.recomNo}">
+                                    <li class="list-group-item" style="cursor: pointer;">
+                                        <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}">
+                                            ${a.postSj}
+                                    </li>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                            <c:if test="${mission.recomNo == festival.recomNo}">
+                                <li class="list-group-item" style="cursor: pointer;">
+                                    <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}">
+                                        ${a.title}
+                                </li>
+                            </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+                </c:forEach>
+            </ul>
+        </div>
+        <!-- 페이지네이션 -->
+        <div class="mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+                <c:if test="${pageDto.doubleLeft}">
+                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+                </c:if>
+                <c:if test="${pageDto.left}">
+                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
+                </c:if>
+                <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
+                    <li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
+                </c:forEach>
+                <c:if test="${pageDto.right}">
+                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
+                </c:if>
+                <c:if test="${pageDto.doubleRight}">
+                    <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
+                </c:if>
+            </ul>
+        </div>
+
+        <c:choose>
+            <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
+                <c:if test="${mission.recomNo == attraction.recomNo}">
+                    <c:set var="api" value="${attraction}" scope="request"/>
+                    <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
+                </c:if>
+            </c:when>
+            <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
+                <c:if test="${mission.recomNo == restaurant.recomNo}">
+                    <c:set var="api" value="${restaurant}" scope="request"/>
+                    <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
+                </c:if>
+            </c:when>
+            <c:otherwise>
+                <c:if test="${mission.recomNo == festival.recomNo}">
+                    <c:set var="api" value="${festival}" scope="request"/>
+                    <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
+                </c:if>
+            </c:otherwise>
+        </c:choose>
 		
 	
-		<form method="POST" id="writeForm" action="${cp}/info/write">
+		<form method="POST" id="writeForm" action="${cp}/info/missionwrite">
             <!-- 내용 -->
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">미션 개요</label>
+                <textarea type="text" class="form-control" id="title" name="summary" placeholder="제목을 입력하세요" required></textarea>
+            </div>
+
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
                 <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
