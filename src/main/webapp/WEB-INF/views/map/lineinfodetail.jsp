@@ -50,24 +50,20 @@
     });
 
     let markers = []; //마커
-    let polyline = null;  //폴리라인
+    let polylines = [];  //폴리라인
 
     function clearMap() {
       markers.forEach(marker => marker.setMap(null));
       markers = [];
-      if (polyline) {
-        polyline.setMap(null);
-        polyline = null;
+
+      if (polylines) {
+        polylines.forEach(pl => pl.setMap(null));
+        polylines = [];
       }
     }
 
     function renderStations(data) {
-    	console.log(data);
       const lineCoords = [];
-
-      //5호선
-      const mainLine = [] ; //방화 ~ 하남검단
-      const machunLine = []; //강동 ~ 마천
 
       data.forEach(station => {
         const lat = parseFloat(station.LAT);
@@ -88,7 +84,7 @@
         });
 
         const infowindow = new kakao.maps.InfoWindow({
-          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
+          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
           removable : true
         });
 
@@ -96,21 +92,14 @@
           infowindow.setPosition(latlng);
           infowindow.open(map);
         });
+
         markers.push(customOverlay);
       });
 
       if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
         lineCoords.push(lineCoords[0]);
       }
-
-      //5호선
-      //const mainIdx = data.findIndex(st => st.BLDN_NM === "하남검단산");
-      //const gangdongIdx = data.findIndex(st => st.)
-
-
-
-
-      polyline = new kakao.maps.Polyline({
+      const polyline = new kakao.maps.Polyline({
         map: map,
         path: lineCoords,
         strokeWeight: 4,
@@ -118,8 +107,9 @@
         strokeOpacity: 0.9,
         strokeStyle: 'solid'
       });
-    }
 
+      polylines.push(polyline);
+    }
     // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -128,7 +118,13 @@
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
             clearMap();
-            renderStations(data);
+
+            if(data.hanamLine && data.machunLine) {
+              renderStations(data.hanamLine);   // 방화 ~ 하남
+              renderStations(data.machunLine); // 강동 ~ 마천
+            } else {
+              renderStations(data);
+            }
           })
           .catch(err => {
             console.error("노선 정보 불러오기 실패:", err);
@@ -143,9 +139,7 @@
       if (btn) btn.click();
     });
 
-
   </script>
-  
 <%@ include file="../common/footer.jsp" %> 
 </body>
 </html>
