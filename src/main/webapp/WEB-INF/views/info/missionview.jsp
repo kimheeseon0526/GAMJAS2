@@ -33,197 +33,34 @@
 		  </form>
 		  </div>
         <div class="small p-0 py-2">
-       		<%-- <c:forEach items="${cate}" var="c">
-		        <c:if test="${c.cno == cri.cno}">
-		         <span class="px-2 border-end border-1"> ${c.cname} </span>
-		        </c:if>
-		      </c:forEach> --%>
-		 
-		            <span class="px-2">${mission.title}</span>
-		    
-            <%-- <div class="float-end small">
-                <span class="text-muted"><i class="fa-solid fa-eye"></i>${board.cnt}</span>
-                <span class="text-muted"><i class="fa-solid fa-comment-dots"></i> ${board.replyCnt}</span>
-            </div> --%>
+			<span class="px-2">${mission.title}</span>
         </div>
         <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
             <span class="px-2">작성자 : 관리자</span>
             <a href="${cp}/info/missionlist" class="text-muted small">mission.html</a>
             <span class="float-end text-muted small me-3">${mission.regDatetime}</span>
         </div>
-       
-       <c:choose>
-				<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">						
-					<div class="container my-4">
-					  <div class="row">
-					    <!-- 왼쪽 컬럼 -->
-					    <div class="col-md-6">
-					      <ul class="list-group list-group-flush">
-					
-					        <c:if test="${not empty attraction.cmmnTelNo}">
-					          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${attraction.cmmnTelNo}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.address}">
-					          <li class="list-group-item"><span class="fw-bold">주소</span> : ${attraction.address}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.cmmnRstde}">
-					          <li class="list-group-item"><span class="fw-bold">휴일</span> : ${attraction.cmmnRstde}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.tag}">
-					          <li class="list-group-item"><span class="fw-bold">판매 품목</span> : ${attraction.tag}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.bfDesc}">
-					          <li class="list-group-item"><span class="fw-bold">화장실</span> : ${attraction.bfDesc}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.subwayInfo}">
-					          <li class="list-group-item"><span class="fw-bold">지하철</span> : ${attraction.subwayInfo}</li>
-					        </c:if>
-					
-					      </ul>
-					    </div>
-					
-					    <!-- 오른쪽 컬럼 -->
-					    <div class="col-md-6">
-					      <ul class="list-group list-group-flush">
-					
-					        <c:if test="${not empty attraction.cmmnHmpgUrl}">
-					          <li class="list-group-item"><span class="fw-bold">홈페이지</span> : 
-					            <a href="${attraction.cmmnHmpgUrl}" target="_blank">${attraction.cmmnHmpgUrl}</a>
-					          </li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.cmmnUseTime}">
-					          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${attraction.cmmnUseTime}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.cmmnBsnde}">
-					          <li class="list-group-item"><span class="fw-bold">주차</span> : ${attraction.cmmnBsnde}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.newAddress}">
-					          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${attraction.newAddress}</li>
-					        </c:if>
-					
-					        <c:if test="${not empty attraction.cmmnFax}">
-					          <li class="list-group-item"><span class="fw-bold">팩스</span> : ${attraction.cmmnFax}</li>
-					        </c:if>
-					
-					      </ul>
-					    </div>
-					  </div>
-					</div>
-				</c:when>
-			<c:when test="${recommend.recomContenttype == 'RESTAURANT'}">						
-				<div class="container my-4">
-				  <div class="row">
-				    <!-- 왼쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				
-				        <c:if test="${not empty restaurant.cmmnTelNo}">
-				          <li class="list-group-item"><span class="fw-bold">문의 및 안내</span> : ${restaurant.cmmnTelNo}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty restaurant.address}">
-				          <li class="list-group-item"><span class="fw-bold">주소</span> : ${restaurant.address}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty restaurant.newAddress}">
-				          <li class="list-group-item"><span class="fw-bold">신주소</span> : ${restaurant.newAddress}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty restaurant.fdReprsntMenu}">
-				          <li class="list-group-item"><span class="fw-bold">대표메뉴</span> : ${restaurant.fdReprsntMenu}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty restaurant.subwayInfo}">
-				          <li class="list-group-item"><span class="fw-bold">지하철 정보</span> : ${restaurant.subwayInfo}</li>
-				        </c:if>
-
-				      </ul>
-				    </div>
-				
-				    <!-- 오른쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				        <c:if test="${not empty restaurant.cmmnHmpgUrl}">
-				          <li class="list-group-item">
-				            <span class="fw-bold">홈페이지</span> :
-				            <a href="${restaurant.cmmnHmpgUrl}" target="_blank">${restaurant.cmmnHmpgUrl}</a>
-				          </li>
-				        </c:if>
-				        <c:if test="${not empty restaurant.cmmnUseTime}">
-				          <li class="list-group-item"><span class="fw-bold">이용시간</span> : ${restaurant.cmmnUseTime}</li>
-				        </c:if>
-				        <c:if test="${not empty restaurant.cmmnHmpgLang}">
-				          <li class="list-group-item"><span class="fw-bold">홈페이지 언어</span> : ${restaurant.cmmnHmpgLang}</li>
-				        </c:if>
-				      </ul>
-				    </div>
-				  </div>
-				</div>
-
-			</c:when>
-			<c:otherwise>
-				<div class="container my-4">
-					 <c:if test="${not empty festival.firstImage}">
-			           <div style="max-width: 600px; margin: 0 auto;">
-			            <img src="${festival.firstImage}" class="img-fluid mt-2" alt="축제 이미지">
-			           	<span class="fw-bold">대표 이미지</span><br>
-			           </div>
-			        </c:if>
-				  <div class="row">
-				    <!-- 왼쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				
-				        <c:if test="${not empty festival.title}">
-				          <li class="list-group-item"><span class="fw-bold">행사명</span> : ${festival.title}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty festival.tel}">
-				          <li class="list-group-item"><span class="fw-bold">문의처</span> : ${festival.tel}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty festival.addr1}">
-				          <li class="list-group-item"><span class="fw-bold">주소</span> : ${festival.addr1}
-				            <c:if test="${not empty festival.addr2}"> ${festival.addr2}</c:if>
-				          </li>
-				        </c:if>
-				      </ul>
-				    </div>
-				
-				    <!-- 오른쪽 컬럼 -->
-				    <div class="col-md-6">
-				      <ul class="list-group list-group-flush">
-				
-				        <c:if test="${not empty festival.eventStartDate}">
-				          <li class="list-group-item"><span class="fw-bold">시작일</span> : ${festival.eventStartDate}</li>
-				        </c:if>
-				
-				        <c:if test="${not empty festival.eventEndDate}">
-				          <li class="list-group-item"><span class="fw-bold">종료일</span> : ${festival.eventEndDate}</li>
-				        </c:if>
-				        <c:if test="${not empty festival.progressType}">
-				          <li class="list-group-item"><span class="fw-bold">진행 형태</span> : ${festival.progressType}</li>
-				        </c:if>
-				        
-				        <c:if test="${not empty festival.festivalType}">
-				          <li class="list-group-item"><span class="fw-bold">축제 유형</span> : ${festival.festivalType}</li>
-				        </c:if>
-				      </ul>
-				    </div>
-				  </div>
-				</div>
-			</c:otherwise>
-		</c:choose>
-		
-		<div class="container my-4">
+			   <c:choose>
+				   <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
+					   <c:if test="${mission.recomNo == attraction.recomNo}">
+						   <c:set var="api" value="${attraction}" scope="request"/>
+						   <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
+					   </c:if>
+				   </c:when>
+				   <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
+					   <c:if test="${mission.recomNo == restaurant.recomNo}">
+						   <c:set var="api" value="${restaurant}" scope="request"/>
+						   <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
+					   </c:if>
+				   </c:when>
+				   <c:otherwise>
+					   <c:if test="${mission.recomNo == festival.recomNo}">
+						   <c:set var="api" value="${festival}" scope="request"/>
+						   <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
+					   </c:if>
+					</c:otherwise>
+				</c:choose>
+			<div class="container my-4">
 		  <div class="p-3 bg-light border rounded shadow-sm">
 		    <p class="mb-0 fw-semibold text-secondary">${mission.summary}</p>
 		  </div>

@@ -49,8 +49,8 @@
       level: 6
     });
 
-    let markers = [];
-    let polyline = null;
+    let markers = []; //마커
+    let polyline = null;  //폴리라인
 
     function clearMap() {
       markers.forEach(marker => marker.setMap(null));
@@ -65,6 +65,10 @@
     	console.log(data);
       const lineCoords = [];
 
+      //5호선
+      const mainLine = [] ; //방화 ~ 하남검단
+      const machunLine = []; //강동 ~ 마천
+
       data.forEach(station => {
         const lat = parseFloat(station.LAT);
         const lng = parseFloat(station.LOT);
@@ -72,7 +76,7 @@
         lineCoords.push(latlng);
 
         const markerContent = document.createElement('div');
-        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:\${station.lineColor}; cursor:pointer;'></i>`;
+        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
         markerContent.style.position = 'relative';
         markerContent.style.transform = 'translate(-50%, -50%)';
         markerContent.style.display = 'inline-block';
@@ -98,6 +102,13 @@
       if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
         lineCoords.push(lineCoords[0]);
       }
+
+      //5호선
+      //const mainIdx = data.findIndex(st => st.BLDN_NM === "하남검단산");
+      //const gangdongIdx = data.findIndex(st => st.)
+
+
+
 
       polyline = new kakao.maps.Polyline({
         map: map,
@@ -131,6 +142,8 @@
       console.log(btn.innerHTML);
       if (btn) btn.click();
     });
+
+
   </script>
   
 <%@ include file="../common/footer.jsp" %> 
