@@ -53,14 +53,17 @@
 		    <a href="list?${cri.qs2}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
+		    
+		    <c:if test="${loginMember.id == board.id or loginMember.isAdmin == '1' }">
 		    <a href="modify?bno=${board.bno}&${cri.qs2}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-pen-to-square"></i> 수정
 		    </a>
 		    <a href="remove?bno=${board.bno}&${cri.qs2}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
+		    </c:if>
 		    
-		    <c:if test="${board.getCViewType() == 'QNA'}">   <!--나중에 회원 들어가면 and붙이고 이거 추가하기 not empty member-->
+		    <c:if test="${not empty loginMember and board.getCViewType() == 'QNA' and loginMember.isAdmin == '1'}">   <!--나중에 회원 들어가면 and붙이고 이거 추가하기 not empty member-->
 		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
 		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
 		    </a>
@@ -101,13 +104,13 @@
         <c:if test="${board.getCViewType() == 'FREE' or board.getCViewType() == 'REVIEW'}">
         	<div class="small p-0 py-2 border-top border-bottom border-1 border-muted mt-4 clearfix align-items-center d-flex">
         		<div class="col text-end">
-				    <c:if test="${empty member}">
+				    <c:if test="${empty loginMember}">
 				        <a class="small" href="${cp}/member/signin" style="color: #4a5c48;">
 						    댓글을 작성하려면 로그인이 필요합니다
 						</a>
 					</c:if>
 					
-				    <c:if test="${not empty member}">
+				    <c:if test="${not empty loginMember}">
 				        <button class="btn btn-sm btn-write-form" style="background-color: #4a5c48; color: white;">댓글작성</button>
 				    </c:if>
 				</div>
@@ -182,7 +185,7 @@
         <!-- 작성자 표시 -->
         <div class="mb-3">
             <label for="writing" class="form-label fw-bold" style="color: #4a5c48;" ><i class="fa-regular fa-user" style="color: #4a5c48;"></i> 작성자</label>
-            <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${member.id}" disabled="disabled">
+            <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${loginMember.id}" disabled="disabled">
         </div>
        </form>
      </div>

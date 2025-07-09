@@ -56,12 +56,13 @@
 
       <!-- 로그인 & 언어 선택 -->
       <div class="right-menu d-flex align-items-center">
-      	<c:if test="${empty member}">
+      	<c:if test="${empty loginMember}">
         <a href="${cp}/member/signin">로그인</a>
         <a href="${cp}/member/signup">회원가입</a>
         </c:if>
         
-        <c:if test="${not empty member}">
+        <c:if test="${not empty loginMember}">
+         <a>${loginMember.name}님</a>
         <a href="${cp}/member/logout">로그아웃</a>
         <a href="${cp}/member/mypage">마이페이지</a>
         </c:if>
