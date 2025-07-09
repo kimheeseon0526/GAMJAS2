@@ -12,4 +12,8 @@ public interface AttractionMapper {
 	void insert(Attraction attraction);
 	long getCount(Criteria cri);
 	Attraction selectOne(Long recomNo);
+
+	List<Attraction> getRecomList(Criteria cri);
+
+	long getRecomCount(Criteria cri);
 }
