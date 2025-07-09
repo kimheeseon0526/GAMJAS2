@@ -35,7 +35,7 @@ public class SigninServlet extends HttpServlet {
 		if(signinUser != null) {
 			HttpSession session = req.getSession();
 			session.setMaxInactiveInterval(60 * 10);
-			session.setAttribute("member", signinUser);
+			session.setAttribute("loginMember", signinUser);  // 로그인 성공 시 세션 저장 ${lginMember.id}, 4{loginMember.isAdmin} 으로 사용
 			
 			String url = req.getParameter("url");
 			if(url == null) {//로그인 성공
