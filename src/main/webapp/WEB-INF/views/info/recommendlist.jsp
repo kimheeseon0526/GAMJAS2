@@ -72,7 +72,7 @@
 		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
 		        <div class="card-body">
 		          <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div> 
-		          <div><p class="card-text">${r.apiSubcontent}</p></div> 
+		          <div><p class="card-text text-truncate">${r.apiSubcontent}</p></div> 
 		        </div>
 		      </div>
 		    </div>	

@@ -84,14 +84,14 @@
                     <c:forEach items="${apirecomlist}" var="a">
                                 <c:choose>
                                     <c:when test="${recommend.recomContenttype != 'FESTIVAL'}">
-                                        <li class="list-group-item" style="cursor: pointer;">
-                                            <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}">
+                                        <li class="list-group-item" style="cursor: pointer;" >
+                                            <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
                                                 ${a.postSj}
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                            <li class="list-group-item" style="cursor: pointer;">
-                                                <input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}">
+                                            <li class="list-group-item" style="cursor: pointer;" >
+                                                <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
                                                     ${a.title}
                                             </li>
                                     </c:otherwise>
@@ -123,17 +123,22 @@
             <div class="m-0 auto border apiInfo" id="apiInfo">
             <c:choose>
                 <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
-                        <c:if test="${attraction.post_sj }"></c:if>
-                        <c:set var="api" value="${attraction}" scope="request"/>
+                        <c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
                         <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
+                        </c:if>
                 </c:when>
                 <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
-                        <c:set var="api" value="${restaurant}" scope="request"/>
+                		<c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
                         <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
+                        </c:if>
                 </c:when>
                 <c:otherwise>
-                        <c:set var="api" value="${festival}" scope="request"/>
+                		<c:if test="${not empty api}">
+                        <c:set var="api" value="${api}" scope="request"/>
                         <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
+                        </c:if>
                 </c:otherwise>
             </c:choose>
             </div>
@@ -207,7 +212,7 @@
   <script>
   	
 	$(function() {
-
+		
 		$(".card").on("click", function(){
 			$(".card").removeClass("card-select")
 			$(this).addClass("card-select")
@@ -231,10 +236,27 @@
 			$(this).children("input").prop("checked", true)
 			
 			console.log($("#apiInfo"))
+			console.log($(this).children("input").val());
+			
+			const recomNo = $(this).children("input").val();
+			
+			//const selectedCard = document.querySelector(".card-select") ;
+			//const recomContenttype = selectedCard ? selectedCard.data("type") : null ;
+			const recomContenttype = $("#recomContenttype").val();
+			$.ajax({
+				url: `${cp}/info/apipreview`,	
+				type: "GET",
+				data: {
+				 recomNo: recomNo,
+				 recomContenttype: recomContenttype
+				}, 
+				success: function(data) {
+					$("#apiInfo").html(data).show();
+				}
+			})
+
 			$("#apiInfo").removeClass("apiInfo")
-
-
-
+			
 		})
 		
 		
