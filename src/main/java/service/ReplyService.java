@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import domain.AttachRef;
 import domain.Reply;
+import domain.AttachRef.AttachRefType;
+import mapper.AttachMapper;
+import mapper.AttachRefMapper;
 import mapper.ReplyMapper;
 import util.MybatisUtil;
 
@@ -32,19 +36,32 @@ public class ReplyService {
 	}
 	
 	
-	public void register(Reply Reply) {
+	public void register(Reply reply) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			ReplyMapper mapper = session.getMapper(ReplyMapper.class);
-			mapper.insert(Reply);
+			mapper.insert(reply);
+			
+			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
+			reply.getAttachs().stream()
+				.peek(attachMapper::insert)
+				.map(a -> AttachRef.builder().ano(a.getAno())
+						.attachreftype(AttachRefType.REPLY)
+						.refno(reply.getRno())
+						.build())
+				.forEach(attachRefMapper::insert);
+			
+			session.commit();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void modify(Reply Reply) {
+	public void modify(Reply reply) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			ReplyMapper mapper = session.getMapper(ReplyMapper.class);
-			mapper.update(Reply);
+			mapper.update(reply);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
