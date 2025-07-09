@@ -8,6 +8,7 @@ import domain.Board;
 import domain.dto.Criteria;
 import domain.en.RecommendContentType;
 import domain.info.Mission;
+import domain.info.Recommend;
 import mapper.BoardMapper;
 import mapper.MissionMapper;
 import mapper.RecommendMapper;
@@ -48,4 +49,17 @@ public class MissionService {
 			e.printStackTrace();
 		}
 	}
+	
+	public Mission findBy(Long missionNo) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			MissionMapper mapper = session.getMapper(MissionMapper.class);
+			return mapper.selectOne(missionNo); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 }

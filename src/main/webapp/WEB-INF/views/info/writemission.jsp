@@ -6,22 +6,49 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
+<style>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* 두 줄까지만 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.apiInfo {
+	display: none;
+}
+</style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 
-       			
-<div class="container my-5" style="max-width: 768px;">
-    <main>
-        <form method="post" id="writeForm" action="write">
-
-            <!-- 제목 -->
-            <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">제목</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
-            </div>
-
+	
+<div class="container my-5" style="max-width: 768px; margin-top: 194px;">
+	
+	<main>
+		
+		<c:forEach items="${apilist}" var="a">
+			<c:if test="${mission.recomNo == a.recomNo}">
+				<c:choose>
+					<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">		
+						<c:set var="api" value="${a}" scope="request" />				
+						<jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
+					</c:when>
+					<c:when test="${recommend.recomContenttype == 'RESTAURANT'}">	
+						<c:set var="api" value="${a}" scope="request" />					
+						<jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
+					</c:when>
+					<c:otherwise>
+						<c:set var="api" value="${a}" scope="request" />
+						<jsp:include page="contenttype_template/festival.jsp"></jsp:include>
+					</c:otherwise>
+				</c:choose>		
+			</c:if>
+		</c:forEach> 
+		
+	
+		<form method="POST" id="writeForm" action="${cp}/info/write">
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
@@ -54,13 +81,16 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="user">
-            <input type="hidden" name="cno" value="1">
-            <input type="hidden" name="page" value="1">
-            <input type="hidden" name="amount" value="10">
+            <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
+            <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
+            <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
+            <input type="hidden" name="createdBy" value="${member.memNo}">
             <input type="hidden" name="encodedStr" value="">
-            <c:if test="${not empty param.bno}">
-                <input type="hidden" name="bno" value="${param.bno}">
+<!--             <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="page" value="1">
+            <input type="hidden" name="amount" value="10"> -->
+            <c:if test="${not empty param.recomNo}">
+                <input type="hidden" name="recomNo" value="${param.recomNo}">
             </c:if>
 
         </form>
@@ -78,8 +108,68 @@
    
   </script>
   <script>
+  	
 	$(function() {
-		 $( ".attach-list" ).sortable();
+
+		$(".card").on("click", function(){
+			$(".card").removeClass("card-select")
+			$(this).addClass("card-select")
+			const type = $(this).data("type"); 
+			
+			
+			console.log(type);
+			
+			$("#cardtype").val(type);
+			
+			
+			console.log($("#cardtype").val()); 
+			$("#cardform").submit();
+		})
+		
+		$("#apilist").on("click", "li", function() {
+			$("#apilist li").removeClass("active");
+			$(".form-check-input").prop("checked", false)
+
+			$(this).addClass("active");
+			$(this).children("input").prop("checked", true)
+			
+			console.log($("#apiInfo"))
+			$("#apiInfo").removeClass("apiInfo")
+			
+			
+			
+			const placeId = $(this).children("input").val();
+			const title = $(this).children("input").data("title");
+			
+			if ("${recommend.recomContenttype}" !== "FESTIVAL") {				
+		        const url = $(this).children("input").data("url");
+		        const address = $(this).children("input").data("address");
+		        const opentime = $(this).children("input").data("opentime");
+		        const subway = $(this).children("input").data("subway");
+		        
+		        $("#infotitle").text(title);
+		        $("#infourl").text(url);
+		        $("#infoaddress").text(address);
+		        $("#infoopentime").text(opentime);
+		        $("#infosubway").text(subway);
+			}
+	  		else {
+	        const address = $(this).children("input").data("address1"); // addr1
+	        const startdate = $(this).children("input").data("startdate");
+	        const enddate = $(this).children("input").data("enddate");
+	 
+	        $("#infotitle").text(title);
+	        $("#infoaddress").text(address);
+	        $("#infostartdate").text(startdate);
+	        $("#infoenddate").text(enddate);
+	    	}
+		})
+		
+		
+		
+		
+		
+		$( ".attach-list" ).sortable();
 		//return true / false
 		function validateFiles(files) {
 			const MAX_COUNT = 5;
@@ -179,6 +269,8 @@
 				}
 			})
 			
+		
+			})
 			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
@@ -190,12 +282,20 @@
 			data.forEach((item, idx) => item.odr = idx);
 			
 			$("[name='encodedStr']").val(JSON.stringify(data));
-			this.submit();
+			
+			
+			const result = [...document.querySelectorAll("#tourMap input")].some(input => input.checked);
+			
 		
-			})
+			if(!result) {
+					alert("api를 선택하여 주세요.")
+					return;
+			}
+			
+			this.submit();
+	
 		})
 	})
-
 	</script>
 <%@ include file="../common/footer.jsp" %>
 </body>

@@ -88,7 +88,7 @@
 		      <div class="card h-100">
 		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
 		        <div class="card-body">
-		          <div><a href="${cp}/info/missionview?recomNo=${m.recomNo}" class="card-title btn btn-outline-secondary">${m.title}</a></div> 
+		          <div><a href="${cp}/info/missionview?missionNo=${m.missionNo}" class="card-title btn btn-outline-secondary">${m.title}</a></div> 
 		          <div><p class="card-text">${m.summary}</p></div> 
 		        </div>
 		      </div>
