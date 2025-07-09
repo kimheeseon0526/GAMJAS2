@@ -123,7 +123,7 @@
             <div class="m-0 auto border apiInfo" id="apiInfo">
             <c:choose>
                 <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
-                        <c:if test="${attraction.post_sj == }"></c:if>
+                        <c:if test="${attraction.post_sj }"></c:if>
                         <c:set var="api" value="${attraction}" scope="request"/>
                         <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
                 </c:when>
