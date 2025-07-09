@@ -9,20 +9,19 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<%@ include file="../common/nav.jsp" %>
 <body class="bg-light">
- <%@ include file="../common/nav.jsp" %>
-  <div class="container my-3">
+<%@ include file="../common/nav.jsp" %>
+ <%-- <div class="container my-3">
 	  <!-- 탭 메뉴 -->
 	  <form>
 	  <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
 	    <li class="nav-item" role="presentation">
-	      <a href="${cp}/info/recommendlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'ATTRACTION' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">관광</a>
+	      <a href="${cp}/info/recommendlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'QNA' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">소개 & 이용안내</a>
 	    </li>
 	    <li class="nav-item" role="presentation">
-	      <a href="${cp}/info/recommendlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'RESTAURANT' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">먹거리</a>
+	      <a href="${cp}/info/recommendlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'QNA' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">당첨자 발표</a>
 	    </li>
-
+--%>
 <div class="container my-5">
   <div class="card p-4 shadow-sm" style="font-size:0.95rem;">
     <h2 class="text-center mb-4 fw-bold text-success">🎫 감자티켓 소개 & 이용안내</h2>
@@ -69,7 +68,7 @@
 
     <!-- 🔗 바로가기 버튼 -->
     <div class="text-center mt-4">
-      <a href="${cp}/event/list" class="btn btn-lg" style="background:#648D73; color:white; transition:0.05s"
+      <a href="${cp}/board/list?cno=3" class="btn btn-lg" style="background:#648D73; color:white; transition:0.05s"
          onpointerdown="this.style.transform='scale(.95)',setTimeout(()=>this.style.transform='scale(1)',100)">
         📢 당첨자 발표 바로가기
       </a>
