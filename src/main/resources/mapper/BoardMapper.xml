@@ -72,14 +72,14 @@
 	<!-- 단일조회 (cViewType 추가 완료)-->
 	<select id="selectOne" resultMap="b">
 	 select *, 
-	 <!-- c.c_view_type cViewType, -->
+	c.c_view_type cViewType,
   	(select count(*) from tbl_reply r where r.bno = tb.bno) replyCnt
 	from tbl_board tb
 	left join tbl_attach_ref tar on tb.bno = tar.refno and attachreftype = 'BOARD'
 	left join tbl_attach ta using(ano)
-	<!-- left join tbl_category c on b.cno = c.cno -->
+	left join tbl_category c on tb.cno = c.cno
 	where bno = #{bno}
-	order by odr
+	order by ta.odr
 	</select>
 	
 	<!-- 글 등록 -->

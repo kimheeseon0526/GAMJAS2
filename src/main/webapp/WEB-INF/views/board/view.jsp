@@ -15,6 +15,7 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 <div class="container p-0">
+	
 		<main>
         <div class="small border-bottom border-3" style="border-color: #6A8D73;">
 		  <a href="" class="small" style="color: #4a5c48;">
@@ -59,12 +60,11 @@
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		    
-		    <c:if test="${not empty member and board.getCViewType() == 'QNA'}">
+		    <c:if test="${board.getCViewType() == 'QNA'}">   <!--나중에 회원 들어가면 and붙이고 이거 추가하기 not empty member-->
 		    <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
 		        	<i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
 		    </a>
 		    </c:if>
-		    
 		</div>
 
         <c:if test="${fn:length(board.attachs) > 0}">
@@ -113,6 +113,7 @@
 				</div>
         	</div>
 		</c:if>
+		
 	        <ul class="list-group list-group-flush mt-3 reviews"></ul>
 	        <div class="d-grid">
     			<button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기</button>
@@ -129,7 +130,7 @@
 	
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">댓글 작성</h4>
+	        <h4 class="modal-title" style="color: #4a5c48;">댓글 작성</h4>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	      </div>
 	
@@ -137,15 +138,54 @@
 	      <div class="modal-body">
 	        <form action="/action_page.php">
 	            <div class="mb-3 mt-3">
-	                <label for="content" class="form-label text-primary"><i class="fa-solid fa-comment"></i> 댓글 내용</label>
-	                <textarea class="form-control resize-none" id="content" placeholder="Enter content" name="content" rows="5"></textarea>
+	                <label for="content" class="form-label fw-bold" style="color: #4a5c48;"><i class="fa-regular fa-comment" style="color: #4a5c48;"></i> 댓글 내용</label>
+	                <textarea class="form-control resize-none" id="content" placeholder="댓글 내용을 입력하세요" name="content" rows="5"></textarea>
 	            </div>
-	            <div class="mb-3">
-	                <label for="writing" class="form-label text-primary"><i class="fa-solid fa-user"></i> 작성자</label>
-	                <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${member.id}" disabled="disabled">
-	            </div>
-	        </form>
-	      </div>
+          <!-- 첨부파일 -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold d-inline-block me-3">
+                    <i class="fa-solid fa-paperclip me-1 text-secondary"></i> 첨부파일
+                </label>
+                <label class="btn btn-outline-success btn-sm align-text-bottom">
+                    파일 선택 <input type="file" multiple class="d-none" id="f1">
+                </label>
+                <ul class="list-group my-2 attach-list"></ul>
+                <div class="row justify-content-start attach-thumb"></div>
+            </div>
+            <ul class="list-group my-3 attach-list">
+				<c:forEach items="${reply.attachs}" var="a">
+				<li class="list-group-item d-flex align-items-center justify-content-between" 
+				data-uuid="${a.uuid}"
+				data-origin="${a.origin}" 
+				data-image="${a.image}" 
+				data-path="${a.path}" 
+				data-size="${a.size}"
+				data-odr="${a.odr}">
+					<a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
+					<!-- <i class="fa-solid fa-circle-xmark float-end text-danger"></i> -->
+				</li>
+				</c:forEach>
+			</ul>
+			<div class="row justify-content-arround w-75 mx-auto attach-thumb">
+				<c:forEach items="${reply.attachs}" var="a">
+				<c:if test="${a.image}">
+				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
+					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_${a.uuid}&path=${a.path}')">
+						<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
+					</div>
+				</div>
+				</c:if>
+				</c:forEach>
+			</div>
+           
+        
+        <!-- 작성자 표시 -->
+        <div class="mb-3">
+            <label for="writing" class="form-label fw-bold" style="color: #4a5c48;" ><i class="fa-regular fa-user" style="color: #4a5c48;"></i> 작성자</label>
+            <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${member.id}" disabled="disabled">
+        </div>
+       </form>
+     </div>
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
@@ -179,6 +219,7 @@
             //makeReplyLi(reply) > str
             
             function makeReplyLi(r){
+          
             		return `
                      <li class="list-group-item ps-5 profile-img" data-rno="\${r.rno}">                             
                          <p class="small text-secondary">

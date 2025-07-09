@@ -1,6 +1,7 @@
 package domain;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -23,5 +24,10 @@ public class Reply {
 	private Long rno;
 	private Long bno;
 	private Long grp;
+	
+	@Builder.Default
+	private List<Attach> attachs = new ArrayList<>();  //동기방식으로가져옴
 
 }
+
+
