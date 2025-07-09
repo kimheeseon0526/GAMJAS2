@@ -48,9 +48,18 @@
             <input type="hidden" name="encodedStr" value="">
         </form>
 
-        <div class="d-grid my-2 attach-area">
-			<div class="small my-1"><i class="fa-solid fa-paperclip"></i>첨부파일</div>
-			<label class="btn btn-outline-secondary btn-sm">파일첨부<input type="file" multiple="" class="d-none" id="f1"></label>
+        <!-- 첨부파일 -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold d-inline-block me-3">
+                    <i class="fa-solid fa-paperclip me-1 text-secondary"></i> 첨부파일
+                </label>
+                <label class="btn btn-outline-success btn-sm align-text-bottom">
+                    파일 선택 <input type="file" multiple class="d-none" id="f1">
+                </label>
+                <ul class="list-group my-2 attach-list"></ul>
+                <div class="row justify-content-start attach-thumb"></div>
+            </div>
+            
 			<ul class="list-group my-3 attach-list">
 				<c:forEach items="${board.attachs}" var="a">
 				<li class="list-group-item d-flex align-items-center justify-content-between" 

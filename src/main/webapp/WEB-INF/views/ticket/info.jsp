@@ -10,7 +10,18 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
-
+<body class="bg-light">
+ <%@ include file="../common/nav.jsp" %>
+  <div class="container my-3">
+	  <!-- 탭 메뉴 -->
+	  <form>
+	  <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
+	    <li class="nav-item" role="presentation">
+	      <a href="${cp}/info/recommendlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'ATTRACTION' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">관광</a>
+	    </li>
+	    <li class="nav-item" role="presentation">
+	      <a href="${cp}/info/recommendlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'RESTAURANT' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">먹거리</a>
+	    </li>
 
 <div class="container my-5">
   <div class="card p-4 shadow-sm" style="font-size:0.95rem;">
