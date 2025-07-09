@@ -50,10 +50,10 @@ public class MissionService {
 		}
 	}
 	
-	public Mission findBy(Long recomNo) {
+	public Mission findBy(Long missionNo) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			MissionMapper mapper = session.getMapper(MissionMapper.class);
-			return mapper.selectOne(recomNo); 
+			return mapper.selectOne(missionNo); 
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -16,25 +16,41 @@ import com.google.gson.reflect.TypeToken;
 import domain.Attach;
 import domain.Board;
 import domain.dto.Criteria;
+import domain.dto.PageDto;
+import domain.en.RecommendContentType;
 import domain.info.Mission;
+import domain.info.Recommend;
 import lombok.extern.slf4j.Slf4j;
 import service.BoardService;
+import service.RecommendService;
 import util.AlertUtil;
 import util.ParamUtil;
 
 @Slf4j
-@WebServlet("/info/writemission")
+@WebServlet("/info/missionwrite")
 public class WriteMission extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Criteria cri = Criteria.init(req);
-        //session 내의 member attr 조회 후 null
-//        if(req.getSession().getAttribute("member") == null) {
-//            AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?" + cri.getQs2(), req, resp, true);
-//            return;
-//        }  // 로그인 기능 미구현으로 주석처리
-
+		RecommendService recommendService = new RecommendService();
+		log.info("{}",req.getParameter("recomContenttype"));
+		Recommend recommend = ParamUtil.get(req, Recommend.class);
+		Criteria cri = ParamUtil.get(req, Criteria.class);
+		
+		log.info("{}", recommend);
+		if(recommend == null) {
+			recommend = Recommend.builder().recomContenttype(RecommendContentType.ATTRACTION).build();
+		} else if (recommend.getRecomContenttype() == null) {
+			recommend.setRecomContenttype(RecommendContentType.ATTRACTION);
+		}
+		
+		PageDto dto = new PageDto(cri, recommendService.getApiCount(cri, recommend.getRecomContenttype()));
+		log.info("{}", dto);
+		
+		req.setAttribute("pageDto", dto);
+		req.setAttribute("recommend", recommend);
+		log.info("{}", recommendService.apiList(cri, recommend.getRecomContenttype()));
+		req.setAttribute("apilist", recommendService.apiList(cri, recommend.getRecomContenttype()));
         req.setAttribute("cri", cri);
         req.getRequestDispatcher("/WEB-INF/views/info/writemission.jsp").forward(req, resp);
 	}
@@ -63,7 +79,7 @@ public class WriteMission extends HttpServlet{
 		String title = req.getParameter("title");
 		int cno = Integer.parseInt(req.getParameter("cno"));
 		
-		Mission mission2 = Mission.builder().build();
+		Mission mission = Mission.builder().build();
 		log.info("{}", board);
 
 		//서비스 호출(board 객체가지고)

@@ -28,16 +28,23 @@ public class MissionView extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(req.getParameter("recomNo") == null) {
+		if(req.getParameter("missionNo") == null) {
 			AlertUtil.alert("잘못된 접근입니다", "/info/missionlist", req, resp);
 			return;
 		}
-		Recommend recommend = ParamUtil.get(req, Recommend.class);
+		log.info("{}", req.getParameter("missionNo"));
 		
 		MissionService service = new MissionService();
-		Mission mission= service.findBy(Long.parseLong(req.getParameter("recomNo")));
-		log.info("{}", mission);
+		RecommendService recommendService = new RecommendService();
+		Mission mission = service.findBy(Long.parseLong(req.getParameter("missionNo")));
 		
+		
+		Recommend recommend = recommendService.findBy(mission.getRecomNo());
+		switch (recommend.getRecomContenttype()) {
+			case RecommendContentType.ATTRACTION :  req.setAttribute("attraction", new AttractionService().findBy(recommend.getRecomNo())); break;
+			case RecommendContentType.RESTAURANT :  req.setAttribute("restaurant", new RestaurantService().findBy(recommend.getRecomNo())); break;
+			case RecommendContentType.FESTIVAL :  req.setAttribute("festival", new FestivalService().findBy(recommend.getRecomNo())); break;
+		}	
 		
 		Criteria cri = ParamUtil.get(req, Criteria.class);
 		
@@ -47,7 +54,7 @@ public class MissionView extends HttpServlet{
 		req.setAttribute("cri", cri);
 		req.setAttribute("mission", mission);
 		req.setAttribute("recommend", recommend);
-		req.getRequestDispatcher("/WEB-INF/views/info/recommendview.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/info/missionview.jsp").forward(req, resp);
 	}
 	
 	

@@ -21,30 +21,17 @@
 		  <form>
 		  <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
 		    <li class="nav-item" role="presentation">
-		      <a href="${cp}/info/recommendlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'ATTRACTION' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">관광</a>
+		      <a href="${cp}/info/missionlist?recomContenttype=ATTRACTION" class="nav-link px-4 ${recommend.recomContenttype == 'ATTRACTION' ? 'active' : ''} " id="attraction-tab" type="button" role="tab">관광</a>
 		    </li>
 		    <li class="nav-item" role="presentation">
-		      <a href="${cp}/info/recommendlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'RESTAURANT' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">먹거리</a>
+		      <a href="${cp}/info/missionlist?recomContenttype=RESTAURANT"  class="nav-link px-4 ${recommend.recomContenttype == 'RESTAURANT' ? 'active' : ''} " id="restaurant-tab" type="button" role="tab">먹거리</a>
 		    </li>
 		    <li class="nav-item" role="presentation">
-		      <a href="${cp}/info/recommendlist?recomContenttype=FESTIVAL" class="nav-link px-4 ${recommend.recomContenttype == 'FESTIVAL' ? 'active' : ''} " id="festival-tab" type="button" role="tab">체험</a>
+		      <a href="${cp}/info/missionlist?recomContenttype=FESTIVAL" class="nav-link px-4 ${recommend.recomContenttype == 'FESTIVAL' ? 'active' : ''} " id="festival-tab" type="button" role="tab">체험</a>
 		    </li>
 		  </ul>
 		  </form>
 		  </div>
-        <div class="small border-bottom border-3" style="border-color: #6A8D73;">
-		  <a href="" class="small" style="color: #4a5c48;">
-		    <span style="color: #6A8D73;">
-		      <c:forEach items="${cate}" var="c">
-		        <c:if test="${c.cno == cri.cno}">
-		          ${c.cname}
-		        </c:if>
-		      </c:forEach>
-		    </span>
-		    카테고리
-		  </a>
-		</div>
-
         <div class="small p-0 py-2">
        		<%-- <c:forEach items="${cate}" var="c">
 		        <c:if test="${c.cno == cri.cno}">
@@ -61,8 +48,8 @@
         </div>
         <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
             <span class="px-2">작성자 : 관리자</span>
-            <a href="${cp}/info/recommendlist" class="text-muted small">mission.html</a>
-            <span class="float-end text-muted small me-3">${mission.regdatetime}</span>
+            <a href="${cp}/info/missionlist" class="text-muted small">mission.html</a>
+            <span class="float-end text-muted small me-3">${mission.regDatetime}</span>
         </div>
        
        <c:choose>
@@ -244,19 +231,20 @@
 		
 		<div class="container my-4">
 		  <div class="p-3 bg-light border rounded shadow-sm">
+		  	<p class="mb-0 fw-bold text-primary fs-3">제공 감자 티켓 <span class="text-primary fs-4">🥔🎟️ ${mission.providedTicket}개</span> </p>
 		    <p class="mb-0 fw-semibold text-secondary">${mission.content}</p>
 		  </div>
 		</div>
 		
 	    <div class="p-0 py-5 ps-1 small border-bottom border-1 border-muted"></div>
 		<div class="mt-4">
-		    <a href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+		    <a href="${cp}/info/missionlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
-		    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+		    <a href="${cp}/info/missionmodify?recomNo=${mission.missionNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-pen-to-square"></i> 수정
 		    </a>
-		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+		    <a href="${cp}/info/missionremove?recomNo=${mission.missionNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		</div>
