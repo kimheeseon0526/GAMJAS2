@@ -7,7 +7,6 @@
 
 </head>
 <body>
-
   <!-- 헤더 -->
   <%@ include file="common/nav.jsp" %>
 
@@ -121,6 +120,7 @@
       </div>
     </div>
   </div>
+
 </section>
 <%@ include file="common/footer.jsp" %>
 </body>
