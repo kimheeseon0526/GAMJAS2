@@ -103,7 +103,6 @@
 						</c:choose>
 				</c:forEach>
 				</ul>
-				
 			</div>
 			<!-- 페이지네이션 -->
         <div class="mt-4 d-flex justify-content-center">
