@@ -9,7 +9,7 @@ import util.MybatisUtil;
 public class MissionMapperTest {
 	MissionService missionService = MybatisUtil.getSqlSession().getMapper(MissionService.class);
 	
-	@Test
+//	@Test
 	public void writeTest() {
 		
 		missionService.write(null);

@@ -27,7 +27,7 @@ public class Display extends HttpServlet{
 		String uuid  = req.getParameter("uuid");
 		String path  = req.getParameter("path");
 		
-		log.info("{}, {}, {}", uuid, path);
+		log.info("{}, {}", uuid, path);
 		
 		// 물리적 위치에 있는 실제 파일을 origin의 네임으로 치환 후 다운로드
 		

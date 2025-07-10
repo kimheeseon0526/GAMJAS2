@@ -19,9 +19,10 @@
       align-items: center;
     }
     .search-button {
-      white-space: nowrap;
-      padding: 0.25rem 0.6rem;
-      line-height: 1.2;
+		white-space: nowrap;
+		padding: 0.25rem 0.6rem;
+		line-height: 1.2;
+	}
   </style>
 </head>
 <body class="bg-light">

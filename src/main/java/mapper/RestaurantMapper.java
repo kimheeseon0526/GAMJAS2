@@ -14,4 +14,10 @@ public interface RestaurantMapper {
 	long getCount(Criteria cri);
 
 	Restaurant selectOne(Long recomNo);
+
+	List<Restaurant> getRecomList(Criteria cri);
+
+	long getRecomCount(Criteria cri);
+
+
 }

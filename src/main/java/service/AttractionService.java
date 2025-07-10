@@ -109,6 +109,20 @@ public class AttractionService { //최초 1회 수집용
 		}
 		return null;
 	}
+
+	public List<Attraction> getRecomList(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+
+			List<Attraction> list = mapper.getRecomList(cri);
+
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public void register(Attraction attraction) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
@@ -138,6 +152,16 @@ public class AttractionService { //최초 1회 수집용
 			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
 			return mapper.getCount(cri); //1page 10개씩
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	public long getRecomCount(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+			return mapper.getRecomCount(cri); //1page 10개씩
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -28,12 +28,15 @@ public class MissionView extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		if(req.getParameter("missionNo") == null) {
 			AlertUtil.alert("잘못된 접근입니다", "/info/missionlist", req, resp);
 			return;
 		}
 		log.info("{}", req.getParameter("missionNo"));
-		
+
+
+
 		MissionService service = new MissionService();
 		RecommendService recommendService = new RecommendService();
 		Mission mission = service.findBy(Long.parseLong(req.getParameter("missionNo")));

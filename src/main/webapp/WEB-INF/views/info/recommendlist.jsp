@@ -5,24 +5,7 @@
 <html lang="ko">
 <head>
  <%@ include file="../common/head.jsp" %>
-   <style>
-    .search-container {
-      position: relative;
-      height: 38px;
-    }
-    .search-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      width: 376px;
-      align-items: center;
-    }
-    .search-button {
-      white-space: nowrap;
-      padding: 0.25rem 0.6rem;
-      line-height: 1.2;
-  </style>
+
 </head>
 <body class="bg-light">
  <%@ include file="../common/nav.jsp" %>
@@ -89,7 +72,7 @@
 		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
 		        <div class="card-body">
 		          <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div> 
-		          <div><p class="card-text">${r.apiSubcontent}</p></div> 
+		          <div><p class="card-text text-truncate">${r.apiSubcontent}</p></div> 
 		        </div>
 		      </div>
 		    </div>	

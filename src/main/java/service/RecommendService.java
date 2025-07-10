@@ -30,6 +30,8 @@ public class RecommendService {
 		}
 		return null;
 	}
+
+
 	
 	public void write(Recommend recommend) {
 		SqlSession session = MybatisUtil.getSqlSession(false);
@@ -67,6 +69,8 @@ public class RecommendService {
 		}
 		return 0;
 	}
+
+
 	
 	public Recommend findBy(Long recomNo) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {

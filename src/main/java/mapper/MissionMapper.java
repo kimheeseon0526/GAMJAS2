@@ -2,6 +2,7 @@ package mapper;
 
 import java.util.List;
 
+import domain.info.Recommend;
 import org.apache.ibatis.annotations.Param;
 
 import domain.dto.Criteria;
@@ -20,4 +21,5 @@ public interface MissionMapper {
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
 
 	Mission selectOne(Long recomNo);
+
 }

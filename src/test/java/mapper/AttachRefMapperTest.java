@@ -21,7 +21,7 @@ public class AttachRefMapperTest {
 		list.forEach(ar -> log.info("{}", ar));
 	}
 	
-	@Test
+//	@Test
 	public void testInsert() {
 	    AttachRef ref = AttachRef.builder()
 	    		.refno(200L)

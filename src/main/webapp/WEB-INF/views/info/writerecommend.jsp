@@ -70,7 +70,9 @@
 			      <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
 			        <option value="T">제목</option>
 			      </select>
-			      <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+					<div class="mb-3">
+			      		<input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+					</div>
 			      <input type="hidden" name="page" value="1">
 			      <input type="hidden" name="amount" value="${pageDto.cri.amount}">
 			      <button class="btn btn-outline-secondary btn-sm search-button" type="submit">검색</button>
@@ -82,7 +84,6 @@
 			<div id="apilist">
 				<ul class="list-group" id="tourMap">
 				<c:forEach items="${apilist}" var="a">
-					<c:if test="${recommend.recomContenttype != null}">
 						<c:choose>
 							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
 								<li class="list-group-item" style="cursor: pointer;">
@@ -100,7 +101,6 @@
 								${a.title}</li>
 							</c:otherwise>
 						</c:choose>
-					</c:if>
 				</c:forEach>
 				</ul>
 			</div>

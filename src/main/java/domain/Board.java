@@ -29,6 +29,7 @@ public class Board {
 	private Integer cno; // 카테고리 넘버
 	private int replyCnt; // 댓글 갯수 넘버
 	private int attachCnt; // 첨부 파일 수
+	private int isSecret;  // 공개여부
 
 
 //	   답글을 위한 3개의 필드 

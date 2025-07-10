@@ -3,10 +3,25 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.MemberMapper">
+
+	<resultMap type="domain.Member" id="m">
+			<id column="mem_no" property="memNo"/>
+			<result column="id" property="id" />
+			<result column="pw" property="pw" />
+			<result column="name" property="name" />
+			<result column="email" property="email" />
+			<result column="nation" property="nation" />
+			<result column="regdate" property="regdate" />
+			<result column="is_admin" property="isAdmin" />
+			<result column="present_ticket" property="presentTicket" />
+			<result column="is_verified" property="isVerified" />
+			<result column="auth_token" property="authToken"/>
+	</resultMap>		 
+
 	<insert id="insert">
 		insert into tbl_member(id, pw, name, email, nation) values (#{id}, #{pw}, #{name}, #{email}, #{nation})
 	</insert>
-	<select id ="findById" resultType="domain.Member">
+	<select id ="findById" resultMap="m">
 		select * from tbl_member where id = #{id}
 	</select>
 </mapper>

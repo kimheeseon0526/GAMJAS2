@@ -6,11 +6,58 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
+ <%-- <style>
+    .search-container {
+      position: relative;
+      height: 38px;
+    }
+    .search-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      width: 376px;
+      align-items: center;
+    }
+    .search-button {
+      white-space: nowrap;
+      padding: 0.25rem 0.6rem;
+      line-height: 1.2;}
+  </style>--%>
 </head>
-<body>
-<%@ include file="../common/header.jsp" %>
-<%@ include file="../common/nav.jsp" %>
-	<div class="container p-0 mt-5 pt-5">
+<body class="bg-light">
+ <%@ include file="../common/nav.jsp" %>
+  <div class="container my-3">
+			  <!-- 탭 메뉴 -->
+		  <form>
+          <c:if test="${pageDto.cri.cno ==1 or pageDto.cri.cno ==2 or pageDto.cri.cno == 3}">
+		  <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
+		    <li class="nav-item" role="presentation">
+		      <a href="${cp}/board/list?cno=1" class="nav-link px-4 ${c.CViewType == 'FREE' ? 'active' : ''}" type="button" role="tab">자유게시판</a>
+		    </li>
+		    <li class="nav-item" role="presentation">
+		      <a href="${cp}/board/list?cno=2"  class="nav-link px-4 ${c.CViewType == 'REVIEW'  ? 'active' : ''}" type="button" role="tab">생생후기</a>
+		    </li>
+		    <li class="nav-item" role="presentation">
+		    	<a href="${cp}/board/list?cno=3"  class="nav-link px-4 ${c.CViewType == 'NOTICE'  ? 'active' : ''}" type="button" role="tab">공지사항</a>
+		    </li>
+		  </ul>
+          </c:if>
+		  </form>
+    <form>
+      <c:if test="${pageDto.cri.cno ==5}">
+        <ul class="nav nav-tabs mb-2 justify-content-center gap-5" id="infoTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a href="${cp}/ticket/info" class="nav-link px-4 ${c.CViewType == 'QNA' ? 'active' : ''}" type="button" role="tab">소개 & 이용안내</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a href="${cp}/board/list?cno=5"  class="nav-link px-4 ${c.CViewType == 'NOTICE'  ? 'active' : ''}" type="button" role="tab">당첨자 발표</a>
+          </li>
+        </ul>
+      </c:if>
+     </form>
+		  </div>
+	<div class="container p-0 mt-3 pt-3">
   <main>
     <!-- 검색 영역 -->
     <div class="clearfix py-0 row align-items-center mb-3">
@@ -46,6 +93,10 @@
 		<script>
 	      	$(".search-form").submit(function() {
 	      		event.preventDefault();
+
+                /*const amount = ${".form-select"}.val();
+                $(this).find("input[name='amount']").val(amount);*/
+
 	      		this.keyword.value = encodeURIComponent(this.keyword.value)
 	      		this.submit();
 	      	});
@@ -71,16 +122,22 @@
       <c:when test="${c.getCViewType() == 'REVIEW'}">
         <jsp:include page="list_template/review.jsp" />
       </c:when>
-      <c:when test="${c.getCViewType() == 'NOTICE'}">
-        <jsp:include page="list_template/notice.jsp" />
-      </c:when>
+    <c:when test="${c.getCViewType() == 'NOTICE'}">
+      <c:choose>
+        <c:when test="${c.cno == 3}">
+          <jsp:include page="list_template/notice.jsp" />
+        </c:when>
+        <c:when test="${c.cno == 5}">
+          <jsp:include page="list_template/winnotice.jsp" />
+        </c:when>
+      </c:choose>
+    </c:when>
       <c:when test="${c.getCViewType() == 'QNA'}">
         <jsp:include page="list_template/qna.jsp" />
       </c:when>
     </c:choose>
   </c:if>
 </c:forEach>
-
 
 <!-- 페이지네이션 -->
 <ul class="pagination pagination-sm justify-content-center mt-4" >
