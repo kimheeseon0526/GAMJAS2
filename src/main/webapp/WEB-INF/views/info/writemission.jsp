@@ -28,6 +28,77 @@
 	
 	<main>
 		
+		<form id="cardform" method="GET" action="${cp}/info/write">
+		 	<div class="row row-cols-1 row-cols-md-3 g-4 ">
+    
+				<!-- 카드 1 -->
+				<div class="col">
+				<div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" style="cursor: pointer;" data-type="ATTRACTION">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+						<h5 class="card-title fs-6">관광</h5>
+						<p class="card-text line-clamp-2 small">서울 내 자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
+					</div>
+				</div>
+				</div>
+
+				<!-- 카드 2 -->
+				<div class="col">
+				<div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" style="cursor: pointer;" data-type="RESTAURANT">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+					<h5 class="card-title fs-6">먹거리</h5>
+					<p class="card-text line-clamp-2 small">서울내 음식점 정보를 확인하고 선택할 수 있습니다.</p>
+					</div>
+				</div>
+				</div>
+
+				<!-- 카드 3 -->
+				<div class="col">
+				<div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" style="cursor: pointer;" data-type="FESTIVAL">
+					<img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+					<div class="card-body">
+					<h5 class="card-title fs-6">체험</h5>
+					<p class="card-text line-clamp-2 small">서울 내 공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
+					</div>
+				</div>
+				</div>
+			
+			</div>
+			<input type="hidden" id="cardtype" name="recomContenttype" value="${recommend.recomContenttype}">
+			    <div class="search-center">
+			      <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
+			        <option value="T">제목</option>
+			      </select>
+			      <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+			      <input type="hidden" name="page" value="1">
+			      <input type="hidden" name="amount" value="${pageDto.cri.amount}">
+			      <button class="btn btn-outline-secondary btn-sm search-button" type="submit">검색</button>
+			    </div>
+			</form>
+			
+			<div id="apilist">
+				<ul class="list-group" id="tourMap">
+				<c:forEach items="${apilist}" var="a">
+					<c:if test="${recommend.recomContenttype != null}">
+						<c:choose>
+							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
+								<li class="list-group-item" style="cursor: pointer;">
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}" >
+								${a.postSj} 
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="list-group-item" style="cursor: pointer;">
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}" >
+								${a.title}</li>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
+				</ul>
+			</div>
+			
 		<c:forEach items="${apilist}" var="a">
 			<c:if test="${mission.recomNo == a.recomNo}">
 				<c:choose>
@@ -123,7 +194,14 @@
 			
 			
 			console.log($("#cardtype").val()); 
-			$("#cardform").submit();
+			
+			$.ajaxSetup({
+	    		contentType : 'application/json',
+	    		dataType : 'json'
+	    	})
+	    	const data = 
+			
+			//$("#cardform").submit();
 		})
 		
 		$("#apilist").on("click", "li", function() {
