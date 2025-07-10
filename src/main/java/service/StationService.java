@@ -153,18 +153,20 @@ public class StationService {
 
 			// ??? 분기 나누는 거 강동에 오면 true
 			boolean isMachun = false;
+			int gangdongodr = 39;
 
 			for (Station s : all) {
 				s.setLineColor(lineColor);
 
-				if ("강동".equals(s.getName())) {
-					isMachun = true;
-				}
-
-				if (isMachun) {
-					machunLine.add(s);
-				} else {
+				int odr = s.getOdr();
+				if (odr <= 39) {
+					// 공통 구간 → 양쪽에 다 넣음
 					hanamLine.add(s);
+					machunLine.add(s);
+				} else if (odr <= 49) {
+					hanamLine.add(s); // 하남 방면
+				} else if (odr >= 50 && odr <= 56) {
+					machunLine.add(s); // 마천 방면
 				}
 			}
 			Map<String, List<Station>> map = new HashMap<>();

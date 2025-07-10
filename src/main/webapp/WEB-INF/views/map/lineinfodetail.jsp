@@ -62,54 +62,107 @@
       }
     }
 
+
     function renderStations(data) {
-      const lineCoords = [];
+        const lineCoords = [];
 
-      data.forEach(station => {
-        const lat = parseFloat(station.LAT);
-        const lng = parseFloat(station.LOT);
-        const latlng = new kakao.maps.LatLng(lat, lng);
-        lineCoords.push(latlng);
+        data.forEach(station => {
+            const lat = parseFloat(station.LAT);
+            const lng = parseFloat(station.LOT);
+            const latlng = new kakao.maps.LatLng(lat, lng);
+            lineCoords.push(latlng);
 
-        const markerContent = document.createElement('div');
-        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
-        markerContent.style.position = 'relative';
-        markerContent.style.transform = 'translate(-50%, -50%)';
-        markerContent.style.display = 'inline-block';
+            const markerContent = document.createElement('div');
+            markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
+            markerContent.style.position = 'relative';
+            markerContent.style.transform = 'translate(-50%, -50%)';
+            markerContent.style.display = 'inline-block';
 
-        const customOverlay = new kakao.maps.CustomOverlay({
-          position: latlng,
-          content: markerContent,
-          map: map
+            const customOverlay = new kakao.maps.CustomOverlay({
+                position: latlng,
+                content: markerContent,
+                map: map
+            });
+
+            const infowindow = new kakao.maps.InfoWindow({
+                content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
+                removable : true
+            });
+
+            markerContent.addEventListener('click', () => {
+                infowindow.setPosition(latlng);
+                infowindow.open(map);
+            });
+
+            markers.push(customOverlay);
         });
 
-        const infowindow = new kakao.maps.InfoWindow({
-          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
-          removable : true
+        if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
+            lineCoords.push(lineCoords[0]);
+        }
+        const polyline = new kakao.maps.Polyline({
+            map: map,
+            path: lineCoords,
+            strokeWeight: 4,
+            strokeColor: data[0].lineColor,
+            strokeOpacity: 0.9,
+            strokeStyle: 'solid'
         });
 
-        markerContent.addEventListener('click', () => {
-          infowindow.setPosition(latlng);
-          infowindow.open(map);
-        });
-
-        markers.push(customOverlay);
-      });
-
-      if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
-        lineCoords.push(lineCoords[0]);
-      }
-      const polyline = new kakao.maps.Polyline({
-        map: map,
-        path: lineCoords,
-        strokeWeight: 4,
-        strokeColor: data[0].lineColor,
-        strokeOpacity: 0.9,
-        strokeStyle: 'solid'
-      });
-
-      polylines.push(polyline);
+        polylines.push(polyline);
     }
+
+    //5호선 전용 함수
+
+
+
+    function renderStationsY(hanamLine, machunLine) {
+        [hanamLine, machunLine].forEach(branch => {
+            const lineCoords = [];
+
+            branch.forEach(station => {
+                const lat = parseFloat(station.LAT);
+                const lng = parseFloat(station.LOT);
+                const latlng = new kakao.maps.LatLng(lat, lng);
+                lineCoords.push(latlng);
+
+                const markerContent = document.createElement('div');
+                markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
+                markerContent.style.position = 'relative';
+                markerContent.style.transform = 'translate(-50%, -50%)';
+                markerContent.style.display = 'inline-block';
+
+                const customOverlay = new kakao.maps.CustomOverlay({
+                    position: latlng,
+                    content: markerContent,
+                    map: map
+                });
+
+                const infowindow = new kakao.maps.InfoWindow({
+                    content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
+                    removable : true
+                });
+
+                markerContent.addEventListener('click', () => {
+                    infowindow.setPosition(latlng);
+                    infowindow.open(map);
+                })
+                markers.push(customOverlay);
+            })
+            const polyline = new kakao.maps.Polyline({
+                map: map,
+                path: lineCoords,
+                strokeWeight: 4,
+                strokeColor: branch[0].lineColor,
+                strokeOpacity: 0.9,
+                strokeStyle: 'solid'
+            });
+
+            polylines.push(polyline);
+        })
+
+    }
+
     // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -117,11 +170,14 @@
         fetch(`${cp}/lineinfo?lineName=\${line}`)
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
+            const hanamLine = data.hanamLine;
+            const machunLine = data.machunLine;
             clearMap();
+            console.log("하남 : ", data.hanamLine)
+            console.log("마천 : ", data.hanamLine)
 
             if(data.hanamLine && data.machunLine) {
-              renderStations(data.hanamLine);   // 방화 ~ 하남
-              renderStations(data.machunLine); // 강동 ~ 마천
+              renderStationsY(data.hanamLine, data.machunLine);
             } else {
               renderStations(data);
             }
