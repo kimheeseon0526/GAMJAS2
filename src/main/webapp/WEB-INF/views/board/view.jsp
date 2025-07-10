@@ -99,7 +99,7 @@
 				<c:forEach items="${board.attachs}" var="a">
 				<c:if test="${a.image}">
 				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/${a.uuid}')">
+					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/t_${a.uuid}')">
 						<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
 					</div>
 				</div>
@@ -188,7 +188,7 @@
 				<c:forEach items="${reply.attachs}" var="a">
 				<c:if test="${a.image}">
 				<div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/${a.uuid}')">
+					<div class="my-2 bg-primary" style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/t_${a.uuid}')">
 						<%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
 					</div>
 				</div>

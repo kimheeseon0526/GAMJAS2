@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import domain.Attach;
 import domain.AttachRef;
 import domain.Reply;
 import domain.AttachRef.AttachRefType;
@@ -18,6 +19,8 @@ public class ReplyService {
 			ReplyMapper mapper = session.getMapper(ReplyMapper.class);
 			return mapper.selectOne(rno);
 			
+
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,7 +30,20 @@ public class ReplyService {
 	public List<Reply> list(long bno, Long lastRno) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			ReplyMapper mapper = session.getMapper(ReplyMapper.class);
-			return mapper.list(bno, lastRno);
+//			AttachMapper attachMapper = session.getMapper(AttachMapper.class);
+//			AttachRefMapper attachRefMapper =  session.getMapper(AttachRefMapper.class);
+//			
+//			List<Reply> list = mapper.list(bno, lastRno);
+//			
+//			for(Reply r : list) {  // r 선언
+//				List<AttachRef> refList = attachRefMapper.list("REPLY", r.getRno());
+//				List<Attach> attachList = refList.stream().map(ref -> attachMapper.selectOne(ref.getAno())).toList();
+//				r.setAttachs(attachList); // 댓글에 첨부파일
+//			}
+//			
+//			
+//			
+//			return list;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

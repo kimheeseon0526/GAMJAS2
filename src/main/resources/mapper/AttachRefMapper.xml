@@ -13,8 +13,8 @@
      
    <!-- 등록  -->
     <insert id="insert"> 
-	   	insert into tbl_attach_ref (attachreftype, refno)
-		values (#{attachreftype}, #{refno})
+	   	insert into tbl_attach_ref (ano, attachreftype, refno)
+		values (#{ano}, #{attachreftype}, #{refno})
     </insert>
     
     
