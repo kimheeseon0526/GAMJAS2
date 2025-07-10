@@ -30,6 +30,13 @@ public class LineInfoServlet extends HttpServlet {
 		resp.setContentType("application/json; charset=UTF-8");
 		Gson gson = new Gson();
 
+		//1호선일 때 -> odr에 맞춰 경인선 + 경부선 + 1호선 + 경원선
+		/*if("1호선".equals(lineName)) {
+			List<Station> stationList = stationservice.getLine1All();
+			String json = gson.toJson(stationList);
+			resp.getWriter().write(json);
+			return;
+		}*/
 		//5호선일 때는
 		if("5호선".equals(lineName)) {
 			Map<String, List<Station>> splitLines = stationservice.getSplit5LineStations();

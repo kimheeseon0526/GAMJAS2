@@ -71,7 +71,7 @@
     }
 
 
-    function renderStations(data) {
+    function renderStations(data) { //기본 단선
         const lineCoords = [];
 
         data.forEach(station => {
@@ -196,6 +196,7 @@
         fetch(`${cp}/lineinfo?lineName=\${line}`)
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
+            console.log(data)
             const hanamLine = data.hanamLine;
             const machunLine = data.machunLine;
             clearMap();
@@ -214,7 +215,7 @@
       });
     });
 
-    // 1호선 디폴트
+    // 초기 1호선 디폴트
     window.addEventListener("DOMContentLoaded", () => {
       const btn = document.querySelector("button[value='1호선']");
       console.log(btn.innerHTML);

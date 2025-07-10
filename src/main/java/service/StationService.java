@@ -129,7 +129,7 @@ public class StationService {
 				log.info("{}", lineColor);
 
 			}
-
+			//2호선일 때 - 내선 순환
 			if ("2호선".equals(lineName) && !list.isEmpty()) {
 				list.add(list.get(0));    //2호선만
 			}
@@ -141,6 +141,7 @@ public class StationService {
 		}
 	}
 
+	//5호선일 때 분기 처리
 	public Map<String, List<Station>> getSplit5LineStations() {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
 			StationMapper mapper = session.getMapper(StationMapper.class);
@@ -178,6 +179,23 @@ public class StationService {
 			return new HashMap<>();
 		}
 	}
+
+	//1호선일 때
+	/*public List<List<Station>> getLine1getLine1Grouped() {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			StationMapper mapper = session.getMapper(StationMapper.class);
+			List<Station> stations = mapperk dkseho
+					.selectLine1WithBranch();
+			String lineColor = lineColorMap.get("1호선");
+			for (Station station : list) {
+				station.setLineColor(lineColor);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}*/
+//	}
 }
 
 		
