@@ -20,6 +20,12 @@
                 <label for="title" class="form-label fw-semibold">제목</label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
             </div>
+            <%--비밀글 체크박스--%>
+
+            <div class="form-check form-check-inline mb-0">
+                <input class="form-check-input" type="checkbox" id="isSecret" name="isSecret" value="1">
+                <label class="form-check-label" for="isSecret">비밀글로 등록</label>
+            </div>
 
             <!-- 내용 -->
             <div class="mb-3">
