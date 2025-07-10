@@ -78,10 +78,10 @@
 		    <a href="${cp}/info/missionlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
-		    <a href="${cp}/info/missionmodify?recomNo=${mission.missionNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+		    <a href="${cp}/info/modifymission?recomContenttype=${recommend.recomContenttype}&missionNo=${mission.missionNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-pen-to-square"></i> 수정
 		    </a>
-		    <a href="${cp}/info/missionremove?recomNo=${mission.missionNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+		    <a href="${cp}/info/removemission?missionNo=${mission.missionNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
 		        <i class="fa-solid fa-trash-can"></i> 삭제
 		    </a>
 		</div>

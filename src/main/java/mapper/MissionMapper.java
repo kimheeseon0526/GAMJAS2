@@ -20,6 +20,9 @@ public interface MissionMapper {
 
 	long getCount(@Param("criteria") Criteria cri, @Param("type") RecommendContentType type);
 
-	Mission selectOne(Long recomNo);
+	Mission selectOne(Long missionNo);
 
+    Mission selectOneByRecomNo(Long recomNo);
+
+	void removeRecomNo(Long missionNo);
 }

@@ -60,7 +60,33 @@
 	<select id="selectOne" resultMap="m">
 		select * from tbl_mission where mission_no = #{missionNo}
 	</select>
+
+	<select id="selectOneByRecomNo" resultMap="m">
+		select * from tbl_mission where recom_no = #{recomNo}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO tbl_mission (title, summary, content, provided_ticket, created_by, recom_no )
+		VALUES ( #{title}, #{summary}, #{content}, #{providedTicket}, #{createdBy} ,#{recomNo})
+	</insert>
 	<delete id="delete">
 		delete from tbl_mission where mission_no = #{missionNo}
 	</delete>
+	<update id="removeRecomNo">
+		update tbl_mission tm
+		set tm.recom_no = null
+		where tm.mission_no = #{missionNo}
+	</update>
+
+	<update id="update">
+		update tbl_mission tm
+		set
+		title = #{title},
+		summary = #{summary},
+		content = #{content},
+		provided_ticket = #{providedTicket},
+		moddatetime = now()
+		where tm.mission_no = #{missionNo}
+	</update>
+
   </mapper>

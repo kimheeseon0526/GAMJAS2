@@ -121,40 +121,32 @@
             </div>
 
             <div class="m-0 auto border apiInfo" id="apiInfo">
-            <c:choose>
-                <c:when test="${recommend.recomContenttype == 'ATTRACTION'}">
-                        <c:if test="${not empty api}">
-                        <c:set var="api" value="${api}" scope="request"/>
-                        <jsp:include page="contenttype_template/attraction.jsp"></jsp:include>
-                        </c:if>
-                </c:when>
-                <c:when test="${recommend.recomContenttype == 'RESTAURANT'}">
-                		<c:if test="${not empty api}">
-                        <c:set var="api" value="${api}" scope="request"/>
-                        <jsp:include page="contenttype_template/restaurant.jsp"></jsp:include>
-                        </c:if>
-                </c:when>
-                <c:otherwise>
-                		<c:if test="${not empty api}">
-                        <c:set var="api" value="${api}" scope="request"/>
-                        <jsp:include page="contenttype_template/festival.jsp"></jsp:include>
-                        </c:if>
-                </c:otherwise>
-            </c:choose>
+
             </div>
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="title" class="form-label fw-semibold">제목</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요" required>
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label fw-semibold">미션 개요</label>
-                <textarea type="text" class="form-control" id="title" name="summary" placeholder="제목을 입력하세요" required></textarea>
+                <select class="form-select form-select-sm me-2" style="width: 150px;" name="providedTicket">
+                    <option value="1">감자티켓 1개</option>
+                    <option value="2">감자티켓 2개</option>
+                    <option value="3">감자티켓 3개</option>
+                    <option value="4">감자티켓 4개</option>
+                    <option value="5">감자티켓 5개</option>
+                    <option value="6">감자티켓 6개</option>
+                    <option value="7">감자티켓 7개</option>
+                    <option value="8">감자티켓 8개</option>
+                    <option value="9">감자티켓 9개</option>
+                    <option value="10">감자티켓 10개</option>
+                </select>
+                <textarea type="text" class="form-control" rows="5" style="resize: none" id="summary" name="summary" placeholder="미션 내용을 요약하여 입력해주세요" required></textarea>
             </div>
-
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
-                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
+                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력해주세요" required></textarea>
             </div>
 
             <!-- 첨부파일 -->
@@ -184,16 +176,14 @@
 
             <!-- hidden 필드들 -->
             <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
-            <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
-            <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
-            <input type="hidden" name="createdBy" value="${member.memNo}">
+            <input type="hidden" name="recomNo" value="${recommend.recomNo}">
+            <%-- <input type="hidden" name="stationId" value="${station.id}"> 지도 역 관련 작업할때 살리기--%>
+            <input type="hidden" name="createdBy" value="${loginMember.memNo}"> 멤버 관련 작업할때 살리기
             <input type="hidden" name="encodedStr" value="">
             <!-- <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
             <input type="hidden" name="amount" value="10"> -->
-            <c:if test="${not empty param.recomNo}">
-                <input type="hidden" name="recomNo" value="${param.recomNo}">
-            </c:if>
+
 
         </form>
     </main>
@@ -239,9 +229,6 @@
 			console.log($(this).children("input").val());
 			
 			const recomNo = $(this).children("input").val();
-			
-			//const selectedCard = document.querySelector(".card-select") ;
-			//const recomContenttype = selectedCard ? selectedCard.data("type") : null ;
 			const recomContenttype = $("#recomContenttype").val();
 			$.ajax({
 				url: `${cp}/info/apipreview`,	

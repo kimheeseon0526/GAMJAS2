@@ -53,6 +53,10 @@
 		select * from tbl_restaurant 
 		where recom_no = #{recomNo}
 	</select>
+	<select id="selectOnePk" resultType="restaurant">
+		select * from tbl_restaurant
+		where post_Sn = #{postSn}
+	</select>
 	<select id ="getRecomList" resultType="restaurant">
 		select * from tbl_restaurant
 		<include refid="cri2"/>
