@@ -30,24 +30,29 @@ public class LineInfoServlet extends HttpServlet {
 		resp.setContentType("application/json; charset=UTF-8");
 		Gson gson = new Gson();
 
-		//1호선일 때 -> odr에 맞춰 경인선 + 경부선 + 1호선 + 경원선
-		/*if("1호선".equals(lineName)) {
-			List<Station> stationList = stationservice.getLine1All();
-			String json = gson.toJson(stationList);
-			resp.getWriter().write(json);
-			return;
-		}*/
-		//5호선일 때는
-		if("5호선".equals(lineName)) {
-			Map<String, List<Station>> splitLines = stationservice.getSplit5LineStations();
-			String json = gson.toJson(splitLines);
-			resp.getWriter().write(json);
-		}else {
-			List<Station> stationList = stationservice.getLineStations(lineName);
-			String json = gson.toJson(stationList);
-			resp.getWriter().write(json);
+		//1,2,5호선, 단선
+		//js로 부터 오는 데이터의 값에 따라
+		//리스트안의 리스트
+		List<List<Station>> groupStations;
+		
+		switch(lineName) {
+			case "line1" :
+				groupStations = stationservice.getLine1Group();
+				break;
+			case "line2" :
+				groupStations = stationservice.getLine2Group();
+				break;
+			case "line5" :
+				groupStations = stationservice.getLine5Group();
+				break;
+				
+			default :
+				List<Station> stations = stationservice.getLineStations(lineName);
+				groupStations = List.of(stations); //stations은 단선(분기선이 없으니)이어도 한 번 감싸서 data[0]
+				break;
+				
 		}
-
+		resp.getWriter().write(gson.toJson(groupStations));
 	}
 
 }
