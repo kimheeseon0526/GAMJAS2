@@ -24,14 +24,15 @@
   AND odr is not null
   order by odr
   </select>
-    <!--1호선 전체 노선 라인 그리기 -->
-    <select id="selectLine1WithBranch" resultMap="stationMap">
-        SELECT *
-        FROM tbl_station
-        WHERE line_name IN ('장항선', '경부선', '경인선', '1호선', '중앙선', '경원선')
-        ORDER BY branch_group, odr
-    </select>
   
+ <!--1호선 전체 노선 라인 그리기 -->
+ <select id="selectLine1" resultMap="stationMap">
+     SELECT name, branch_group
+     FROM tbl_station
+     WHERE line_name IN ('장항선', '경부선', '경인선', '1호선', '중앙선', '경원선')
+     ORDER BY branch_group, odr
+ </select>
+ 
 
 
   </mapper>
