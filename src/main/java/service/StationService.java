@@ -153,7 +153,7 @@ public class StationService {
 
 			// ??? 분기 나누는 거 강동에 오면 true
 			boolean isMachun = false;
-			int gangdongodr = 39;
+			int gangdongodr = 39;	//강동 odr
 
 			for (Station s : all) {
 				s.setLineColor(lineColor);

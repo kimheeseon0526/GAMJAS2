@@ -40,10 +40,18 @@
 </div>
   </div>
  <!--지도 -->
-  <div id="map" style="width:50%; height:600px;"></div>
+  <div id = "map-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 32px; margin-bottom: 64px; padding: 0 5%;">
+    <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+    <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
+      <h3 style="margin-bottom: 12px;">미션 리스트</h3>
+      <div id="mission-content">역을 선택하면 미션이 표시됩니다.</div>
+    </div>
+  </div>
   
 
   <script>
+
+    let openInfoWindow = null;  //인포 윈도우 초기화
   	const map = new kakao.maps.Map(document.getElementById("map"), {
       center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
       level: 6
@@ -90,32 +98,48 @@
             });
 
             markerContent.addEventListener('click', () => {
+                if(openInfoWindow) openInfoWindow.close(); //인포윈도우 열려있으면 닫고
                 infowindow.setPosition(latlng);
                 infowindow.open(map);
+                openInfoWindow = infowindow; //기존 인포윈도우를 openinfowindow로 저장
             });
 
             markers.push(customOverlay);
         });
-
-        if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
-            lineCoords.push(lineCoords[0]);
-        }
+        //단선 일반 라인 그리기
         const polyline = new kakao.maps.Polyline({
-            map: map,
-            path: lineCoords,
-            strokeWeight: 4,
-            strokeColor: data[0].lineColor,
-            strokeOpacity: 0.9,
-            strokeStyle: 'solid'
+          map: map,
+          path: lineCoords,
+          strokeWeight: 4,
+          strokeColor: data[0].lineColor,
+          strokeOpacity: 0.9,
+          strokeStyle: 'solid'
         });
 
         polylines.push(polyline);
+
+      //2호선 내부 순환(외선은 null처리)
+        if (data[0].ROUTE === "2호선") {
+          const first = data[0]; //시청
+          const last = data[data.length - 1];  //충정로 마지막 인덱스
+
+          const firstLatLng = new kakao.maps.LatLng(parseFloat(first.LAT), parseFloat(first.LOT));
+          const lastLatLng = new kakao.maps.LatLng(parseFloat(last.LAT), parseFloat(last.LOT));
+
+          const closingLine = new kakao.maps.Polyline({
+            map: map,
+            path: [lastLatLng, firstLatLng],
+            strokeWeight: 4,
+            strokeColor: last.lineColor,
+            strokeOpacity: 0.9,
+            strokeStyle: 'solid'
+          });
+            polylines.push(closingLine);
+        }
+
     }
 
     //5호선 전용 함수
-
-
-
     function renderStationsY(hanamLine, machunLine) {
         [hanamLine, machunLine].forEach(branch => {
             const lineCoords = [];
@@ -144,8 +168,10 @@
                 });
 
                 markerContent.addEventListener('click', () => {
+                  if(openInfoWindow) openInfoWindow.close();
                     infowindow.setPosition(latlng);
                     infowindow.open(map);
+                    openInfoWindow = infowindow;
                 })
                 markers.push(customOverlay);
             })

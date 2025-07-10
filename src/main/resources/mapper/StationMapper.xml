@@ -20,6 +20,7 @@
   select  id, name, line_name , lat, lng, odr
   from tbl_station
   where line_name= #{lineName}
+  AND odr is not null
   order by odr
   </select>
   
