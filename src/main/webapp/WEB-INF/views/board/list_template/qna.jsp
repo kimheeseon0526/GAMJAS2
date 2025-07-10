@@ -26,7 +26,7 @@
                         <i class="fa-solid fa-reply text-secondary"
                            style="transform: rotate(180deg); margin-left: ${(board.depth - 1) * 14}px;"></i>
                     </c:if>
-                    ${board.title}
+                            ${board.title}
                     <span class="small text-danger"> ${board.replyCnt} </span>
                     <c:if test="${board.attachCnt > 0}">
                         <i class="fa-solid fa-paperclip text-muted"></i>

@@ -56,7 +56,6 @@
         </ul>
       </c:if>
      </form>
-
 		  </div>
 	<div class="container p-0 mt-3 pt-3">
   <main>
