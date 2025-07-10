@@ -40,10 +40,18 @@
 </div>
   </div>
  <!--지도 -->
-  <div id="map" style="width:50%; height:600px;"></div>
+  <div id = "map-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 32px; margin-bottom: 64px; padding: 0 5%;">
+    <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+    <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
+      <h3 style="margin-bottom: 12px;">미션 리스트</h3>
+      <div id="mission-content">역을 선택하면 미션이 표시됩니다.</div>
+    </div>
+  </div>
   
 
   <script>
+
+    let openInfoWindow = null;  //인포 윈도우 초기화
   	const map = new kakao.maps.Map(document.getElementById("map"), {
       center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
       level: 6
@@ -62,54 +70,125 @@
       }
     }
 
-    function renderStations(data) {
-      const lineCoords = [];
 
-      data.forEach(station => {
-        const lat = parseFloat(station.LAT);
-        const lng = parseFloat(station.LOT);
-        const latlng = new kakao.maps.LatLng(lat, lng);
-        lineCoords.push(latlng);
+    function renderStations(data) { //기본 단선
+        const lineCoords = [];
 
-        const markerContent = document.createElement('div');
-        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
-        markerContent.style.position = 'relative';
-        markerContent.style.transform = 'translate(-50%, -50%)';
-        markerContent.style.display = 'inline-block';
+        data.forEach(station => {
+            const lat = parseFloat(station.LAT);
+            const lng = parseFloat(station.LOT);
+            const latlng = new kakao.maps.LatLng(lat, lng);
+            lineCoords.push(latlng);
 
-        const customOverlay = new kakao.maps.CustomOverlay({
-          position: latlng,
-          content: markerContent,
-          map: map
+            const markerContent = document.createElement('div');
+            markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
+            markerContent.style.position = 'relative';
+            markerContent.style.transform = 'translate(-50%, -50%)';
+            markerContent.style.display = 'inline-block';
+
+            const customOverlay = new kakao.maps.CustomOverlay({
+                position: latlng,
+                content: markerContent,
+                map: map
+            });
+
+            const infowindow = new kakao.maps.InfoWindow({
+                content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
+                removable : true
+            });
+
+            markerContent.addEventListener('click', () => {
+                if(openInfoWindow) openInfoWindow.close(); //인포윈도우 열려있으면 닫고
+                infowindow.setPosition(latlng);
+                infowindow.open(map);
+                openInfoWindow = infowindow; //기존 인포윈도우를 openinfowindow로 저장
+            });
+
+            markers.push(customOverlay);
+        });
+        //단선 일반 라인 그리기
+        const polyline = new kakao.maps.Polyline({
+          map: map,
+          path: lineCoords,
+          strokeWeight: 4,
+          strokeColor: data[0].lineColor,
+          strokeOpacity: 0.9,
+          strokeStyle: 'solid'
         });
 
-        const infowindow = new kakao.maps.InfoWindow({
-          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
-          removable : true
-        });
+        polylines.push(polyline);
 
-        markerContent.addEventListener('click', () => {
-          infowindow.setPosition(latlng);
-          infowindow.open(map);
-        });
+      //2호선 내부 순환(외선은 null처리)
+        if (data[0].ROUTE === "2호선") {
+          const first = data[0]; //시청
+          const last = data[data.length - 1];  //충정로 마지막 인덱스
 
-        markers.push(customOverlay);
-      });
+          const firstLatLng = new kakao.maps.LatLng(parseFloat(first.LAT), parseFloat(first.LOT));
+          const lastLatLng = new kakao.maps.LatLng(parseFloat(last.LAT), parseFloat(last.LOT));
 
-      if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
-        lineCoords.push(lineCoords[0]);
-      }
-      const polyline = new kakao.maps.Polyline({
-        map: map,
-        path: lineCoords,
-        strokeWeight: 4,
-        strokeColor: data[0].lineColor,
-        strokeOpacity: 0.9,
-        strokeStyle: 'solid'
-      });
+          const closingLine = new kakao.maps.Polyline({
+            map: map,
+            path: [lastLatLng, firstLatLng],
+            strokeWeight: 4,
+            strokeColor: last.lineColor,
+            strokeOpacity: 0.9,
+            strokeStyle: 'solid'
+          });
+            polylines.push(closingLine);
+        }
 
-      polylines.push(polyline);
     }
+
+    //5호선 전용 함수
+    function renderStationsY(hanamLine, machunLine) {
+        [hanamLine, machunLine].forEach(branch => {
+            const lineCoords = [];
+
+            branch.forEach(station => {
+                const lat = parseFloat(station.LAT);
+                const lng = parseFloat(station.LOT);
+                const latlng = new kakao.maps.LatLng(lat, lng);
+                lineCoords.push(latlng);
+
+                const markerContent = document.createElement('div');
+                markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
+                markerContent.style.position = 'relative';
+                markerContent.style.transform = 'translate(-50%, -50%)';
+                markerContent.style.display = 'inline-block';
+
+                const customOverlay = new kakao.maps.CustomOverlay({
+                    position: latlng,
+                    content: markerContent,
+                    map: map
+                });
+
+                const infowindow = new kakao.maps.InfoWindow({
+                    content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
+                    removable : true
+                });
+
+                markerContent.addEventListener('click', () => {
+                  if(openInfoWindow) openInfoWindow.close();
+                    infowindow.setPosition(latlng);
+                    infowindow.open(map);
+                    openInfoWindow = infowindow;
+                })
+                markers.push(customOverlay);
+            })
+            const polyline = new kakao.maps.Polyline({
+                map: map,
+                path: lineCoords,
+                strokeWeight: 4,
+                strokeColor: branch[0].lineColor,
+                strokeOpacity: 0.9,
+                strokeStyle: 'solid'
+            });
+
+            polylines.push(polyline);
+        })
+
+    }
+
     // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -117,11 +196,15 @@
         fetch(`${cp}/lineinfo?lineName=\${line}`)
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
+            console.log(data)
+            const hanamLine = data.hanamLine;
+            const machunLine = data.machunLine;
             clearMap();
+            console.log("하남 : ", data.hanamLine)
+            console.log("마천 : ", data.hanamLine)
 
             if(data.hanamLine && data.machunLine) {
-              renderStations(data.hanamLine);   // 방화 ~ 하남
-              renderStations(data.machunLine); // 강동 ~ 마천
+              renderStationsY(data.hanamLine, data.machunLine);
             } else {
               renderStations(data);
             }
@@ -132,7 +215,7 @@
       });
     });
 
-    // 1호선 디폴트
+    // 초기 1호선 디폴트
     window.addEventListener("DOMContentLoaded", () => {
       const btn = document.querySelector("button[value='1호선']");
       console.log(btn.innerHTML);

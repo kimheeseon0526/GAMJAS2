@@ -129,7 +129,7 @@ public class StationService {
 				log.info("{}", lineColor);
 
 			}
-
+			//2호선일 때 - 내선 순환
 			if ("2호선".equals(lineName) && !list.isEmpty()) {
 				list.add(list.get(0));    //2호선만
 			}
@@ -141,6 +141,7 @@ public class StationService {
 		}
 	}
 
+	//5호선일 때 분기 처리
 	public Map<String, List<Station>> getSplit5LineStations() {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
 			StationMapper mapper = session.getMapper(StationMapper.class);
@@ -153,18 +154,20 @@ public class StationService {
 
 			// ??? 분기 나누는 거 강동에 오면 true
 			boolean isMachun = false;
+			int gangdongodr = 39;	//강동 odr
 
 			for (Station s : all) {
 				s.setLineColor(lineColor);
 
-				if ("강동".equals(s.getName())) {
-					isMachun = true;
-				}
-
-				if (isMachun) {
-					machunLine.add(s);
-				} else {
+				int odr = s.getOdr();
+				if (odr <= 39) {
+					// 공통 구간 → 양쪽에 다 넣음
 					hanamLine.add(s);
+					machunLine.add(s);
+				} else if (odr <= 49) {
+					hanamLine.add(s); // 하남 방면
+				} else if (odr >= 50 && odr <= 56) {
+					machunLine.add(s); // 마천 방면
 				}
 			}
 			Map<String, List<Station>> map = new HashMap<>();
@@ -176,6 +179,23 @@ public class StationService {
 			return new HashMap<>();
 		}
 	}
+
+	//1호선일 때
+	/*public List<List<Station>> getLine1getLine1Grouped() {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			StationMapper mapper = session.getMapper(StationMapper.class);
+			List<Station> stations = mapperk dkseho
+					.selectLine1WithBranch();
+			String lineColor = lineColorMap.get("1호선");
+			for (Station station : list) {
+				station.setLineColor(lineColor);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}*/
+//	}
 }
 
 		
