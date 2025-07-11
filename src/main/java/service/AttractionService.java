@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
+import api.Festival;
+import mapper.FestivalMapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.google.gson.FieldNamingPolicy;
@@ -145,8 +147,18 @@ public class AttractionService { //최초 1회 수집용
 		}
 		return null;
 	}
-	
-	
+
+	public Attraction findByPk(String pk) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			AttractionMapper mapper = session.getMapper(AttractionMapper.class);
+			return mapper.selectOneByPk(pk);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public long getCount(Criteria cri) { 
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			AttractionMapper mapper = session.getMapper(AttractionMapper.class);

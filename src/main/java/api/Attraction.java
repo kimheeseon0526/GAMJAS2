@@ -25,4 +25,6 @@ public class Attraction {
 	private String tag;
 	private String bfDesc;
 	private String recomNo;
+	private String mapx;
+	private String mapy;
 }

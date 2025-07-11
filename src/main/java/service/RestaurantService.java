@@ -12,7 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
+import api.Festival;
 import domain.en.RecommendContentType;
+import mapper.FestivalMapper;
 import mapper.RecommendMapper;
 import org.apache.ibatis.session.SqlSession;
 
@@ -166,8 +168,18 @@ public class RestaurantService { //최초 1회 수집용
 		}
 		return null;
 	}
-	
-	
+
+	public Restaurant findByPk(String pk) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			return mapper.selectOneByPk(pk);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public void register(Restaurant restaurant) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);

@@ -1,13 +1,16 @@
 package domain.info;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 @Alias("mission")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mission {
 
 	private Long missionNo;             

@@ -87,18 +87,15 @@
 						<c:choose>
 							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
 								<li class="list-group-item" style="cursor: pointer;">
-								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}" 
-								data-postsn="${a.postSn}"  data-title="${a.postSj}" data-url="${a.postUrl}" data-address="${a.newAddress}"
-       							data-opentime="${a.cmmnUseTime}" data-subway="${a.subwayInfo}">
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}">
 								${a.postSj} 
 								</li>
 							</c:when>
 							<c:otherwise>
 								<li class="list-group-item" style="cursor: pointer;">
-								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}" 
-								data-contentid="${a.contentId}" data-title="${a.title}" data-address1="${a.addr1}" data-address2="${a.addr2}"
-       							data-startdate="${a.eventStartDate}" data-enddate="${a.eventEndDate}" >
-								${a.title}</li>
+								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}">
+										${a.title}
+								</li>
 							</c:otherwise>
 						</c:choose>
 				</c:forEach>
@@ -126,21 +123,7 @@
         </div>
 			
 			<div class="m-0 auto border apiInfo" id="apiInfo">
-				<c:choose>
-							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
-								<span>장소명 <p id="infotitle"></p></span> 				
-								<span>url 정보 <p id="infourl"></p></span> 				
-								<span>주소 <p id="infoaddress"></p></span> 				
-								<span>운영시간<p id="infoopentime"></p></span> 				
-								<span>지하철 정보 <p id="infosubway"></p></span> 		
-							</c:when>
-							<c:otherwise>
-								<span>축제/체험명 <p id="infotitle"></p></span> 
-								<span>주소<p id=infoaddress></p></span> 
-								<span>시작날짜 <p id="infostartdate"></p></span> 
-								<span>종료날짜 <p id="infoenddate"></p></span> 
-							</c:otherwise>
-				</c:choose>	 
+
 			</div>
        
 	
@@ -165,7 +148,7 @@
             <!-- 버튼 영역 -->
             <div class="d-flex justify-content-between">
                 <!-- 목록 버튼은 그대로 유지 -->
-                <a href="${cp}/info/missionlist" class="btn btn-outline-secondary btn-sm">
+                <a href="${cp}/info/recommendlist" class="btn btn-outline-secondary btn-sm">
                     <i class="fa-solid fa-list-ul"></i> 목록
                 </a>
 
@@ -179,7 +162,7 @@
             <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
             <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
             <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
-            <input type="hidden" name="createdBy" value="${member.memNo}">
+            <input type="hidden" name="createdBy" value="${loginMember.memNo}">
             <input type="hidden" name="encodedStr" value="">
 <!--             <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
@@ -229,35 +212,24 @@
 			$(this).children("input").prop("checked", true)
 			
 			console.log($("#apiInfo"))
+
+			const recomPlaceId = $(this).children("input").val();
+			const recomContenttype = $("#recomContenttype").val();
+
+			console.log(recomPlaceId)
+			console.log(recomContenttype)
+			$.ajax({
+				url: `${cp}/info/apipreview`,
+				type: "GET",
+				data: {
+					recomPlaceId: recomPlaceId,
+					recomContenttype: recomContenttype
+				},
+				success: function(data) {
+					$("#apiInfo").html(data).show();
+				}
+			})
 			$("#apiInfo").removeClass("apiInfo")
-			
-			
-			
-			const placeId = $(this).children("input").val();
-			const title = $(this).children("input").data("title");
-			
-			if ("${recommend.recomContenttype}" !== "FESTIVAL") {				
-		        const url = $(this).children("input").data("url");
-		        const address = $(this).children("input").data("address");
-		        const opentime = $(this).children("input").data("opentime");
-		        const subway = $(this).children("input").data("subway");
-		        
-		        $("#infotitle").text(title);
-		        $("#infourl").text(url);
-		        $("#infoaddress").text(address);
-		        $("#infoopentime").text(opentime);
-		        $("#infosubway").text(subway);
-			}
-	  		else {
-	        const address = $(this).children("input").data("address1"); // addr1
-	        const startdate = $(this).children("input").data("startdate");
-	        const enddate = $(this).children("input").data("enddate");
-	 
-	        $("#infotitle").text(title);
-	        $("#infoaddress").text(address);
-	        $("#infostartdate").text(startdate);
-	        $("#infoenddate").text(enddate);
-	    	}
 		})
 		
 		
