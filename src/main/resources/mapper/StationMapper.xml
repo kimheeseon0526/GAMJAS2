@@ -10,6 +10,8 @@
     <result property="lat" column="lat"/>
     <result property="lng" column="lng"/>
     <result property="odr" column="odr"/>
+    <result property="branchGroup" column="branch_group"/>
+
   </resultMap>
   
   <insert id="insert">
@@ -26,13 +28,36 @@
   </select>
   
  <!--1호선 전체 노선 라인 그리기 -->
- <select id="selectLine1" resultMap="stationMap">
-     SELECT name, branch_group
+<!--<select id="selectLine1" resultMap="stationMap">
+     SELECT id, name, line_name , lat, lng, branch_group
      FROM tbl_station
      WHERE line_name IN ('장항선', '경부선', '경인선', '1호선', '중앙선', '경원선')
      ORDER BY branch_group, odr
- </select>
- 
+ </select>-->
+<select id="selectLine1Main" resultType="domain.Station">
+    SELECT * FROM vw_line1_main ORDER BY odr
+</select>
 
+<select id="selectLine1Branch1" resultType="domain.Station">
+    SELECT * FROM view_line1_branch1 ORDER BY odr
+</select>
+
+<select id="selectLine2" resultMap="stationMap">
+    SELECT id, name, line_name, lat, lng, odr, branch_group
+    FROM tbl_station
+    WHERE line_name = '2호선'
+    AND odr IS NOT NULL
+    ORDER BY branch_group, odr
+</select>
+
+
+    <!-- 5호선 -->
+<select id="selectLine5" resultMap="stationMap">
+    SELECT id, name, line_name, lat, lng, odr, branch_group
+    FROM tbl_station
+    WHERE line_name = '5호선'
+    AND odr IS NOT NULL
+    ORDER BY branch_group, odr
+</select>
 
   </mapper>

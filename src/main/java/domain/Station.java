@@ -23,6 +23,7 @@ public class Station {
 	private double lng;
 	private String lineColor;
 	private String BranchGroup; //분기 여부
+
 	
 	private boolean isTransfer;	//환승역 여부
 	private Integer odr;
