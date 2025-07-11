@@ -25,8 +25,15 @@ public class Recommend {
 	private Long memNo;
 	private String regdatetime;
 	private String moddatetime;
-	
+
+	//JOIN에 의한 column
+
 	private String title;
+
+	private String firstImage;
+
+	@Builder.Default
+	private List<String> images = new ArrayList<>();
 	
 //	@Builder.Default
 //	private List<Attach> attachs = new ArrayList<>();
