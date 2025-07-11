@@ -136,7 +136,7 @@
 
         <ul class="list-group list-group-flush mt-3 reviews"></ul>
         <div class="d-grid">
-            <button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기
+            <button class="btn btn-sm btn-reply-more d-none " style="background-color: #4a5c48; color: white;">댓글 더보기
             </button>
         </div>
 
@@ -290,6 +290,7 @@
         function list(bno, lastRno) {
             lastRno = lastRno ? ('/' + lastRno) : '';
             let reqUrl = url + 'list/' + bno + lastRno;
+            console.log(reqUrl);
             $.ajax({
                 url: reqUrl,
                 success: function (data) {
