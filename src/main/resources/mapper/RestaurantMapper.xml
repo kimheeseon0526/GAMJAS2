@@ -53,9 +53,9 @@
 		select * from tbl_restaurant 
 		where recom_no = #{recomNo}
 	</select>
-	<select id="selectOnePk" resultType="restaurant">
+	<select id="selectOneByPk" resultType="restaurant">
 		select * from tbl_restaurant
-		where post_Sn = #{postSn}
+		where post_sn = #{postSn}
 	</select>
 	<select id ="getRecomList" resultType="restaurant">
 		select * from tbl_restaurant
