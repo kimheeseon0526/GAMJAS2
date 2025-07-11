@@ -34,4 +34,5 @@ public interface RecommendMapper {
 
 	void removeRecomFest(Long recomNo);
 
+	List<String> selectImgByRecomNo(Long recomNo);
 }

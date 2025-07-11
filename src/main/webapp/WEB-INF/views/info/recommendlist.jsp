@@ -69,13 +69,20 @@
   	<c:forEach items="${recommendlist}" var="r">
 	  		<div class="col">
 		      <div class="card h-100">
-		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
-		        <div class="card-body">
-		          <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div> 
-		          <div><p class="card-text text-truncate">${r.apiSubcontent}</p></div> 
-		        </div>
+				  <c:choose>
+					  <c:when test="${r.recomContenttype != 'FESTIVAL'}">
+						<img src="${r.images[0]}" class="card-img-top" onerror="this.src='https://placehold.co/400x300?text=No+Image'" alt ="이미지가 없습니다.">
+					  </c:when>
+					  <c:otherwise>
+					  	<img src="${r.firstImage}" class="card-img-top" onerror="this.src='https://placehold.co/400x300?text=No+Image'" alt ="이미지가 없습니다." style = " max-width : 400px; max-height : 300px; "  > <!--  -->
+					  </c:otherwise>
+				  </c:choose>
+				  <div class="card-body">
+					  <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div>
+					  <div><p class="card-text text-truncate">${r.apiSubcontent}</p></div>
+				  </div>
 		      </div>
-		    </div>	
+		    </div>
   	</c:forEach>
   </div>
 </div> <!-- 컨테이너 닫는 div -->

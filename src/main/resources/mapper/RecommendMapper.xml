@@ -13,6 +13,7 @@
   		<result property="regdatetime" column="regdatetime"/>
   		<result property="moddatetime" column="moddatetime"/>
   		<result property="title" column="title"/>
+		<result property="firstImage" column="first_image"/>
 	</resultMap>
 	<sql id="cri">
 		<where>
@@ -40,7 +41,8 @@
 	<select id="list" resultMap="r">
 		select * from (
 		    SELECT trp.*, 
-		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title
+		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title,
+					tf.firstimage as first_image
 		    FROM tbl_recommend_place trp
 		    LEFT JOIN tbl_attraction ta 
 		        ON trp.recom_contenttype = 'ATTRACTION' AND ta.post_sn = trp.recom_place_id
@@ -130,4 +132,10 @@
 		set tf.recom_no = null
 		where tf.recom_no = #{recomNo}
 	</update>
+	<select id="selectImgByRecomNo" resultType="String">
+		select img.src
+		from tbl_recommend_place trp
+		left join tbl_attr_rest_imgsrc img on trp.recom_place_id = img.fk
+		where trp.recom_no = #{recomNo};
+	</select>
 </mapper>

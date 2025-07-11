@@ -40,6 +40,7 @@
 	
 	<select id="getCount" resultType="long">
 		select count(*) from tbl_festival
+		<include refid="cri"/>
 	</select>
   	<insert id="insert" >
   		INSERT INTO tbl_festival (addr1, addr2, zipcode, cat1, cat2, cat3, content_id, contenttypeid, createdtime, eventstartdate, eventenddate,
@@ -53,6 +54,10 @@
   	<select id="selectOne" resultType="festival">
 		select * from tbl_festival 
 		where recom_no = #{recomNo}
+	</select>
+	<select id="selectOneByPk" resultType="festival">
+		select * from tbl_festival
+		where content_id = #{contentId}
 	</select>
 	<select id ="getRecomList" resultType="festival">
 		select * from tbl_festival

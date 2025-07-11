@@ -40,9 +40,10 @@ public class MissionView extends HttpServlet{
 		MissionService service = new MissionService();
 		RecommendService recommendService = new RecommendService();
 		Mission mission = service.findBy(Long.parseLong(req.getParameter("missionNo")));
-		
+		log.info("{}",mission);
 		
 		Recommend recommend = recommendService.findBy(mission.getRecomNo());
+		log.info("{}",recommend);
 		switch (recommend.getRecomContenttype()) {
 			case RecommendContentType.ATTRACTION :  req.setAttribute("attraction", new AttractionService().findBy(recommend.getRecomNo())); break;
 			case RecommendContentType.RESTAURANT :  req.setAttribute("restaurant", new RestaurantService().findBy(recommend.getRecomNo())); break;

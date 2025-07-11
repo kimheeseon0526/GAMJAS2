@@ -156,6 +156,19 @@ public class RecommendService {
 			session.close();
 		}  //try catch -> 롤백해라
 	}
+
+	public List<String> findByImgByRecomNo(Long recomNo) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			List<String> list = mapper.selectImgByRecomNo(recomNo);
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 		
 }
 	

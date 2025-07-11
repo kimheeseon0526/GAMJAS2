@@ -92,7 +92,7 @@ public class ModifyRecommend extends HttpServlet{
         new RecommendService().modify(recommend);
 
 //        //리디렉션(board/list)
-        AlertUtil.alert("글이 수정되었습니다", "/info/view?recomNo=" + recommend.getRecomNo() + "&" + cri.getQsRecom2(recommend.getRecomContenttype()), req, resp); 
+        AlertUtil.alert("글이 수정되었습니다", "/info/view?recomNo=" + recommend.getRecomNo(), req, resp);
         //글쓰기작성 후 1페이지로 이동
 		
 	}

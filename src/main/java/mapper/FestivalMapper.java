@@ -18,4 +18,6 @@ public interface FestivalMapper {
 	List<Festival> getRecomList(Criteria cri);
 
 	long getRecomCount(Criteria cri);
+
+	Festival selectOneByPk(String pk);
 }
