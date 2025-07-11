@@ -15,19 +15,19 @@ import service.BoardService;
 
 @WebServlet("/board/list")
 @Slf4j
-public class BoardList extends HttpServlet{  // 전체 목록 조회
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		BoardService service = new BoardService();
-		
-		Criteria cri = Criteria.init(req);  //클래스 매서드로 정의하겠다
-		log.info("{}",cri);
-		
-		req.setAttribute("pageDto", new PageDto(cri, service.getCount(cri)));
-		req.setAttribute("boards", service.list(cri));
-		req.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(req, resp);
-	}
-	
+public class BoardList extends HttpServlet {  // 전체 목록 조회
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BoardService service = new BoardService();
+
+        Criteria cri = Criteria.init(req);  //클래스 매서드로 정의하겠다
+        log.info("{}", cri);
+
+        req.setAttribute("pageDto", new PageDto(cri, service.getCount(cri)));
+        req.setAttribute("boards", service.list(cri));
+        req.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(req, resp);
+    }
+
 
 }
