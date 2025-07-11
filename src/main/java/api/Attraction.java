@@ -1,5 +1,7 @@
 package api;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Builder;
@@ -8,6 +10,8 @@ import lombok.Data;
 @Data
 @Builder
 @Alias("attraction")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Attraction {
 	private String postSn;
 	private String langCodeId;
@@ -25,4 +29,6 @@ public class Attraction {
 	private String tag;
 	private String bfDesc;
 	private String recomNo;
+	private String mapx;
+	private String mapy;
 }

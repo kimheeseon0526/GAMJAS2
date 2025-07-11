@@ -19,5 +19,5 @@ public interface RestaurantMapper {
 
 	long getRecomCount(Criteria cri);
 
-
+    Restaurant selectOneByPk(String pk);
 }

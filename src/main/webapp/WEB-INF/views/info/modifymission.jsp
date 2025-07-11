@@ -70,8 +70,8 @@
 					<div class="container my-4">
 					  <div class="row">
 					    <!-- 왼쪽 컬럼 -->
-						  <p class="fw-bold fs-5">${attraction.postSj}</p>
 					    <div class="col-md-6">
+
 					      <ul class="list-group list-group-flush">
 					
 					        <c:if test="${not empty attraction.cmmnTelNo}">
@@ -136,7 +136,6 @@
 				<div class="container my-4">
 				  <div class="row">
 				    <!-- 왼쪽 컬럼 -->
-					  <p class="fw-bold fs-5">${restaurant.postSj}</p>
 				    <div class="col-md-6">
 				      <ul class="list-group list-group-flush">
 				
@@ -186,7 +185,6 @@
 			</c:when>
 			<c:otherwise>
 				<div class="container my-4">
-					<p class="fw-bold fs-5">${festival.title}</p>
 					 <c:if test="${not empty festival.firstImage}">
 			           <div style="max-width: 600px; margin: 0 auto;">
 			            <img src="${festival.firstImage}" class="img-fluid mt-2" alt="축제 이미지">
@@ -196,7 +194,6 @@
 				  <div class="row">
 				    <!-- 왼쪽 컬럼 -->
 				    <div class="col-md-6">
-
 				      <ul class="list-group list-group-flush">
 				
 				        <c:if test="${not empty festival.title}">
@@ -240,11 +237,31 @@
 			</c:otherwise>
 		</c:choose>
        
-		<form method="POST" id="writeForm" action="${cp}/info/modify">
+		<form method="POST" id="writeForm" action="${cp}/info/modifymission">
+			<div class="mb-3">
+				<label for="title" class="form-label fw-semibold" required>제목</label>
+				<input type="text" class="form-control" id="title" name="title" value="${mission.title}" required>
+			</div>
+			<div class="mb-3">
+				<label for="title" class="form-label fw-semibold">미션 개요</label>
+				<select class="form-select form-select-sm me-2" style="width: 150px;" name="providedTicket" >
+					<option value="1">감자티켓 1개</option>
+					<option value="2">감자티켓 2개</option>
+					<option value="3">감자티켓 3개</option>
+					<option value="4">감자티켓 4개</option>
+					<option value="5">감자티켓 5개</option>
+					<option value="6">감자티켓 6개</option>
+					<option value="7">감자티켓 7개</option>
+					<option value="8">감자티켓 8개</option>
+					<option value="9">감자티켓 9개</option>
+					<option value="10">감자티켓 10개</option>
+				</select>
+				<textarea type="text" class="form-control" rows="5" style="resize: none" id="summary" name="summary" required>${mission.summary}</textarea>
+			</div>
             <!-- 내용 -->
             <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
-                <textarea id="editor1" name="apiSubcontent" rows="10" class="form-control" placeholder="내용을 입력하세요" required>${recommend.apiSubcontent}</textarea>
+                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required>${mission.content}</textarea>
             </div>
 
             <!-- 첨부파일 -->
@@ -274,13 +291,10 @@
 
             <!-- hidden 필드들 -->
             <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
-            <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
+    		<input type="hidden" name="missionNo" value="${mission.missionNo}">
             <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>
-            <input type="hidden" name="createdBy" value="${member.memNo}">
+            <input type="hidden" name="createdBy" value="${loginMember.memNo}">
             <input type="hidden" name="encodedStr" value="">
-            <c:if test="${not empty param.recomNo}">
-                <input type="hidden" name="recomNo" value="${param.recomNo}">
-            </c:if>
         </form>
     </main>
 </div>
@@ -298,6 +312,32 @@
   <script>
   	
 	$(function() {
+
+		<%--const placeId = $(this).children("input").val();--%>
+		<%--const title = $(this).children("input").data("title");--%>
+		
+		<%--if ("${recommend.recomContenttype}" !== "FESTIVAL") {				--%>
+	    <%--    const url = $(this).children("input").data("url");--%>
+	    <%--    const address = $(this).children("input").data("address");--%>
+	    <%--    const opentime = $(this).children("input").data("opentime");--%>
+	    <%--    const subway = $(this).children("input").data("subway");--%>
+	    <%--    --%>
+	    <%--    $("#infotitle").text(title);--%>
+	    <%--    $("#infourl").text(url);--%>
+	    <%--    $("#infoaddress").text(address);--%>
+	    <%--    $("#infoopentime").text(opentime);--%>
+	    <%--    $("#infosubway").text(subway);--%>
+		<%--}--%>
+  		<%--else {--%>
+        <%--const address = $(this).children("input").data("address1"); // addr1--%>
+        <%--const startdate = $(this).children("input").data("startdate");--%>
+        <%--const enddate = $(this).children("input").data("enddate");--%>
+
+        <%--$("#infotitle").text(title);--%>
+        <%--$("#infoaddress").text(address);--%>
+        <%--$("#infostartdate").text(startdate);--%>
+        <%--$("#infoenddate").text(enddate);--%>
+    	<%--}--%>
 
 		$( ".attach-list" ).sortable();
 		//return true / false
