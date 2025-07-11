@@ -20,23 +20,23 @@
   <div class="line-selectors">
   	<div class="line-wrap" style="display: flex; gap: 12px; flex-wrap: wrap;">
   <div class="line-item">
-    <button style="background-color: #0052A4;" value="line1">1</button><span>1호선</span></div>
+    <button style="background-color: #0052A4;" value="1호선">1</button><span>1호선</span></div>
   <div class="line-item">
-    <button style="background-color: #00A84D;" value="line2">2</button><span>2호선</span></div>
+    <button style="background-color: #00A84D;" value="2호선">2</button><span>2호선</span></div>
   <div class="line-item">
-    <button style="background-color: #EF7C1C;" value="line3">3</button><span>3호선</span></div>
+    <button style="background-color: #EF7C1C;" value="3호선">3</button><span>3호선</span></div>
   <div class="line-item">
-    <button style="background-color: #00A4E3;" value="line4">4</button><span>4호선</span></div>
+    <button style="background-color: #00A4E3;" value="4호선">4</button><span>4호선</span></div>
   <div class="line-item">
-    <button style="background-color: #996CAC;" value="line5">5</button><span>5호선</span></div>
+    <button style="background-color: #996CAC;" value="5호선">5</button><span>5호선</span></div>
   <div class="line-item">
-    <button style="background-color: #CD7C2F;" value="line6">6</button><span>6호선</span></div>
+    <button style="background-color: #CD7C2F;" value="6호선">6</button><span>6호선</span></div>
   <div class="line-item">
-    <button style="background-color: #747F00;" value="line7">7</button><span>7호선</span></div>
+    <button style="background-color: #747F00;" value="7호선">7</button><span>7호선</span></div>
   <div class="line-item">
-    <button style="background-color: #E6186C;" value="line8">8</button><span>8호선</span></div>
+    <button style="background-color: #E6186C;" value="8호선">8</button><span>8호선</span></div>
   <div class="line-item">
-    <button style="background-color: #BDB092;" value="line9">9</button><span>9호선</span></div>
+    <button style="background-color: #BDB092;" value="9호선">9</button><span>9호선</span></div>
 </div>
   </div>
  <!--지도 -->
@@ -106,6 +106,11 @@
 
             markers.push(customOverlay);
         });
+
+      const isMainOfLoopLine = data?.[0]?.ROUTE === "2호선" && data?.length > 10; // main만 닫기 조건
+      if (isMainOfLoopLine) {
+        lineCoords.push(lineCoords[0]);
+      }
         //단선 일반 라인 그리기
         const polyline = new kakao.maps.Polyline({
           map: map,
@@ -123,12 +128,15 @@
           const first = data[0]; //시청
           const last = data[data.length - 1];  //충정로 마지막 인덱스
 
-          const firstLatLng = new kakao.maps.LatLng(parseFloat(first.LAT), parseFloat(first.LOT));
-          const lastLatLng = new kakao.maps.LatLng(parseFloat(last.LAT), parseFloat(last.LOT));
-
+         data.forEach(segment => {
+           segment.forEach(station => {
+             const latlng = new kakao.maps.LatLng(parseFloat(station.LAT), parseFloat(station.LOT));
+             allCoords.push(latlng);
+           })
+         })
           const closingLine = new kakao.maps.Polyline({
             map: map,
-            path: [lastLatLng, firstLatLng],
+            path:  [allCoords[allCoords.length - 1], allCoords[0]],
             strokeWeight: 4,
             strokeColor: data[0]?.[0]?.lineColor || '#333',
             strokeOpacity: 0.9,
@@ -166,7 +174,7 @@
     		});
     // 초기 1호선 디폴트
     window.addEventListener("DOMContentLoaded", () => {
-      const btn = document.querySelector("button[value='line1']");
+      const btn = document.querySelector("button[value='1호선']");
       console.log(btn.innerHTML);
       if (btn) btn.click();
     });

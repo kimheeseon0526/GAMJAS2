@@ -34,15 +34,15 @@ public class StationService {
 
 	//호선 증가시에 key, value 값만 넣어주면 됨
 	static {
-		lineColorMap.put("line1", "#0052A4");
-		lineColorMap.put("line2", "#009D3E");
-		lineColorMap.put("line3", "#EF7C1C");
-		lineColorMap.put("line4", "#00A5DE");
-		lineColorMap.put("line5", "#996CAC");
-		lineColorMap.put("line6", "#CD7C2F");
-		lineColorMap.put("line7", "#747F00");
-		lineColorMap.put("line8", "#E6186C");
-		lineColorMap.put("line9", "#BDB092");
+		lineColorMap.put("1호선", "#0052A4");
+		lineColorMap.put("2호선", "#009D3E");
+		lineColorMap.put("3호선", "#EF7C1C");
+		lineColorMap.put("4호선", "#00A5DE");
+		lineColorMap.put("5호선", "#996CAC");
+		lineColorMap.put("6호선", "#CD7C2F");
+		lineColorMap.put("7호선", "#747F00");
+		lineColorMap.put("8호선", "#E6186C");
+		lineColorMap.put("9호선", "#BDB092");
 	}
 
 
@@ -108,7 +108,7 @@ public class StationService {
 
 //=======================================================================================
 
-
+	//단선
 	public List<Station> getLineStations(String lineName) {
 
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
@@ -137,21 +137,14 @@ public class StationService {
 	public static List<List<Station>> getLine1Group() {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			StationMapper mapper = session.getMapper(StationMapper.class);
-			List<Station> stations = mapper.selectLine1();
 			
-			List<Station> mainList = new ArrayList<Station>();
-			List<Station> branchList1 = new ArrayList<Station>();
+			List<Station> mainList = mapper.selectLine1Main();
+			List<Station> branchList1 = mapper.selectLine1Branch1();
 			
 			//db상에 main , branch1 -> BranchGroup 컬럼 추가
-			for(Station s : stations) {
-				s.setLineColor(lineColorMap.get("line1"));
-				String group = s.getBranchGroup();
-				if("main".equals(group)) {
-					mainList.add(s);
-				}else if("branch1".equals(group)) {
-					branchList1.add(s);
-				}
-			}
+			mainList.forEach(s -> s.setLineColor(lineColorMap.get("1호선")));
+			branchList1.forEach(s -> s.setLineColor(lineColorMap.get("1호선")));
+
 			List<List<Station>> result = new ArrayList<>();
 			if (!mainList.isEmpty()) result.add(mainList);
 			if (!branchList1.isEmpty()) result.add(branchList1);
@@ -159,54 +152,24 @@ public class StationService {
 			return result;
 		}
 	}
-	//5호선일 때 분기 처리
-	/*
-	 * public Map<String, List<Station>> getSplit5LineStations() { try (SqlSession
-	 * session = MybatisUtil.getSqlSession()) { StationMapper mapper =
-	 * session.getMapper(StationMapper.class); List<Station> all =
-	 * mapper.selectByLine("line5");
-	 * 
-	 * List<Station> hanamLine = new ArrayList<>(); List<Station> machunLine = new
-	 * ArrayList<>();
-	 * 
-	 * String lineColor = lineColorMap.getOrDefault("line5", "#000000");
-	 * 
-	 * // ??? 분기 나누는 거 강동에 오면 true boolean isMachun = false; int gangdongodr = 39;
-	 * //강동 odr
-	 * 
-	 * for (Station s : all) { s.setLineColor(lineColor);
-	 * 
-	 * int odr = s.getOdr(); if (odr <= 39) { // 공통 구간 → 양쪽에 다 넣음 hanamLine.add(s);
-	 * machunLine.add(s); } else if (odr <= 49) { hanamLine.add(s); // 하남 방면 } else
-	 * if (odr >= 50 && odr <= 56) { machunLine.add(s); // 마천 방면 } } Map<String,
-	 * List<Station>> map = new HashMap<>(); map.put("hanamLine", hanamLine);
-	 * map.put("machunLine", machunLine); return map; } catch (Exception e) {
-	 * e.printStackTrace(); return new HashMap<>(); } }
-	 */
-
-
 	public List<List<Station>> getLine2Group() {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			StationMapper mapper = session.getMapper(StationMapper.class);
 			List<Station> stations = mapper.selectLine2();
-			
-			List<Station> group = new ArrayList<>();
+
 			List<Station> mainList = new ArrayList<>();
 			List<Station> branchList1 = new ArrayList<>();	//까치산쪽
 			List<Station> branchList2 = new ArrayList<>();	//용답쪽
-			
-			for(Station s : stations) {
-				s.setLineColor(lineColorMap.get("line2"));
-				 switch (s.getBranchGroup()) {
-			        case "mainList":
-			            mainList.add(s);
-			            break;
-			        case "branchList1":
-			            branchList1.add(s);
-			            break;
-			        case "branchList2":
-			            branchList2.add(s);
-			            break;
+
+			for (Station s : stations) {
+				s.setLineColor(lineColorMap.get("2호선"));
+				String group = s.getBranchGroup();
+				if ("main".equals(group)) {
+					mainList.add(s);
+				} else if ("branch1".equals(group)) {
+					branchList1.add(s);
+				} else if ("branch2".equals(group)) {
+					branchList2.add(s);
 				}
 			}
 			List<List<Station>> result = new ArrayList<>();
@@ -218,12 +181,32 @@ public class StationService {
 		}
 	}
 	public List<List<Station>> getLine5Group() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			StationMapper mapper =  session.getMapper(StationMapper.class);
+			List<Station> stations = mapper.selectLine5();
 
-	
+			List<Station> mainList = new ArrayList<>();
+			List<Station> branchList1 = new ArrayList<>();
+
+			for(Station s : stations) {
+				s.setLineColor(lineColorMap.get("5호선"));
+				if("main".equals(s.getBranchGroup())) {
+					mainList.add(s);
+				}else if("branch1".equals(s.getBranchGroup())) {
+					branchList1.add(s);
+				}
+			}
+			List<List<Station>> result = new ArrayList<>();
+			if (! mainList.isEmpty()) result.add(mainList);
+			if(! branchList1.isEmpty()) result.add(branchList1);
+			return result;
+		}
+	}
 }
+
+
+
+
 
 		
 		
