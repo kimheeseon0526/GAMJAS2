@@ -20,23 +20,23 @@
   <div class="line-selectors">
   	<div class="line-wrap" style="display: flex; gap: 12px; flex-wrap: wrap;">
   <div class="line-item">
-    <button style="background-color: #0052A4;" value="1호선">1</button><span>1호선</span></div>
+    <button style="background-color: #0052A4;" value="line1">1</button><span>1호선</span></div>
   <div class="line-item">
-    <button style="background-color: #00A84D;" value="2호선">2</button><span>2호선</span></div>
+    <button style="background-color: #00A84D;" value="line2">2</button><span>2호선</span></div>
   <div class="line-item">
-    <button style="background-color: #EF7C1C;" value="3호선">3</button><span>3호선</span></div>
+    <button style="background-color: #EF7C1C;" value="line3">3</button><span>3호선</span></div>
   <div class="line-item">
-    <button style="background-color: #00A4E3;" value="4호선">4</button><span>4호선</span></div>
+    <button style="background-color: #00A4E3;" value="line4">4</button><span>4호선</span></div>
   <div class="line-item">
-    <button style="background-color: #996CAC;" value="5호선">5</button><span>5호선</span></div>
+    <button style="background-color: #996CAC;" value="line5">5</button><span>5호선</span></div>
   <div class="line-item">
-    <button style="background-color: #CD7C2F;" value="6호선">6</button><span>6호선</span></div>
+    <button style="background-color: #CD7C2F;" value="line6">6</button><span>6호선</span></div>
   <div class="line-item">
-    <button style="background-color: #747F00;" value="7호선">7</button><span>7호선</span></div>
+    <button style="background-color: #747F00;" value="line7">7</button><span>7호선</span></div>
   <div class="line-item">
-    <button style="background-color: #E6186C;" value="8호선">8</button><span>8호선</span></div>
+    <button style="background-color: #E6186C;" value="line8">8</button><span>8호선</span></div>
   <div class="line-item">
-    <button style="background-color: #BDB092;" value="9호선">9</button><span>9호선</span></div>
+    <button style="background-color: #BDB092;" value="line9">9</button><span>9호선</span></div>
 </div>
   </div>
  <!--지도 -->
@@ -111,7 +111,7 @@
           map: map,
           path: lineCoords,
           strokeWeight: 4,
-          strokeColor: data[0].lineColor,
+          strokeColor: data[0]?.lineColor || '#333',
           strokeOpacity: 0.9,
           strokeStyle: 'solid'
         });
@@ -130,7 +130,7 @@
             map: map,
             path: [lastLatLng, firstLatLng],
             strokeWeight: 4,
-            strokeColor: last.lineColor,
+            strokeColor: data[0]?.[0]?.lineColor || '#333',
             strokeOpacity: 0.9,
             strokeStyle: 'solid'
           });
@@ -139,55 +139,6 @@
 
     }
 
-    //5호선 전용 함수
-    function renderStationsY(hanamLine, machunLine) {
-        [hanamLine, machunLine].forEach(branch => {
-            const lineCoords = [];
-
-            branch.forEach(station => {
-                const lat = parseFloat(station.LAT);
-                const lng = parseFloat(station.LOT);
-                const latlng = new kakao.maps.LatLng(lat, lng);
-                lineCoords.push(latlng);
-
-                const markerContent = document.createElement('div');
-                markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
-                markerContent.style.position = 'relative';
-                markerContent.style.transform = 'translate(-50%, -50%)';
-                markerContent.style.display = 'inline-block';
-
-                const customOverlay = new kakao.maps.CustomOverlay({
-                    position: latlng,
-                    content: markerContent,
-                    map: map
-                });
-
-                const infowindow = new kakao.maps.InfoWindow({
-                    content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
-                    removable : true
-                });
-
-                markerContent.addEventListener('click', () => {
-                  if(openInfoWindow) openInfoWindow.close();
-                    infowindow.setPosition(latlng);
-                    infowindow.open(map);
-                    openInfoWindow = infowindow;
-                })
-                markers.push(customOverlay);
-            })
-            const polyline = new kakao.maps.Polyline({
-                map: map,
-                path: lineCoords,
-                strokeWeight: 4,
-                strokeColor: branch[0].lineColor,
-                strokeOpacity: 0.9,
-                strokeStyle: 'solid'
-            });
-
-            polylines.push(polyline);
-        })
-
-    }
 
     // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
@@ -197,27 +148,25 @@
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
             console.log(data)
-            const hanamLine = data.hanamLine;
-            const machunLine = data.machunLine;
             clearMap();
-            console.log("하남 : ", data.hanamLine)
-            console.log("마천 : ", data.hanamLine)
 
-            if(data.hanamLine && data.machunLine) {
-              renderStationsY(data.hanamLine, data.machunLine);
-            } else {
-              renderStations(data);
-            }
-          })
-          .catch(err => {
-            console.error("노선 정보 불러오기 실패:", err);
-          });
-      });
-    });
-
+            if (Array.isArray(data) && Array.isArray(data[0])) {
+            	  data.forEach(segment => {
+            	    renderStations(segment);
+            	    // 한 구간씩 그리기
+            	  });
+            	} else {
+            	  renderStations(data);
+            	}
+		      })
+		      .catch(err => {
+		    		  console.error("노선 정보 불러오기 실패:", err);
+		          });
+      			});
+    		});
     // 초기 1호선 디폴트
     window.addEventListener("DOMContentLoaded", () => {
-      const btn = document.querySelector("button[value='1호선']");
+      const btn = document.querySelector("button[value='line1']");
       console.log(btn.innerHTML);
       if (btn) btn.click();
     });
