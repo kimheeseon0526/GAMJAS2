@@ -157,7 +157,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="/action_page.php">
+                <form method="post" id="writeForm" action="write">
                         <div class="mb-3 mt-3">
                             <label for="content" class="form-label fw-bold" style="color: #4a5c48;"><i
                                     class="fa-regular fa-comment" style="color: #4a5c48;"></i> 댓글 내용</label>
@@ -172,44 +172,15 @@
                             <label class="btn btn-outline-success btn-sm align-text-bottom">
                                 파일 선택 <input type="file" multiple class="d-none" id="f1">
                             </label>
-                            <ul class="list-group my-2 attach-list"></ul>
-                            <div class="row justify-content-start attach-thumb"></div>
+                            <ul class="list-group my-2 reply-attach-list"></ul>
+                            <div class="row justify-content-start reply-attach-thumb"></div>
                         </div>
-
 
                         <script>
                             $("#f1").on("change", function (e) {
                                 console.log("파일 선택됨:", e.target.files);
                             });
                         </script>
-
-                        <ul class="list-group my-3 attach-list">
-                            <c:forEach items="${reply.attachs}" var="a">
-                                <li class="list-group-item d-flex align-items-center justify-content-between"
-                                    data-uuid="${a.uuid}"
-                                    data-origin="${a.origin}"
-                                    data-image="${a.image}"
-                                    data-path="${a.path}"
-                                    data-size="${a.size}"
-                                    data-odr="${a.odr}">
-                                    <a href="${cp}/download?uuid=${a.uuid}&origin=${a.origin}&path=${a.path}">${a.origin}</a>
-                                    <!-- <i class="fa-solid fa-circle-xmark float-end text-danger"></i> -->
-                                </li>
-                            </c:forEach>
-                        </ul>
-                        <div class="row justify-content-arround w-75 mx-auto attach-thumb">
-                            <c:forEach items="${reply.attachs}" var="a">
-                                <c:if test="${a.image}">
-                                    <div class="my-2 col-12 col-sm-4 col-lg-2 " data-uuid="${a.uuid}">
-                                        <div class="my-2 bg-primary"
-                                             style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/t_${a.uuid}')">
-                                                <%-- <i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i> --%>
-                                        </div>
-                                    </div>
-                                </c:if>
-                            </c:forEach>
-                        </div>
-
 
                         <!-- 작성자 표시 -->
                         <div class="mb-3">
@@ -236,9 +207,21 @@
             </div>
         </div>
     </div>
+
+    <!-- hidden 필드들 -->
+    <input type="hidden" name="id" value="${member.id}">
+    <input type="hidden" name="cno" value="${cri.cno}">
+    <input type="hidden" name="page" value="1">
+    <input type="hidden" name="amount" value="${cri.amount}">
+    <input type="hidden" name="encodedStr" value="">
+    <c:if test="${not empty param.bno}">
+        <input type="hidden" name="bno" value="${param.bno}">
+    </c:if>
 </c:if>
+</form>
 <%@ include file="../common/footer.jsp" %>
 <script>
+
 
     $.ajaxSetup({
         contentType: 'application/json',
@@ -267,6 +250,22 @@
             console.log('loginId: ', loginId);
             console.log('isAdmin: ', isAdmin);
             console.log(userOrAdmin);
+
+            let thumbHtml = '';  // 댓글 첨부파일 이미지 폼
+            if(r.attachs && r.attachs.length > 0) {
+                for(let a of r.attachs) {
+                    if(a.image) {
+                        thumbHtml += `
+                         <div class="my-2 col-12 col-sm-4 col-lg-2" data-uuid="\${a.uuid}">
+                            <div class="my-2 bg-primary"
+                                style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/\${a.path}/t_\${a.uuid}')">
+										<i class="fa-regular fa-circle-xmark float-end text-danger m-2"></i>
+									</div>
+									</div>`;
+
+                    }
+                }
+            }
             // 로그인 아이디가 makeReplyLi(r)의 r.id랑 같거나 관리자가 1일때라고 조건 걸어주기
             const btnRemoveHtml = userOrAdmin ? `
 						<button class="btn btn-danger btn-sm float-end btn-remove-submit">
@@ -280,8 +279,8 @@
                              <span class="me-3">\${r.id}</span>
                              <span class="mx-3">\${dayjs(r.regdate, dayForm).fromNow()}</span>                                   
                          </p>
-                         <p class="small ws-pre-line">
-                             \${r.content}</p>
+                         <p class="small ws-pre-line">\${r.content}</p>
+                        <div class="row reply-attach-thumb">\${thumbHtml}</div>
 						\${btnRemoveHtml}
                 	</li>
                 	`;
@@ -440,16 +439,16 @@
     });
 
     $(function () {
-        $(".attach-list").sortable();
+        $(".reply-attach-list").sortable();
 
         function validateFiles(files) {
-            const MAX_COUNT = 1;
+            const MAX_COUNT = 2;
             const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
             const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
             const BLOCK_EXT = ['exe', 'sh', 'jsp', 'java', 'class', 'html', 'js']
 
             if (files.length > MAX_COUNT) {
-                alert('파일은 최대 1개만 업로드 가능합니다');
+                alert('파일은 최대 2개만 업로드 가능합니다');
                 return false;
             }
 
@@ -476,7 +475,7 @@
                 console.log("이벤트 실행",e.target.file )
             })*/
 
-        $('#f1').change(function () {
+        $('#f1').change(function (event) {
 
             event.preventDefault();
             const formData = new FormData();
@@ -535,27 +534,27 @@
 							   data-uuid="\${a.uuid}"
 							>
 								<div class="my-2 bg-primary"
-								style="height: 150px; background-size: cover; background-image:url('https://kiylab-bucket.s3.ap-northeast-2.amazonaws.com/upload/${a.path}/${a.uuid}')">
+								style="height: 150px; background-size: cover; background-image:url('${cp}/display?uuid=t_\${a.uuid}&path=\${a.path}')">
 									<i class="fa-solid fa-circle-xmark float-end text-danger m-2"></i>
 								</div>
 								</div>`
                         }
                     }
-                    $(".attach-list").append(str);
-                    $(".attach-thumb").append(thumbStr);
+                    $(".reply-attach-list").append(str);
+                    $(".reply-attach-thumb").append(thumbStr);
                     // console.log(thumbStr);
                     // console.log(str);
                     //이미지인 경우와 아닌경우 -> 이미지 파일은 썸네일,
                 }
             })
         })
-        $('#replyForm').submit(function () {
+        $('#replyForm').submit(function (event) {
             event.preventDefault();
             if (!confirm("수정하시겠습니까?")) {
                 return;
             }
             const data = [];
-            $(".attach-list li").each(function () {
+            $(".reply-attach-list li").each(function () {
                 //console.log({...this.dataset});
                 data.push({...this.dataset});
             });
