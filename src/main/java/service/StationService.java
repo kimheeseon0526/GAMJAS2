@@ -196,6 +196,14 @@ public class StationService {
 					branchList1.add(s);
 				}
 			}
+			//강동역 강제 추가(선 끊어짐 방지)
+			Station gangdong = mainList.stream()
+					.filter(s -> "강동".equals(s.getName()))
+					.findFirst().orElse(null);
+			if(gangdong != null) {
+				branchList1.add(0, gangdong);
+			}
+
 			List<List<Station>> result = new ArrayList<>();
 			if (! mainList.isEmpty()) result.add(mainList);
 			if(! branchList1.isEmpty()) result.add(branchList1);
