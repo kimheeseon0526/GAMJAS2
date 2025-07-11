@@ -19,71 +19,70 @@ import util.JsonRespUtil;
 
 @WebServlet("/reply/*")
 @Slf4j
-public class ReplyServlet extends HttpServlet{
-	private static final String ID = "/reply/";
-	
-	private String getURI(HttpServletRequest req) {
-		String uri = req.getRequestURI();
-		uri = uri.substring(uri.indexOf(ID) + ID.length());
-		return uri;
-	}
+public class ReplyServlet extends HttpServlet {
+    private static final String ID = "/reply/";
 
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String uri = getURI(req);
-		ReplyService service = new ReplyService();
-		Object o = null;
-		if(uri.startsWith("list") || uri.equals("*")) { //목록조회
-			log.info("{}", uri);
-			String tmp = "list/";
-			if(uri.contains(tmp)) {
-				String[] tmps = uri.split("/");
-				// list/1234/1234
-				if(tmps.length > 1) {
-					Long bno = Long.valueOf(tmps[1]);
-					Long lastRno = null;
-					if(tmps.length > 2) {
-						lastRno = Long.valueOf(tmps[2]);
-					}
-					o = service.list(bno, lastRno);
-					
-				}
-			}
-			
-		}
-		else { //단일조회
-			o = service.findBy(Long.parseLong(uri));
-			
-		}
-		JsonRespUtil.writeJson(resp, o);
-	}    
+    private String getURI(HttpServletRequest req) {
+        String uri = req.getRequestURI();
+        uri = uri.substring(uri.indexOf(ID) + ID.length());
+        return uri;
+    }
 
 
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String uri = getURI(req);
-		Long rno = Long.valueOf(uri);
-		new ReplyService().remove(rno);  //서비스 호출
-		JsonRespUtil.writeJson(resp, Map.of("result", true));
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = getURI(req);
+        ReplyService service = new ReplyService();
+        Object o = null;
+        if (uri.startsWith("list") || uri.equals("*")) { //목록조회
+            log.info("{}", uri);
+            String tmp = "list/";
+            if (uri.contains(tmp)) {
+                String[] tmps = uri.split("/");
+                // list/1234/1234
+                if (tmps.length > 1) {
+                    Long bno = Long.valueOf(tmps[1]);
+                    Long lastRno = null;
+                    if (tmps.length > 2) {
+                        lastRno = Long.valueOf(tmps[2]);
+                    }
+                    o = service.list(bno, lastRno);
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Reply reply= JsonRespUtil.readJson(req, Reply.class);
-		new ReplyService().register(reply);
-		JsonRespUtil.writeJson(resp, Map.of("result", true, "reply", reply));
-		
-	}
+                }
+            }
 
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Reply reply = JsonRespUtil.readJson(req, Reply.class);
-		new ReplyService().modify(reply);
-		JsonRespUtil.writeJson(resp, Map.of("result", true));
+        } else { //단일조회
+            o = service.findBy(Long.parseLong(uri));
 
-	
-	}
-	
-	
+        }
+        JsonRespUtil.writeJson(resp, o);
+    }
+
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = getURI(req);
+        Long rno = Long.valueOf(uri);
+        new ReplyService().remove(rno);  //서비스 호출
+        JsonRespUtil.writeJson(resp, Map.of("result", true));
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Reply reply = JsonRespUtil.readJson(req, Reply.class);
+        new ReplyService().register(reply);
+        JsonRespUtil.writeJson(resp, Map.of("result", true, "reply", reply));
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Reply reply = JsonRespUtil.readJson(req, Reply.class);
+        new ReplyService().modify(reply);
+        JsonRespUtil.writeJson(resp, Map.of("result", true));
+
+
+    }
+
+
 }

@@ -15,17 +15,17 @@ import service.BoardService;
 
 @WebServlet("/winner/list")
 @Slf4j
-public class WinnerList extends HttpServlet{
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	BoardService service = new BoardService();
-		Criteria cri = new Criteria();
-		cri.setCno(3);  //공지사항 cno번호
-		
-		req.setAttribute("pageDto", new PageDto(cri, service.getCount(cri)));
-		req.setAttribute("boards", service.list(cri));
-		req.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(req, resp);
-	}
+public class WinnerList extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BoardService service = new BoardService();
+        Criteria cri = new Criteria();
+        cri.setCno(3);  //공지사항 cno번호
+
+        req.setAttribute("pageDto", new PageDto(cri, service.getCount(cri)));
+        req.setAttribute("boards", service.list(cri));
+        req.getRequestDispatcher("/WEB-INF/views/board/list.jsp").forward(req, resp);
+    }
 
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -16,7 +16,7 @@
 
     <!-- 게시글 목록 글번호 순서대로 -->
     <!-- 전체 글수 - 현재 페이지 시작 인덱스 빼서 계산한 첫 글번호를 startcno변수에 저장.  -->
-    <c:set var="startcno" value="${pageDto.total - pageDto.cri.offset}" />
+    <c:set var="startcno" value="${pageDto.total - pageDto.cri.offset}"/>
     <c:forEach items="${boards}" var="board" varStatus="status">
         <a href="view?bno=${board.bno}&${pageDto.cri.qs2}" class="list-group-item list-group-item-action">
             <div class="row text-center align-items-center small text-muted">
