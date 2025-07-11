@@ -67,6 +67,11 @@
       if (polylines) {
         polylines.forEach(pl => pl.setMap(null));
         polylines = [];
+
+        if(openInfoWindow){
+          openInfoWindow.close();
+          openInfoWindow = null;
+        }
       }
     }
 
