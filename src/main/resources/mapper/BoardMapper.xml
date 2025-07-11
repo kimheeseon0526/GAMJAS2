@@ -20,7 +20,7 @@
 		<result column="c_view_type" property="cViewType" javaType="domain.en.CategoryViewType"/> 
 		<result column="is_secret" property="isSecret"/>
 
-		
+
 		<collection property="attachs" ofType="attach">
 			<result column="uuid" property="uuid"/>
 			<result column="path" property="path"/>
