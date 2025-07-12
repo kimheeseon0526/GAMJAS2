@@ -36,6 +36,7 @@ public class WriteRecommend extends HttpServlet{
 
 		RecommendService recommendService = new RecommendService();
 		log.info("{}",req.getParameter("recomContenttype"));
+		log.info("{}",req.getParameter("recomNo"));
 		Recommend recommend = ParamUtil.get(req, Recommend.class);
 		Criteria cri = ParamUtil.get(req, Criteria.class);
 		if(req.getSession().getAttribute("loginMember") == null) {

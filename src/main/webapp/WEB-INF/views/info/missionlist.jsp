@@ -67,9 +67,11 @@
 
   <!-- 글쓰기 버튼은 오른쪽 -->
   <div class="d-flex align-items-center ms-3">
-    <a href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
-      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
-    </a>
+  	<c:if test="${loginMember.isAdmin}">
+	    <a href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
+	      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+	    </a>
+    </c:if>
   </div>
 
 </div>
@@ -87,7 +89,8 @@
   	<c:forEach items="${missionlist}" var="m">
 	  		<div class="col">
 		      <div class="card h-100">
-		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
+		      	<c:set var="img" value="${imglist[m.recomNo]}"/>
+		        <img src="${not empty img ? img[0] : ''}" class="card-img-top" onerror="this.src='https://placehold.co/400x300?text=NO+Image'" alt="장소 이미지" style = " max-width : 400px; max-height : 300px; ">
 		        <div class="card-body">
 		          <div><a href="${cp}/info/missionview?missionNo=${m.missionNo}" class="card-title btn btn-outline-secondary">${m.title}</a></div> 
 		          <div><p class="card-text">${m.summary}</p></div> 

@@ -3,6 +3,39 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mapper.FestivalMapper">
+  <resultMap id="f" type="api.Festival">
+	<id property="contentId" column="content_id"/>
+	<result property="addr1" column="addr1"/>
+	<result property="addr2" column="addr2"/>
+	<result property="zipcode" column="zipcode"/>
+	<result property="cat1" column="cat1"/>
+	<result property="cat2" column="cat2"/>
+	<result property="cat3" column="cat3"/>
+	<result property="contentTypeId" column="contenttypeid"/>
+	<result property="createdTime" column="createdtime"/>
+	<result property="eventStartDate" column="eventstartdate"/>
+	<result property="eventEndDate" column="eventenddate"/>
+	<result property="firstImage" column="firstimage"/>
+	<result property="firstImage2" column="firstimage2"/>
+	<result property="cpyrhtDivCd" column="cpyrht_div_cd"/>
+	<result property="mapX" column="mapx"/>
+	<result property="mapY" column="mapy"/>
+	<result property="mLevel" column="mlevel"/>
+	<result property="modifiedTime" column="modifiedtime"/>
+	<result property="areaCode" column="areacode"/>
+	<result property="sigunguCode" column="sigungucode"/>
+	<result property="tel" column="tel"/>
+	<result property="title" column="title"/>
+	<result property="lDongRegnCd" column="l_dong_regn_cd"/>
+	<result property="lDongSignguCd" column="l_dong_signgu_cd"/>
+	<result property="lclsSystm1" column="lcls_systm1"/>
+	<result property="lclsSystm2" column="lcls_systm2"/>
+	<result property="lclsSystm3" column="lcls_systm3"/>
+	<result property="progressType" column="progresstype"/>
+	<result property="festivalType" column="festivaltype"/>
+	<result property="recomNo" column="recom_no"/>
+</resultMap>
+  
   <sql id="cri">
 		<where>
 			recom_no is null
@@ -31,7 +64,7 @@
 			</if>
 		</where>
 	</sql>
-	<select id ="list" resultType="festival">
+	<select id ="list" resultMap="f">
 		select * from tbl_festival
 		<include refid="cri"/>
 		order by 1 desc 
@@ -51,15 +84,15 @@
     #{firstImage}, #{firstImage2}, #{cpyrhtDivCd}, #{mapX}, #{mapY}, #{mLevel}, #{modifiedTime}, #{areaCode}, #{sigunguCode}, #{tel}, #{title},
     #{lDongRegnCd}, #{lDongSignguCd}, #{lclsSystm1}, #{lclsSystm2}, #{lclsSystm3}, #{progressType}, #{festivalType})
   	</insert>
-  	<select id="selectOne" resultType="festival">
+  	<select id="selectOne" resultMap="f">
 		select * from tbl_festival 
 		where recom_no = #{recomNo}
 	</select>
-	<select id="selectOneByPk" resultType="festival">
+	<select id="selectOneByPk" resultMap="f">
 		select * from tbl_festival
 		where content_id = #{contentId}
 	</select>
-	<select id ="getRecomList" resultType="festival">
+	<select id ="getRecomList" resultMap="f">
 		select * from tbl_festival
 		<include refid="cri2"/>
 		order by 1 desc

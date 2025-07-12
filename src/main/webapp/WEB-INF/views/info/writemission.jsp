@@ -179,7 +179,7 @@
             <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
             <input type="hidden" name="recomNo" value="${recommend.recomNo}">
             <%-- <input type="hidden" name="stationId" value="${station.id}"> 지도 역 관련 작업할때 살리기--%>
-            <input type="hidden" name="createdBy" value="${loginMember.memNo}"> 멤버 관련 작업할때 살리기
+            <input type="hidden" name="createdBy" value="${loginMember.memNo}"> 
             <input type="hidden" name="encodedStr" value="">
             <!-- <input type="hidden" name="cno" value="1">
             <input type="hidden" name="page" value="1">
