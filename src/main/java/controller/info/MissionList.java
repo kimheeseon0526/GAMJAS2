@@ -1,6 +1,9 @@
 package controller.info;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +29,8 @@ public class MissionList extends HttpServlet {
 		
 		Recommend recommend = ParamUtil.get(req, Recommend.class);
 		MissionService service = new MissionService();
+		Criteria cri = ParamUtil.get(req, Criteria.class);
+		cri.setAmount(Integer.MAX_VALUE);
 		
 		if(recommend == null) {
 			recommend = Recommend.builder().recomContenttype(RecommendContentType.ATTRACTION).build();
@@ -33,13 +38,45 @@ public class MissionList extends HttpServlet {
 			recommend.setRecomContenttype(RecommendContentType.ATTRACTION);
 		}
 		
-		Criteria cri = ParamUtil.get(req, Criteria.class);
-		cri.setAmount(9);
-		log.info("{}" ,cri);
-		log.info("{}", recommend);
-		PageDto dto = new PageDto(cri, service.getCount(cri, recommend.getRecomContenttype()));
-		log.info("{}", dto);
+		HashMap<Long, List<String>> imgs = new HashMap<Long, List<String>>();
 		
+		if(recommend.getRecomContenttype() != RecommendContentType.FESTIVAL) {
+			RecommendService recommendService = new RecommendService();
+			List<Recommend> recommends = recommendService.list(cri, recommend.getRecomContenttype());
+			
+			for(Recommend r : recommends) {
+				List<String> imglist = new ArrayList<>();
+				
+				log.info("📌 Mission RecomNo = {}", r.getRecomNo());
+				
+				
+				imglist.addAll(recommendService.findByImgByRecomNo(r.getRecomNo()));
+				
+				
+				imgs.put(r.getRecomNo(), imglist);
+				
+			}
+		} else {
+			RecommendService recommendService = new RecommendService();
+			List<Recommend> recommends = recommendService.list(cri, recommend.getRecomContenttype());
+			
+			for(Recommend r : recommends) {
+				List<String> imglist = new ArrayList<>();
+
+				imglist.add(r.getFirstImage());
+				
+				imgs.put(r.getRecomNo(), imglist);
+			}
+			
+		}
+		
+		cri.setAmount(9);
+		
+		
+		PageDto dto = new PageDto(cri, service.getCount(cri, recommend.getRecomContenttype()));
+		
+		req.setAttribute("imglist", imgs);
+		log.info("API 타입 :: {} hashmap 내용 {}", recommend.getRecomContenttype(), imgs);
 		req.setAttribute("pageDto", dto);
 		req.setAttribute("recommend", recommend);
 		req.setAttribute("missionlist", service.list(cri, recommend.getRecomContenttype()));

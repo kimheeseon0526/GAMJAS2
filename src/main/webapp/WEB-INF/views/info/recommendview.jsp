@@ -249,12 +249,16 @@
 		    <a href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
-		    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
-		        <i class="fa-solid fa-pen-to-square"></i> 수정
-		    </a>
-		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
-		        <i class="fa-solid fa-trash-can"></i> 삭제
-		    </a>
+		    <c:if test="${loginMember.memNo == recommend.memNo}">
+			    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+			        <i class="fa-solid fa-pen-to-square"></i> 수정
+			    </a>
+		    </c:if>
+		    <c:if test="${loginMember.memNo == recommend.memNo}">
+			    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+			        <i class="fa-solid fa-trash-can"></i> 삭제
+			    </a>
+		    </c:if>
 		</div>
 
         <c:if test="${fn:length(board.attachs) > 0}">
