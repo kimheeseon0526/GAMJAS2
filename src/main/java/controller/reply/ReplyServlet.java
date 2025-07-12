@@ -62,6 +62,7 @@ public class ReplyServlet extends HttpServlet {
             o = service.findBy(Long.parseLong(uri));
 
         }
+        log.info("{}", o);
         JsonRespUtil.writeJson(resp, o);
     }
 
@@ -94,7 +95,7 @@ public class ReplyServlet extends HttpServlet {
         reply.setAttachs(list);
 
         new ReplyService().register(reply);
-        
+
         JsonRespUtil.writeJson(resp, Map.of("result", true, "reply", reply));
     }
 
