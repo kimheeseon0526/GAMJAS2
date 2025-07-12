@@ -59,6 +59,7 @@
 
     let markers = []; //마커
     let polylines = [];  //폴리라인
+    let placeOverlays = []	//place 마커
 
     function clearMap() {
       markers.forEach(marker => marker.setMap(null));
@@ -67,6 +68,9 @@
       if (polylines) {
         polylines.forEach(pl => pl.setMap(null));
         polylines = [];
+        
+        placeOverlays.forEach(overlay => overlay.setMap(null));
+        placeOverlays = [];
 
         if(openInfoWindow){
           openInfoWindow.close();
@@ -107,6 +111,8 @@
                 infowindow.setPosition(latlng);
                 infowindow.open(map);
                 openInfoWindow = infowindow; //기존 인포윈도우를 openinfowindow로 저장
+                
+                fetchNearbyPlaces(station);	//장소 마커 표시 함수 호출
             });
 
             markers.push(customOverlay);
@@ -127,7 +133,60 @@
         });
 
         polylines.push(polyline);
-
+        
+        //타입별 아이콘 반환 태그
+        function getFontAwesomeIcon(type) {
+        	if(type === "restaurant") {
+        		return  '<i class="fas fa-utensils" style="color:tomato; font-size:16px;"></i>';
+        	}
+	       	if (type === "festival") {
+	       	    return '<i class="fas fa-music" style="color:orange; font-size:16px;"></i>';
+	       	}
+	       	if (type === "attraction") {
+	       	    return '<i class="fas fa-camera" style="color:teal; font-size:16px;"></i>';
+	       	}
+	       	return '<i class="fas fa-map-marker-alt" style="color:gray; font-size:16px;"></i>';
+       	}
+        
+        //주변 장소 마커 생성
+        function drawPlaceMarkers(places) {
+        	placeOverlays.forEach (p => p.setMap(null));
+        	placeOverlays = [];
+        	
+        	places.forEach(place => {
+        		const latlng = new kakao.maps.LatLng(place.lat, place.lng);
+        		
+        		const overlayContent = document.createElement('div');
+        		overlayContent.innerHTML = getFontAwesomeIcon(place.type);
+        		overlayContent.style.position = 'relative';
+        		overlayContent.style.transform = 'translate(-50%, -100%)';
+        		overlayContent.style.display = 'inline-block';
+        		
+        		const overlay = new kakao.maps.CustomOverlay({
+        			position : latlng,
+        			content : overlayContent,
+        			yAnchor : 1,
+        			map : map
+        		});
+        		placeOverlays.push(overlay);
+        	});
+        }
+        
+        //주변 장소 요청
+        function fetchNearbyPlaces(station) {
+        	console.log("클릭된 역 정보:", station);
+        	$.ajax({
+        		url : `${cp}/nearbyPlaces?stationName=\${station.BLDN_NM}`,
+        		method : "GET",
+        		success : function(data) {
+        			drawPlaceMarkers(data);
+        		},
+        		error : function() {
+        			alert("주변 장소 정보 못불러옴");
+        		}
+        	});
+        }
+        	
       //2호선 내부 순환(외선은 null처리)
         if (data[0].ROUTE === "2호선") {
           const first = data[0]; //시청
