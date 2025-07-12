@@ -46,6 +46,8 @@
 		ON m.recom_no = trp.recom_no 
 		) a
 		<include refid="cri"/>
+		order by 1 desc 
+		limit #{criteria.amount} offset #{criteria.offset}
 	</select>
 	
   	<select id="getCount" resultType="long">
