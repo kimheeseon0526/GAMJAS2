@@ -108,16 +108,22 @@
                 });
             </script>
 
-            <div class="col-2">
-                <a href="write?${pageDto.cri.qs2}" class="btn btn-outline-success btn-sm float-end">
-                    <i class="fa-solid fa-pen-fancy"></i> 글쓰기
-                </a>
-            </div>
         </div>
 
         <!-- 게시판 템플릿 (유지) -->
         <%-- <jsp:include page="list_template/free.jsp" /> --%>
         <%-- <jsp:include page="list_template/free.jsp" /> --%>
+            <div class="col-2">
+                <c:if test="${not empty loginMember}">
+                    <c:if test="${board.getcViewType() == 'REVIEW' or board.getcViewType() == 'FREE' or
+                            (board.getcViewType() == 'QNA' and loginMember.isAdmin == '1') or
+                            (board.getcViewType() == 'NOTICE' and loginMember.isAdmin == '1')}">
+                    <a href="write?${pageDto.cri.qs2}" class="btn btn-outline-success btn-sm float-end">
+                        <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+                    </a>
+                    </c:if>
+                </c:if>
+            </div>
 
         <c:forEach items="${cate}" var="c">
             <c:if test="${c.cno == pageDto.cri.cno}">
