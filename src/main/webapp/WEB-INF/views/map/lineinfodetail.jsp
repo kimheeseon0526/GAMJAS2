@@ -105,7 +105,7 @@
                 content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
                 removable : true
             });
-
+			
             markerContent.addEventListener('click', () => {
                 if(openInfoWindow) openInfoWindow.close(); //인포윈도우 열려있으면 닫고
                 infowindow.setPosition(latlng);

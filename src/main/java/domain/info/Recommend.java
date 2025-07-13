@@ -37,7 +37,7 @@ public class Recommend {
 	private List<String> images = new ArrayList<>();
 
 	@Builder.Default
-	private List<Station> stations = new ArrayList<>();
+	private List<StationsByRecom> stations = new ArrayList<>();
 
 	
 }

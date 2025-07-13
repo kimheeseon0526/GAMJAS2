@@ -5,7 +5,25 @@
 <html lang="ko">
 <head>
  <%@ include file="../common/head.jsp" %>
-	
+	 <style>
+    .search-container {
+      position: relative;
+      height: 38px;
+    }
+    .search-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      width: 376px;
+      align-items: center;
+    }
+    .search-button {
+		white-space: nowrap;
+		padding: 0.25rem 0.6rem;
+		line-height: 1.2;
+	}
+  </style>
 </head>
 <body class="bg-light">
  <%@ include file="../common/nav.jsp" %>
