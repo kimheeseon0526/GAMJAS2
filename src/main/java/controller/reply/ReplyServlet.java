@@ -79,20 +79,21 @@ public class ReplyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Reply reply = JsonRespUtil.readJson(req, Reply.class);
 
+        log.info("Reply: {}", reply);
         //첨부파일 내용 수집
-        String encodedStr = req.getParameter("encodedStr");
-        if (encodedStr == null || encodedStr.trim().isEmpty()) {
-            encodedStr = "[]";
-        }
-        Type type = new TypeToken<List<Attach>>() {}.getType();
-        List<Attach> list = new Gson().fromJson(encodedStr, type);  //이건 json이 수집했기 때문에 빌더쓰는거 아님
-        log.info("{}", list);
-
-
-        if (list == null) {
-            list = new ArrayList<>();
-        }
-        reply.setAttachs(list);
+//        String encodedStr = req.getParameter("encodedStr");
+//        if (encodedStr == null || encodedStr.trim().isEmpty()) {
+//            encodedStr = "[]";
+//        }
+//        Type type = new TypeToken<List<Attach>>() {}.getType();
+//        List<Attach> list = new Gson().fromJson(encodedStr, type);  //이건 json이 수집했기 때문에 빌더쓰는거 아님
+//        log.info("{}", list);
+//
+//
+//        if (list == null) {
+//            list = new ArrayList<>();
+//        }
+//        reply.setAttachs(list);
 
         new ReplyService().register(reply);
 

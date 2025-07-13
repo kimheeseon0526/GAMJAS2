@@ -39,7 +39,11 @@ public class ReplyService {
 			// 댓글이 여러개 있음 -> 댓글마다 첨부파일 있을 수도(따로 조회해야함) -> for문으로 댓들들 반복처리필요
 			// 그 부분만 stream 써서 attachref를 attach로 변환해서 사용
 			for(Reply r : list) {
-//				List<AttachRef> refList = attachRefMapper.list("REPLY", r.getRno());
+				List<AttachRef> refList = attachRefMapper.list(AttachRefType.REPLY, r.getRno());
+				List<Attach> attachList = refList.stream()
+						.map(ref -> attachMapper.selectOne(String.valueOf(ref.getAno())))
+						.toList();
+				r.setAttachs(attachList);  // 이부분을 해줘야 똑같은 파일이 들어가지 않음
 			}
 			return list;
 

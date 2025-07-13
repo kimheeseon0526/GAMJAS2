@@ -38,11 +38,11 @@
      </select>
 
 	<!--글 등록  -->
-    <insert id="insert" >
+    <insert id="insert" parameterType="reply" useGeneratedKeys="true" keyProperty="rno">
     insert into tbl_reply(content, id, bno) values ( #{content}, #{id}, #{bno})
-    <selectKey resultType="long" keyProperty="rno" order="AFTER">
-    select max(rno) from tbl_reply;  <!-- 행 1개에 컬럼1개 / order 이거 한 이후에 하겠다는 뜻-->
-    </selectKey> 
+ <!--   <selectKey resultType="long" keyProperty="rno" order="AFTER">
+    select max(rno) from tbl_reply;  &lt;!&ndash; 행 1개에 컬럼1개 / order 이거 한 이후에 하겠다는 뜻&ndash;&gt;
+    </selectKey> -->
     </insert>
 
 	<!-- 글 수정 -->

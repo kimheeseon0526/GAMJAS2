@@ -10,11 +10,11 @@
  	</select>
  	
  	<!-- 첨부파일 등록  -->
- 	<insert id="insert">
+ 	<insert id="insert" parameterType="Attach" useGeneratedKeys="true" keyProperty="ano">
  		insert into tbl_attach (uuid, origin, path, image, odr, size) values (#{uuid}, #{origin}, #{path}, #{image}, #{odr}, #{size})
- 		<selectKey order="AFTER" keyProperty="ano" resultType="long">
+ 		<!--<selectKey order="AFTER" keyProperty="ano" resultType="long">
  		select max(ano) from tbl_attach
- 		</selectKey>
+ 		</selectKey>-->
  	</insert>
  	
  	<!-- 첨부파일 삭제  -->
