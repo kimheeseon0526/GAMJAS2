@@ -37,7 +37,6 @@ public class MemberService {
 	//로그인
 	public Member signin(String id, String pw) {
 		Member member = findById(id);
-
 			if(member != null && PasswordEncoder.matches(pw, member.getPw())) {
 				return member;
 			}
