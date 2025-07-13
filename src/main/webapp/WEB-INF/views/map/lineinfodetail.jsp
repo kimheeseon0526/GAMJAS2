@@ -44,7 +44,7 @@
     <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
     <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
       <h3 style="margin-bottom: 12px;">추천 리스트</h3>
-      <div id="recomm-content">역을 선택하면 미션이 표시됩니다.</div>
+      <div id="recomm-content">마커를 클릭하면 정보가 표시됩니다.</div>
     </div>
   </div>
   
@@ -150,50 +150,60 @@
         
         //주변 장소 마커 생성
         function drawPlaceMarkers(places) {
-        	placeOverlays.forEach (p => p.setMap(null));
-        	placeOverlays = [];
-        	
+       	 // 기존 마커 제거
+       	  placeOverlays.forEach(p => p.setMap(null));
+       	  placeOverlays = [];
+
+       	
         	//리스트 ui
         	const contentBox = document.getElementById("recomm-content");
-        	contentBox.innerHTML = "";	//이전 내용 지우기
+        	contentBox.innerHTML = "";	//최초 한 번
+    
         	
         	if(places.length === 0) {
         		contentBox.innerHTML = "<p>반경 1km 내의 추천 리스트가 없습니다</p>";
         		return;
         	}
         	
-        	//장소마다 마커생성
-        	places.forEach(place => {
-        		const latlng = new kakao.maps.LatLng(place.lat, place.lng);
-        		
-        		const overlayContent = document.createElement('div');
-        		overlayContent.innerHTML = getFontAwesomeIcon(place.type);
-        		overlayContent.style.position = 'relative';
-        		overlayContent.style.transform = 'translate(-50%, -100%)';
-        		overlayContent.style.display = 'inline-block';
-        		
-        		const overlay = new kakao.maps.CustomOverlay({
-        			position : latlng,
-        			content : overlayContent,
-        			yAnchor : 1,
-        			map : map
-        		});
-        		overlayContent.addEventListener('click', () => {
-        			contentBox.innerHTML = "";
-        		
-        			const item = document.createElement("div");
-        			item.style.padding = "6px 0";
-        			item.style.borderBottom = "1px solid #ddd";
-        			item.innerHTML = `
-        				<strong>\${place.title}</strong><br>
-        		          <small>\${place.addr}</small><br>
-        		          <span style="font-size: 12px; color: gray;">\${place.type} • \${place.dist.toFixed(0)}m 거리</span>
-        		        `;
-        		        contentBox.appendChild(item);
-        		})
-        		placeOverlays.push(overlay);
-        	});
-        }
+        	
+  places.forEach(place => {
+    const latlng = new kakao.maps.LatLng(place.lat, place.lng);
+
+    const overlayContent = document.createElement('div');
+    overlayContent.innerHTML = getFontAwesomeIcon(place.type);
+    overlayContent.style.position = 'relative';
+    overlayContent.style.transform = 'translate(-50%, -100%)';
+    overlayContent.style.display = 'inline-block';
+    overlayContent.style.cursor = 'pointer';
+
+    const overlay = new kakao.maps.CustomOverlay({
+      position: latlng,
+      content: overlayContent,
+      yAnchor: 1,
+      map: map
+    });
+    placeOverlays.push(overlay);
+
+    // 리스트 아이템
+    const item = document.createElement("div");
+    item.classList.add("recomm-card");
+    
+    item.innerHTML = `
+      <img src="\${place.image || 'https://dummyimage.com/300x180/cccccc/000000&text=이미지+없음'}"
+           alt="\${place.title}"
+           style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;">
+      <h4 style="margin: 6px 0 4px;">\${place.title}</h4>
+      <p style="font-size: 14px; color: #444;">\${place.addr}</p>
+      <p style="font-size: 13px; color: #888;">\${place.type} • \${place.dist.toFixed(0)}m 거리</p>
+    `;
+    contentBox.appendChild(item);
+
+    overlayContent.addEventListener('click', () => {
+      map.panTo(latlng);
+    });
+  });
+}
+
         
         //주변 장소 요청
         function fetchNearbyPlaces(station) {
