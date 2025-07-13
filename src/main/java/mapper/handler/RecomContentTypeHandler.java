@@ -26,7 +26,7 @@ public class RecomContentTypeHandler extends BaseTypeHandler<RecommendContentTyp
 	@Override
 	public RecommendContentType getNullableResult(ResultSet rs, String columnName) throws SQLException {
 		
-		return RecommendContentType.valueOf(rs.getString(columnName));
+		return RecommendContentType.valueOf(rs.getString(columnName).toUpperCase());
 	}
 
 	@Override

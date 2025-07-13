@@ -47,9 +47,6 @@ public class MissionList extends HttpServlet {
 			for(Recommend r : recommends) {
 				List<String> imglist = new ArrayList<>();
 				
-				log.info("📌 Mission RecomNo = {}", r.getRecomNo());
-				
-				
 				imglist.addAll(recommendService.findByImgByRecomNo(r.getRecomNo()));
 				
 				
@@ -76,7 +73,7 @@ public class MissionList extends HttpServlet {
 		PageDto dto = new PageDto(cri, service.getCount(cri, recommend.getRecomContenttype()));
 		
 		req.setAttribute("imglist", imgs);
-		log.info("API 타입 :: {} hashmap 내용 {}", recommend.getRecomContenttype(), imgs);
+		
 		req.setAttribute("pageDto", dto);
 		req.setAttribute("recommend", recommend);
 		req.setAttribute("missionlist", service.list(cri, recommend.getRecomContenttype()));
