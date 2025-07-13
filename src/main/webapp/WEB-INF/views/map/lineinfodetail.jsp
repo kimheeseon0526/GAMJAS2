@@ -43,8 +43,8 @@
   <div id = "map-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 32px; margin-bottom: 64px; padding: 0 5%;">
     <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
     <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
-      <h3 style="margin-bottom: 12px;">미션 리스트</h3>
-      <div id="mission-content">역을 선택하면 미션이 표시됩니다.</div>
+      <h3 style="margin-bottom: 12px;">추천 리스트</h3>
+      <div id="recomm-content">역을 선택하면 미션이 표시됩니다.</div>
     </div>
   </div>
   
@@ -153,6 +153,16 @@
         	placeOverlays.forEach (p => p.setMap(null));
         	placeOverlays = [];
         	
+        	//리스트 ui
+        	const contentBox = document.getElementById("recomm-content");
+        	contentBox.innerHTML = "";	//이전 내용 지우기
+        	
+        	if(places.length === 0) {
+        		contentBox.innerHTML = "<p>반경 1km 내의 추천 리스트가 없습니다</p>";
+        		return;
+        	}
+        	
+        	//장소마다 마커생성
         	places.forEach(place => {
         		const latlng = new kakao.maps.LatLng(place.lat, place.lng);
         		
@@ -168,6 +178,19 @@
         			yAnchor : 1,
         			map : map
         		});
+        		overlayContent.addEventListener('click', () => {
+        			contentBox.innerHTML = "";
+        		
+        			const item = document.createElement("div");
+        			item.style.padding = "6px 0";
+        			item.style.borderBottom = "1px solid #ddd";
+        			item.innerHTML = `
+        				<strong>\${place.title}</strong><br>
+        		          <small>\${place.addr}</small><br>
+        		          <span style="font-size: 12px; color: gray;">\${place.type} • \${place.dist.toFixed(0)}m 거리</span>
+        		        `;
+        		        contentBox.appendChild(item);
+        		})
         		placeOverlays.push(overlay);
         	});
         }
@@ -186,6 +209,7 @@
         		}
         	});
         }
+        
         	
       //2호선 내부 순환(외선은 null처리)
         if (data[0].ROUTE === "2호선") {
