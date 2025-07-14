@@ -54,7 +54,7 @@
             <span class="float-end text-muted small me-3">${board.regdate}</span>
         </div>
         <c:choose>
-            <c:when test="${board.isSecret == 1 && loginMember.id != board.id && loginMember.isAdmin != '1'}">
+            <c:when test="${board.isSecret == 1 && loginMember.id != board.id && loginMember.isAdmin}">
                 비밀글 입니다.
             </c:when>
             <c:otherwise>
@@ -67,7 +67,7 @@
                 <i class="fa-solid fa-list-ul"></i> 목록
             </a>
 
-            <c:if test="${loginMember.id == board.id or loginMember.isAdmin == '1' }">
+            <c:if test="${loginMember.id == board.id or loginMember.isAdmin}">
                 <a href="modify?bno=${board.bno}&${cri.qs2}" class="btn btn-outline-secondary btn-sm">
                     <i class="fa-solid fa-pen-to-square"></i> 수정
                 </a>
@@ -77,7 +77,7 @@
                 </a>
             </c:if>
 
-            <c:if test="${not empty loginMember and board.getCViewType() == 'QNA' and loginMember.isAdmin == '1'}"> <!--나중에 회원 들어가면 and붙이고 이거 추가하기 not empty member-->
+            <c:if test="${not empty loginMember and board.getCViewType() == 'QNA' and loginMember.isAdmin}"> <!--나중에 회원 들어가면 and붙이고 이거 추가하기 not empty member-->
                 <a href="write?${cri.qs2}&bno=${board.bno}" class="btn btn-outline-secondary btn-sm">
                     <i class="fa-solid fa-reply" style="transform:rotate(180deg);"></i> 답글
                 </a>
@@ -165,7 +165,7 @@
                                       name="content" rows="5"></textarea>
                         </div>
                         <!-- 첨부파일 -->
-                        <div class="mb-4">
+                     <%--   <div class="mb-4">
                             <label class="form-label fw-semibold d-inline-block me-3">
                                 <i class="fa-solid fa-paperclip me-1 text-secondary"></i> 첨부파일
                             </label>
@@ -175,7 +175,7 @@
                             <ul class="list-group my-2 reply-attach-list"></ul>
                             <div class="row justify-content-start reply-attach-thumb"></div>
                         </div>
-
+--%>
                         <%--<script>
                             $("#f1").on("change", function (e) {
                                 console.log("파일 선택됨:", e.target.files);
