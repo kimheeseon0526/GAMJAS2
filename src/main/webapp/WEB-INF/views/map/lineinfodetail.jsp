@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <%@ include file="../common/nav.jsp" %>
+  <style>
+    html, body {margin: 0;padding: 0;min-height: 100vh;height: auto;overflow-y: auto;}
+    #map-wrapper {min-height: 700px; /* 추가된 부분 */}
+  </style>
 </head>
 
 <body>
@@ -90,7 +94,7 @@
             lineCoords.push(latlng);
 
             const markerContent = document.createElement('div');
-            markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${station.lineColor}; cursor:pointer;'></i>`;
+            markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:\${station.lineColor}; cursor:pointer;'></i>`;
             markerContent.style.position = 'relative';
             markerContent.style.transform = 'translate(-50%, -50%)';
             markerContent.style.display = 'inline-block';
@@ -189,9 +193,6 @@
     item.classList.add("recomm-card");
     
     item.innerHTML = `
-      <img src="\${place.image || 'https://dummyimage.com/300x180/cccccc/000000&text=이미지+없음'}"
-           alt="\${place.title}"
-           style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;">
       <h4 style="margin: 6px 0 4px;">\${place.title}</h4>
       <p style="font-size: 14px; color: #444;">\${place.addr}</p>
       <p style="font-size: 13px; color: #888;">\${place.type} • \${place.dist.toFixed(0)}m 거리</p>
