@@ -446,21 +446,49 @@
 	
 	console.log(stations);
 	
-	const place = JSON.parse(document.getElementById("place-json").textContent);
+	
 	
 	stations.forEach(function(station){
+		openInfoWindow = null;
+		
 		const realStation = subway.find(s => s.BLDN_ID === station.stationId);
 		console.log("station.stationId: ", station.stationId);
 		console.log("realStation 확인:", realStation);
 		
 		const markerPosition = new kakao.maps.LatLng(realStation.LAT, realStation.LOT);
 		
+		const subwayContent = document.createElement('div');
+		subwayContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:24px; color:${realStation.lineColor}; cursor:pointer;'></i>`;
+		subwayContent.style.position = 'relative';
+		subwayContent.style.transform = 'translate(-50%, -50%)';
+		subwayContent.style.display = 'inline-block';
+		
+		const infowindow = new kakao.maps.InfoWindow({
+		content: 
+			`<div style="width:250px; font-size:13px; background:white; border:1px solid #888; border-radius:6px; padding:10px; text-align:center;">
+		      <p style="margin:0; font-weight:bold;">${realStation.BLDN_NM}</p>
+		      <hr style="margin:5px 0;">
+		      <p style="margin:0;">${realStation.ROUTE}</p>
+		    </div>`,
+		    removable : true
+    	});
+		console.log("BLDN_NM:", realStation.BLDN_NM);
+		console.log("ROUTE:", realStation.ROUTE);
+		
 		const subwayMarker = new kakao.maps.CustomOverlay({
 			position: markerPosition,
-			content: `<i class='fa-solid fa-train-subway' style='font-size:14px; color:${realStaion.lineColor}; cursor:pointer;'></i>`,
+			content: subwayContent,
 			map: map
 		})
 		 subwayMarker.setMap(map);
+		
+		
+		 subwayContent.addEventListener("click", function () {
+			    if (openInfoWindow) openInfoWindow.close();
+			    infowindow.setPosition(markerPosition);
+			    infowindow.open(map);
+			    openInfoWindow = infowindow;
+			  });
 	})
 	
 </script>
