@@ -35,7 +35,7 @@
                 카테고리
             </a>
         </div>
-
+${not empty board}
         <div class="small p-0 py-2">
             <c:forEach items="${cate}" var="c">
                 <c:if test="${c.cno == cri.cno}">
@@ -54,7 +54,7 @@
             <span class="float-end text-muted small me-3">${board.regdate}</span>
         </div>
         <c:choose>
-            <c:when test="${board.isSecret == 1 && loginMember.id != board.id && loginMember.isAdmin}">
+            <c:when test="${board.isSecret == 1 && loginMember.id != board.id || loginMember.isAdmin}">
                 비밀글 입니다.
             </c:when>
             <c:otherwise>

@@ -68,7 +68,7 @@
 
         <!-- 🔗 바로가기 버튼 -->
         <div class="text-center mt-4">
-            <a href="${cp}/board/list?cno=3" class="btn btn-lg"
+            <a href="${cp}/board/list?cno=5" class="btn btn-lg"
                style="background:#648D73; color:white; transition:0.05s"
                onpointerdown="this.style.transform='scale(.95)',setTimeout(()=>this.style.transform='scale(1)',100)">
                 📢 당첨자 발표 바로가기
