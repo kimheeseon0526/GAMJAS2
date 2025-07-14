@@ -167,13 +167,13 @@
 	<select id="selectStationByrecomPlaceId" resultMap="s">
 		(select * from (
 		select * from v_place_dist
-		where type = #{type} and id = #{id} and dist &lt;= 1000
+		where type = #{type} and id = #{id} and dist &lt;= 1000 and station_line in ('1호선', '2호선', '3호선', '4호선', '5호선', '6호선', '7호선', '8호선', '9호선') 
 		order by dist asc
 		limit 10) as a)
 		UNION 
 		(select * from (
 		select * from v_place_dist
-		where type = #{type} and id = #{id}
+		where type = #{type} and id = #{id} and station_line in ('1호선', '2호선', '3호선', '4호선', '5호선', '6호선', '7호선', '8호선', '9호선')
 		order by dist asc
 		limit 1 ) as b);
 	</select>
