@@ -3,6 +3,7 @@ package domain.info;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Station;
 import org.apache.ibatis.type.Alias;
 
 import domain.en.RecommendContentType;
@@ -34,8 +35,9 @@ public class Recommend {
 
 	@Builder.Default
 	private List<String> images = new ArrayList<>();
-	
-//	@Builder.Default
-//	private List<Attach> attachs = new ArrayList<>();
+
+	@Builder.Default
+	private List<StationsByRecom> stations = new ArrayList<>();
+
 	
 }

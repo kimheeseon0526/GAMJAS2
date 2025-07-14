@@ -18,19 +18,8 @@ public class APIUtil {
 	private static HashMap<Class<?>, String> apiKeys = new HashMap<>();
 	
 	static {		
-		Properties props= new Properties();
+		Properties props = PropsLoaderUtil.getProperties("secret/api.properties");
 		
-		//현재 실행중인 스레드의 컨텍스트 클래스로더의 위치에서 resource를 stream형태로 가져오기
-		try(InputStream is = Thread.currentThread()
-				.getContextClassLoader()
-				.getResourceAsStream("secret/api.properties")) {
-			if (is == null) {
-				throw new FileNotFoundException("Cannot find api.properties in classpath");
-			}
-			props.load(is);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		apiKeys.put(Attraction.class, props.getProperty("attractionApiKey"));
 		apiKeys.put(Restaurant.class, props.getProperty("restaurantApiKey"));
 		apiKeys.put(Festival.class, props.getProperty("festivalApiKey"));

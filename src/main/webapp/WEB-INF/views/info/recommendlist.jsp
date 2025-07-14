@@ -5,7 +5,25 @@
 <html lang="ko">
 <head>
  <%@ include file="../common/head.jsp" %>
-
+	 <style>
+    .search-container {
+      position: relative;
+      height: 38px;
+    }
+    .search-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      width: 376px;
+      align-items: center;
+    }
+    .search-button {
+		white-space: nowrap;
+		padding: 0.25rem 0.6rem;
+		line-height: 1.2;
+	}
+  </style>
 </head>
 <body class="bg-light">
  <%@ include file="../common/nav.jsp" %>
@@ -49,9 +67,11 @@
 
   <!-- 글쓰기 버튼은 오른쪽 -->
   <div class="d-flex align-items-center ms-3">
-    <a href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
-      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
-    </a>
+  	<c:if test="${loginMember.isAdmin}">
+	    <a href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
+	      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+	    </a>
+  	</c:if>
   </div>
 
 </div>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.NearbyPlaceMapper">
+
+<resultMap id="placeMap" type="domain.Place">
+  <result property="stationId" column="station_id"/>
+  <result property="stationName" column="station_name"/>
+  <result property="title" column="title"/>
+  <result property="lat" column="lat"/>
+  <result property="lng" column="lng"/>
+  <result property="type" column="type"/>
+  <result property="addr" column="addr"/>
+  <result property="dist" column="dist"/>
+</resultMap>
+
+<!-- 주변 장소 -->
+<select id="selectNearbyPlaces" parameterType="string" resultMap="placeMap">
+select station_name, title, lat, lng, type, addr, dist
+from v_place_dist
+where station_name= #{stationName}
+AND dist &lt;= 1000
+</select>
+</mapper>

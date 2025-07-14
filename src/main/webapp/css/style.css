@@ -103,3 +103,18 @@ nav.gamjas-navbar {border-bottom: 1px solid #e0e0e0;background: #fff;padding: 10
 .map-container {width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 60px; }/* ✅ footer와의 여백 확보 */
 
 #map { width: 100%; height: 650px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);}
+
+#mission-box {flex: 0.8; min-width: 280px; max-height: 600px; overflow-y: auto; background:#f8f8f8; 
+				border-radius: 10px;  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); padding: 20px;}
+				
+#recomm-content {display:grid;  grid-template-columns: repeat(2, 1fr); gap: 16px;}
+#recomm-content .recomm-card {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  font-size: 13px;
+}

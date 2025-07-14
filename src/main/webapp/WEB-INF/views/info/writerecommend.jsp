@@ -159,6 +159,7 @@
             </div>
 
             <!-- hidden 필드들 -->
+           
             <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
             <input type="hidden" name="recomPlaceId" value="${recommend.recomPlaceId}">
             <%-- <input type="hidden" name="stationId" value="${station.id}"> --%>

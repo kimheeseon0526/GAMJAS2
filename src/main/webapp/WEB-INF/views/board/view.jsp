@@ -136,7 +136,7 @@
 
         <ul class="list-group list-group-flush mt-3 reviews"></ul>
         <div class="d-grid">
-            <button class="btn btn-sm btn-reply-more d-none" style="background-color: #4a5c48; color: white;">댓글 더보기
+            <button class="btn btn-sm btn-reply-more d-none " style="background-color: #4a5c48; color: white;">댓글 더보기
             </button>
         </div>
 
@@ -176,11 +176,11 @@
                             <div class="row justify-content-start reply-attach-thumb"></div>
                         </div>
 
-                        <script>
+                        <%--<script>
                             $("#f1").on("change", function (e) {
                                 console.log("파일 선택됨:", e.target.files);
                             });
-                        </script>
+                        </script>--%>
 
                         <!-- 작성자 표시 -->
                         <div class="mb-3">
@@ -254,7 +254,7 @@
             let thumbHtml = '';  // 댓글 첨부파일 이미지 폼
             if(r.attachs && r.attachs.length > 0) {
                 for(let a of r.attachs) {
-                    if(a.image) {
+                    if(a && a.image) {
                         thumbHtml += `
                          <div class="my-2 col-12 col-sm-4 col-lg-2" data-uuid="\${a.uuid}">
                             <div class="my-2 bg-primary"
@@ -290,6 +290,7 @@
         function list(bno, lastRno) {
             lastRno = lastRno ? ('/' + lastRno) : '';
             let reqUrl = url + 'list/' + bno + lastRno;
+            console.log(reqUrl);
             $.ajax({
                 url: reqUrl,
                 success: function (data) {
@@ -324,6 +325,12 @@
         $(".btn-write-form").click(function () {
             console.log("글쓰기 폼");
             $("#reviewModal form").get(0).reset(); // 그전에 작성했던 내용을 reset으로 처리해버림
+
+            // 첨부파일 목록 초기화
+            $(".reply-attach-list").empty(); // li목록 지우기
+            $(".reply-attach-thumb").empty(); // 썸네일 이미지 지우기
+            $("#f1").val(""); // 파일 input 초기화
+
             modal.show();
             $("#reviewModal .modal-footer button").show().eq(1).hide(); //수정버튼만 숨기기
         });
@@ -335,7 +342,15 @@
             const content = $("#content").val().trim();
             const id = $("#writer").val().trim();
 
-            const obj = {content, id, bno};
+            const attachs = [];
+            $(".reply-attach-list li").each(function () {
+                attachs.push({...this.dataset});
+            });
+            attachs.forEach((item, idx) => item.odr = idx);  // 순서정보
+
+            $("[name='encodedStr']").val((JSON.stringify(attachs)));  //서버로 가는
+
+            const obj = {content, id, bno, attachs};
             console.log(obj);
             console.log("글쓰기 전송");
             $.ajax({
@@ -351,6 +366,8 @@
                             const strLi = makeReplyLi(data.reply);
                             $(".reviews").prepend(strLi);
                         }
+                        $(".reply-attach-list").empty();  //첨부 썸네일 제거
+                        attachs.length = 0;  //배열 초기화
                     }
                 }
             })

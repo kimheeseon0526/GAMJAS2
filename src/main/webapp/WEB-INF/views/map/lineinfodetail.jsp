@@ -43,8 +43,8 @@
   <div id = "map-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 32px; margin-bottom: 64px; padding: 0 5%;">
     <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
     <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
-      <h3 style="margin-bottom: 12px;">미션 리스트</h3>
-      <div id="mission-content">역을 선택하면 미션이 표시됩니다.</div>
+      <h3 style="margin-bottom: 12px;">추천 리스트</h3>
+      <div id="recomm-content">마커를 클릭하면 정보가 표시됩니다.</div>
     </div>
   </div>
   
@@ -59,6 +59,7 @@
 
     let markers = []; //마커
     let polylines = [];  //폴리라인
+    let placeOverlays = []	//place 마커
 
     function clearMap() {
       markers.forEach(marker => marker.setMap(null));
@@ -67,6 +68,9 @@
       if (polylines) {
         polylines.forEach(pl => pl.setMap(null));
         polylines = [];
+        
+        placeOverlays.forEach(overlay => overlay.setMap(null));
+        placeOverlays = [];
 
         if(openInfoWindow){
           openInfoWindow.close();
@@ -101,12 +105,14 @@
                 content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
                 removable : true
             });
-
+			
             markerContent.addEventListener('click', () => {
                 if(openInfoWindow) openInfoWindow.close(); //인포윈도우 열려있으면 닫고
                 infowindow.setPosition(latlng);
                 infowindow.open(map);
                 openInfoWindow = infowindow; //기존 인포윈도우를 openinfowindow로 저장
+                
+                fetchNearbyPlaces(station);	//장소 마커 표시 함수 호출
             });
 
             markers.push(customOverlay);
@@ -127,7 +133,94 @@
         });
 
         polylines.push(polyline);
+        
+        //타입별 아이콘 반환 태그
+        function getFontAwesomeIcon(type) {
+        	if(type === "restaurant") {
+        		return  '<i class="fas fa-utensils" style="color:tomato; font-size:16px;"></i>';
+        	}
+	       	if (type === "festival") {
+	       	    return '<i class="fas fa-music" style="color:orange; font-size:16px;"></i>';
+	       	}
+	       	if (type === "attraction") {
+	       	    return '<i class="fas fa-camera" style="color:teal; font-size:16px;"></i>';
+	       	}
+	       	return '<i class="fas fa-map-marker-alt" style="color:gray; font-size:16px;"></i>';
+       	}
+        
+        //주변 장소 마커 생성
+        function drawPlaceMarkers(places) {
+       	 // 기존 마커 제거
+       	  placeOverlays.forEach(p => p.setMap(null));
+       	  placeOverlays = [];
 
+       	
+        	//리스트 ui
+        	const contentBox = document.getElementById("recomm-content");
+        	contentBox.innerHTML = "";	//최초 한 번
+    
+        	
+        	if(places.length === 0) {
+        		contentBox.innerHTML = "<p>반경 1km 내의 추천 리스트가 없습니다</p>";
+        		return;
+        	}
+        	
+        	
+  places.forEach(place => {
+    const latlng = new kakao.maps.LatLng(place.lat, place.lng);
+
+    const overlayContent = document.createElement('div');
+    overlayContent.innerHTML = getFontAwesomeIcon(place.type);
+    overlayContent.style.position = 'relative';
+    overlayContent.style.transform = 'translate(-50%, -100%)';
+    overlayContent.style.display = 'inline-block';
+    overlayContent.style.cursor = 'pointer';
+
+    const overlay = new kakao.maps.CustomOverlay({
+      position: latlng,
+      content: overlayContent,
+      yAnchor: 1,
+      map: map
+    });
+    placeOverlays.push(overlay);
+
+    // 리스트 아이템
+    const item = document.createElement("div");
+    item.classList.add("recomm-card");
+    
+    item.innerHTML = `
+      <img src="\${place.image || 'https://dummyimage.com/300x180/cccccc/000000&text=이미지+없음'}"
+           alt="\${place.title}"
+           style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;">
+      <h4 style="margin: 6px 0 4px;">\${place.title}</h4>
+      <p style="font-size: 14px; color: #444;">\${place.addr}</p>
+      <p style="font-size: 13px; color: #888;">\${place.type} • \${place.dist.toFixed(0)}m 거리</p>
+    `;
+    contentBox.appendChild(item);
+
+    overlayContent.addEventListener('click', () => {
+      map.panTo(latlng);
+    });
+  });
+}
+
+        
+        //주변 장소 요청
+        function fetchNearbyPlaces(station) {
+        	console.log("클릭된 역 정보:", station);
+        	$.ajax({
+        		url : `${cp}/nearbyPlaces?stationName=\${station.BLDN_NM}`,
+        		method : "GET",
+        		success : function(data) {
+        			drawPlaceMarkers(data);
+        		},
+        		error : function() {
+        			alert("주변 장소 정보 못불러옴");
+        		}
+        	});
+        }
+        
+        	
       //2호선 내부 순환(외선은 null처리)
         if (data[0].ROUTE === "2호선") {
           const first = data[0]; //시청
