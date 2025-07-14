@@ -15,7 +15,7 @@
       <!-- 중앙 메뉴 -->
       <div class="main-menu-area">
         <ul class="main-menu">
-          <li><a href="#" >여행정보</a></li>
+          <li><a href="${cp}/map/lineinfodetail" >여행정보</a></li>
           <li><a href="${cp}/info/missionlist">미션투어</a></li>
           <li><a href="${cp}/ticket/info" >감자티켓</a></li>
           <li><a href="${cp}/board/list" >감자마당</a></li>
