@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 import domain.Attach;
 import domain.Board;
+import domain.Member;
 import domain.dto.Criteria;
 import domain.dto.PageDto;
 import domain.en.RecommendContentType;
@@ -32,11 +33,18 @@ import util.ParamUtil;
 public class WriteRecommend extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		RecommendService recommendService = new RecommendService();
 		log.info("{}",req.getParameter("recomContenttype"));
+		log.info("{}",req.getParameter("recomNo"));
 		Recommend recommend = ParamUtil.get(req, Recommend.class);
 		Criteria cri = ParamUtil.get(req, Criteria.class);
-		
+		if(req.getSession().getAttribute("loginMember") == null) {
+			AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?" + cri.getQs2(), req, resp, true);
+			return;
+		}
+
+
 		log.info("{}", recommend);
 		if(recommend == null) {
 			recommend = Recommend.builder().recomContenttype(RecommendContentType.ATTRACTION).build();
@@ -62,20 +70,13 @@ public class WriteRecommend extends HttpServlet{
 		System.out.println("📦 recomContenttype 파라미터 = " + req.getParameter("recomContenttype"));
 
         //session 내의 member attr 조회 후 null
-//        if(req.getSession().getAttribute("member") == null) {
-//            AlertUtil.alert("로그인 후 글 작성하세요", "/member/login?" + cri.getQs2(), req, resp, true);
-//            return;
-//        }	// 로그인 기능 미구현으로 주석처리
-        //첨부파일 내용 수집
-//        String encodedStr =  req.getParameter("encodedStr");
-//		Type type =  new TypeToken<List<Attach>>() {}.getType();
-//		List<Attach> list = new Gson().fromJson(encodedStr, type);  //이건 json이 수집했기 때문에 빌더쓰는거 아님
-//		log.info("{}", list);
-		
-//		if(list != null) {
-//			board.setAttachs(list);
-//		}
-		//board 인스턴스 생성(4개)
+        if(req.getSession().getAttribute("loginMember") == null) {
+            AlertUtil.alert("로그인 후 글 작성하세요", "/member/signin?" + cri.getQs2(), req, resp, true);
+            return;
+        }
+		Member member = (Member) req.getSession().getAttribute("loginMember");
+		log.info("{}", member);
+		recommend.setMemNo(member.getMemNo());
 		
 		log.info("{}", recommend);
 

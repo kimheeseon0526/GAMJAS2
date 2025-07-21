@@ -10,4 +10,13 @@ public interface StationMapper {
 	List<Station> List();
 	List<Station> selectByLine(String lineName);
 
+	List<Station> selectLine2();
+	List<Station> selectLine5();
+
+
+	List<Station> selectLine1Main();
+	List<Station> selectLine1Branch1();
+
+
+
 }

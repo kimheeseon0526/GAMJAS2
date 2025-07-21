@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <%@ include file="../common/nav.jsp" %>
+  <style>
+    html, body {margin: 0;padding: 0;min-height: 100vh;height: auto;overflow-y: auto;}
+    #map-wrapper {min-height: 700px; /* 추가된 부분 */}
+  </style>
 </head>
 
 <body>
@@ -40,31 +44,53 @@
 </div>
   </div>
  <!--지도 -->
-  <div id="map" style="width:50%; height:600px;"></div>
+  <div id = "map-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 32px; margin-bottom: 64px; padding: 0 5%;">
+    <div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+    <div id="mission-box" style="flex: 0.8; min-width: 280px; height: 600px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 20px;">
+      <h3 style="margin-bottom: 12px;">추천 리스트</h3>
+      <div id="recomm-content">마커를 클릭하면 정보가 표시됩니다.</div>
+    </div>
+  </div>
   
 
   <script>
+<<<<<<< HEAD
   
   	//지도
+=======
+
+    let openInfoWindow = null;  //인포 윈도우 초기화
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
   	const map = new kakao.maps.Map(document.getElementById("map"), {
       center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
       level: 6
     });
 
-    let markers = [];
-    let polyline = null;
+    let markers = []; //마커
+    let polylines = [];  //폴리라인
+    let placeOverlays = []	//place 마커
 
     function clearMap() {
       markers.forEach(marker => marker.setMap(null));
       markers = [];
-      if (polyline) {
-        polyline.setMap(null);
-        polyline = null;
+
+      if (polylines) {
+        polylines.forEach(pl => pl.setMap(null));
+        polylines = [];
+        
+        placeOverlays.forEach(overlay => overlay.setMap(null));
+        placeOverlays = [];
+
+        if(openInfoWindow){
+          openInfoWindow.close();
+          openInfoWindow = null;
+        }
       }
     }
     
     let currentInfoWindow = null;
 
+<<<<<<< HEAD
     function renderStations(data) {
     	//console.log(data);
       const lineCoords = [];
@@ -72,24 +98,47 @@
       //5호선일 때 
       const mainLine = [];	//방화~ 하남검단
       const machunLine = [];	//강동~마천
+=======
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
 
-      data.forEach(station => {
-        const lat = parseFloat(station.LAT);
-        const lng = parseFloat(station.LOT);
-        const latlng = new kakao.maps.LatLng(lat, lng);
-        lineCoords.push(latlng);
+    function renderStations(data) { //기본 단선
+        const lineCoords = [];
 
-        const markerContent = document.createElement('div');
-        markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:\${station.lineColor}; cursor:pointer;'></i>`;
-        markerContent.style.position = 'relative';
-        markerContent.style.transform = 'translate(-50%, -50%)';
-        markerContent.style.display = 'inline-block';
+        data.forEach(station => {
+            const lat = parseFloat(station.LAT);
+            const lng = parseFloat(station.LOT);
+            const latlng = new kakao.maps.LatLng(lat, lng);
+            lineCoords.push(latlng);
 
-        const customOverlay = new kakao.maps.CustomOverlay({
-          position: latlng,
-          content: markerContent,
-          map: map
+            const markerContent = document.createElement('div');
+            markerContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:14px; color:\${station.lineColor}; cursor:pointer;'></i>`;
+            markerContent.style.position = 'relative';
+            markerContent.style.transform = 'translate(-50%, -50%)';
+            markerContent.style.display = 'inline-block';
+
+            const customOverlay = new kakao.maps.CustomOverlay({
+                position: latlng,
+                content: markerContent,
+                map: map
+            });
+
+            const infowindow = new kakao.maps.InfoWindow({
+                content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
+                removable : true
+            });
+			
+            markerContent.addEventListener('click', () => {
+                if(openInfoWindow) openInfoWindow.close(); //인포윈도우 열려있으면 닫고
+                infowindow.setPosition(latlng);
+                infowindow.open(map);
+                openInfoWindow = infowindow; //기존 인포윈도우를 openinfowindow로 저장
+                
+                fetchNearbyPlaces(station);	//장소 마커 표시 함수 호출
+            });
+
+            markers.push(customOverlay);
         });
+<<<<<<< HEAD
 		
         //인포윈도우
         const infowindow = new kakao.maps.InfoWindow({
@@ -115,16 +164,133 @@
       }
        */
       
+=======
 
-      polyline = new kakao.maps.Polyline({
-        map: map,
-        path: lineCoords,
-        strokeWeight: 4,
-        strokeColor: data[0].lineColor,
-        strokeOpacity: 0.9,
-        strokeStyle: 'solid'
-      });
+      const isMainOfLoopLine = data?.[0]?.ROUTE === "2호선" && data?.length > 10; // main만 닫기 조건
+      if (isMainOfLoopLine) {
+        lineCoords.push(lineCoords[0]);
+      }
+        //단선 일반 라인 그리기
+        const polyline = new kakao.maps.Polyline({
+          map: map,
+          path: lineCoords,
+          strokeWeight: 4,
+          strokeColor: data[0]?.lineColor || '#333',
+          strokeOpacity: 0.9,
+          strokeStyle: 'solid'
+        });
+
+        polylines.push(polyline);
+        
+        //타입별 아이콘 반환 태그
+        function getFontAwesomeIcon(type) {
+        	if(type === "restaurant") {
+        		return  '<i class="fas fa-utensils" style="color:tomato; font-size:16px;"></i>';
+        	}
+	       	if (type === "festival") {
+	       	    return '<i class="fas fa-music" style="color:orange; font-size:16px;"></i>';
+	       	}
+	       	if (type === "attraction") {
+	       	    return '<i class="fas fa-camera" style="color:teal; font-size:16px;"></i>';
+	       	}
+	       	return '<i class="fas fa-map-marker-alt" style="color:gray; font-size:16px;"></i>';
+       	}
+        
+        //주변 장소 마커 생성
+        function drawPlaceMarkers(places) {
+       	 // 기존 마커 제거
+       	  placeOverlays.forEach(p => p.setMap(null));
+       	  placeOverlays = [];
+
+       	
+        	//리스트 ui
+        	const contentBox = document.getElementById("recomm-content");
+        	contentBox.innerHTML = "";	//최초 한 번
+    
+        	
+        	if(places.length === 0) {
+        		contentBox.innerHTML = "<p>반경 1km 내의 추천 리스트가 없습니다</p>";
+        		return;
+        	}
+        	
+        	
+  places.forEach(place => {
+    const latlng = new kakao.maps.LatLng(place.lat, place.lng);
+
+    const overlayContent = document.createElement('div');
+    overlayContent.innerHTML = getFontAwesomeIcon(place.type);
+    overlayContent.style.position = 'relative';
+    overlayContent.style.transform = 'translate(-50%, -100%)';
+    overlayContent.style.display = 'inline-block';
+    overlayContent.style.cursor = 'pointer';
+
+    const overlay = new kakao.maps.CustomOverlay({
+      position: latlng,
+      content: overlayContent,
+      yAnchor: 1,
+      map: map
+    });
+    placeOverlays.push(overlay);
+
+    // 리스트 아이템
+    const item = document.createElement("div");
+    item.classList.add("recomm-card");
+    
+    item.innerHTML = `
+      <h4 style="margin: 6px 0 4px;">\${place.title}</h4>
+      <p style="font-size: 14px; color: #444;">\${place.addr}</p>
+      <p style="font-size: 13px; color: #888;">\${place.type} • \${place.dist.toFixed(0)}m 거리</p>
+    `;
+    contentBox.appendChild(item);
+
+    overlayContent.addEventListener('click', () => {
+      map.panTo(latlng);
+    });
+  });
+}
+
+        
+        //주변 장소 요청
+        function fetchNearbyPlaces(station) {
+        	console.log("클릭된 역 정보:", station);
+        	$.ajax({
+        		url : `${cp}/nearbyPlaces?stationName=\${station.BLDN_NM}`,
+        		method : "GET",
+        		success : function(data) {
+        			drawPlaceMarkers(data);
+        		},
+        		error : function() {
+        			alert("주변 장소 정보 못불러옴");
+        		}
+        	});
+        }
+        
+        	
+      //2호선 내부 순환(외선은 null처리)
+        if (data[0].ROUTE === "2호선") {
+          const first = data[0]; //시청
+          const last = data[data.length - 1];  //충정로 마지막 인덱스
+
+         data.forEach(segment => {
+           segment.forEach(station => {
+             const latlng = new kakao.maps.LatLng(parseFloat(station.LAT), parseFloat(station.LOT));
+             allCoords.push(latlng);
+           })
+         })
+          const closingLine = new kakao.maps.Polyline({
+            map: map,
+            path:  [allCoords[allCoords.length - 1], allCoords[0]],
+            strokeWeight: 4,
+            strokeColor: data[0]?.[0]?.lineColor || '#333',
+            strokeOpacity: 0.9,
+            strokeStyle: 'solid'
+          });
+            polylines.push(closingLine);
+        }
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
+
     }
+
 
     // 버튼 이벤트 등록 + fetch 호출
     document.querySelectorAll(".line-item button").forEach(btn => {
@@ -133,23 +299,31 @@
         fetch(`${cp}/lineinfo?lineName=\${line}`)
           .then(resp => resp.json())	//json으로 변환
           .then(data => {
+            console.log(data)
             clearMap();
-            renderStations(data);
-          })
-          .catch(err => {
-            console.error("노선 정보 불러오기 실패:", err);
-          });
-      });
-    });
 
-    // 1호선 디폴트
+            if (Array.isArray(data) && Array.isArray(data[0])) {
+            	  data.forEach(segment => {
+            	    renderStations(segment);
+            	    // 한 구간씩 그리기
+            	  });
+            	} else {
+            	  renderStations(data);
+            	}
+		      })
+		      .catch(err => {
+		    		  console.error("노선 정보 불러오기 실패:", err);
+		          });
+      			});
+    		});
+    // 초기 1호선 디폴트
     window.addEventListener("DOMContentLoaded", () => {
       const btn = document.querySelector("button[value='1호선']");
       console.log(btn.innerHTML);
       if (btn) btn.click();
     });
+
   </script>
-  
 <%@ include file="../common/footer.jsp" %> 
 </body>
 </html>

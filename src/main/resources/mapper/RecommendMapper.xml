@@ -13,7 +13,34 @@
   		<result property="regdatetime" column="regdatetime"/>
   		<result property="moddatetime" column="moddatetime"/>
   		<result property="title" column="title"/>
+		<result property="firstImage" column="first_image"/>
+		
+		 <collection property="stations" ofType="stationsbyrecom">
+        	<result property="stationId" column="station_id"/>
+	        <result property="stationName" column="station_name"/>
+	        <result property="stationLine" column="station_line"/>
+	        <result property="id" column="id"/>
+	        <result property="title" column="title"/>
+	        <result property="lat" column="lat"/>
+	        <result property="lng" column="lng"/>
+	        <result property="type" column="type"/>
+	        <result property="addr" column="addr"/>
+	        <result property="dist" column="dist"/>
+	    </collection>
 	</resultMap>
+	<resultMap id="s" type="stationsbyrecom">
+		<result property="stationId" column="station_id"/>
+		<result property="stationName" column="station_name"/>
+		<result property="stationLine" column="station_line"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="type" column="type"/>
+		<result property="addr" column="addr"/>
+		<result property="dist" column="dist"/>
+	</resultMap>
+	
 	<sql id="cri">
 		<where>
 			<trim prefixOverrides="AND | OR">
@@ -40,7 +67,8 @@
 	<select id="list" resultMap="r">
 		select * from (
 		    SELECT trp.*, 
-		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title
+		           COALESCE(ta.post_sj, tr.post_sj, tf.title) AS title,
+					tf.firstimage as first_image
 		    FROM tbl_recommend_place trp
 		    LEFT JOIN tbl_attraction ta 
 		        ON trp.recom_contenttype = 'ATTRACTION' AND ta.post_sn = trp.recom_place_id
@@ -130,4 +158,23 @@
 		set tf.recom_no = null
 		where tf.recom_no = #{recomNo}
 	</update>
+	<select id="selectImgByRecomNo" resultType="String">
+		select img.src
+		from tbl_recommend_place trp
+		left join tbl_attr_rest_imgsrc img on trp.recom_place_id = img.fk
+		where trp.recom_no = #{recomNo};
+	</select> 
+	<select id="selectStationByrecomPlaceId" resultMap="s">
+		(select * from (
+		select * from v_place_dist
+		where type = #{type} and id = #{id} and dist &lt;= 1000 and station_line in ('1호선', '2호선', '3호선', '4호선', '5호선', '6호선', '7호선', '8호선', '9호선') 
+		order by dist asc
+		limit 10) as a)
+		UNION 
+		(select * from (
+		select * from v_place_dist
+		where type = #{type} and id = #{id} and station_line in ('1호선', '2호선', '3호선', '4호선', '5호선', '6호선', '7호선', '8호선', '9호선')
+		order by dist asc
+		limit 1 ) as b);
+	</select>
 </mapper>

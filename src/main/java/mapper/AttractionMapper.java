@@ -9,7 +9,16 @@ import domain.dto.Criteria;
 
 public interface AttractionMapper {
 	List<Attraction> list(Criteria cri); 
+
 	void insert(Attraction attraction);
+
 	long getCount(Criteria cri);
+
 	Attraction selectOne(Long recomNo);
+
+	List<Attraction> getRecomList(Criteria cri);
+
+	long getRecomCount(Criteria cri);
+
+    Attraction selectOneByPk(String pk);
 }

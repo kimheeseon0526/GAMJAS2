@@ -14,4 +14,10 @@ public interface FestivalMapper {
 	long getCount(Criteria cri);
 
 	Festival selectOne(Long recomNo);
+
+	List<Festival> getRecomList(Criteria cri);
+
+	long getRecomCount(Criteria cri);
+
+	Festival selectOneByPk(String pk);
 }

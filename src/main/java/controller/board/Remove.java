@@ -13,19 +13,19 @@ import service.BoardService;
 import util.AlertUtil;
 
 @WebServlet("/board/remove")
-public class Remove extends HttpServlet{
+public class Remove extends HttpServlet {
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(req.getParameter("bno") == null) {
-			AlertUtil.alert("잘못된 접근입니다", "/board/list", req, resp);
-			return;
-		}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("bno") == null) {
+            AlertUtil.alert("잘못된 접근입니다", "/board/list", req, resp);
+            return;
+        }
 
-		BoardService service = new BoardService();
-		service.remove(Long.valueOf(req.getParameter("bno")));
-		Criteria cri = Criteria.init(req);
-		AlertUtil.alert("글이 삭제되었습니다", "/board/list?=" + cri.getQs2(), req, resp); //글쓰기작성 후 1페이지로 이동
-	}
-	
+        BoardService service = new BoardService();
+        service.remove(Long.valueOf(req.getParameter("bno")));
+        Criteria cri = Criteria.init(req);
+        AlertUtil.alert("글이 삭제되었습니다", "/board/list?" + cri.getQs2(), req, resp); //글쓰기작성 후 1페이지로 이동
+    }
+
 }

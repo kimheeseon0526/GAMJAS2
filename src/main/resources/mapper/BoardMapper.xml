@@ -18,8 +18,29 @@
 		<result column="seq" property="seq"/>
 		<result column="depth" property="depth"/> 
 		<result column="c_view_type" property="cViewType" javaType="domain.en.CategoryViewType"/> 
-		
-		
+		<result column="is_secret" property="isSecret"/>
+
+
+
+		<collection property="attachs" ofType="attach">
+			<result column="uuid" property="uuid"/>
+			<result column="path" property="path"/>
+			<result column="image" property="image" javaType="boolean"/>
+			<result column="origin" property="origin"/>
+			<result column="odr" property="odr"/>
+			<result column="size" property="size"/>
+		</collection>
+	</resultMap>
+
+
+	<resultMap type="reply" id="r">
+		<id column="rno" property="rno"/>
+		<result column="content" property="content" />
+		<result column="id" property="id" />
+		<result column="regdate" property="regdate" />
+		<result column="bno" property="bno" />
+
+
 		<collection property="attachs" ofType="attach">
 			<result column="uuid" property="uuid"/>
 			<result column="path" property="path"/>
@@ -29,6 +50,9 @@
 			<result column="size" property="size"/>
 		</collection>
 	</resultMap>
+
+
+
 	<sql id="criteria">
 		<where>
 			<trim prefixOverrides="AND | OR">
@@ -68,36 +92,47 @@
 	order by grp desc, seq 
 	limit #{amount} offset #{offset}
 	</select>
-	
+
 	<!-- 단일조회 (cViewType 추가 완료)-->
 	<select id="selectOne" resultMap="b">
-	 select *, 
-	 <!-- c.c_view_type cViewType, -->
+	 select *,
+	c.c_view_type cViewType,
   	(select count(*) from tbl_reply r where r.bno = tb.bno) replyCnt
 	from tbl_board tb
 	left join tbl_attach_ref tar on tb.bno = tar.refno and attachreftype = 'BOARD'
 	left join tbl_attach ta using(ano)
-	<!-- left join tbl_category c on b.cno = c.cno -->
+	left join tbl_category c on tb.cno = c.cno
 	where bno = #{bno}
-	order by odr
+	order by ta.odr
 	</select>
-	
+
+	<!--댓글 첨부파일 조회-->
+	<select id="replyAttach" resultMap="r">
+		select r.rno, r.content, r.id, r.regdate, r.bno,
+				a.uuid, a.path, a.image, a.origin, a.odr, a.size
+		from tbl_reply r
+		left join tbl_attach_ref ar on ar.refno = r.rno AND ar.attachreftype = 'REPLY'
+		left join tbl_attach a on a.ano = ar.ano
+		where r.bno = #{bno}
+		order BY r.rno desc;
+	</select>
+
 	<!-- 글 등록 -->
 	<insert id="insert">
-		insert into tbl_board (title, content, id, cno) values (#{title}, #{content}, #{id}, #{cno})
+		insert into tbl_board (title, content, id, cno, is_secret) values (#{title}, #{content}, #{id}, #{cno}, #{isSecret})
 	<selectKey keyProperty="bno" resultType="long" order="AFTER">
-		select max(bno) from tbl_board 
+		select max(bno) from tbl_board
 	</selectKey>
 	</insert>
-	
+
 	<!-- 내 글 번호를 grp로 -->
 	<update id="updateGrpMyself">
 	update tbl_board set grp = #{bno} where bno = #{bno}
 	</update>
-	
+
 	<!-- 답글 작성시 지정위치에 seq 취득 -->
 	<select id="selectMaxSeq" resultType="int">
-	select COALESCE(max(seq), #{seq}) 
+	select COALESCE(max(seq), #{seq})
 	from tbl_board b
 	where grp = #{grp}
 	and seq > #{seq}
@@ -107,24 +142,25 @@
 		from tbl_board mid
 		where grp = b.grp
 		and seq > #{seq}
-		and seq &lt; b.seq 
+		and seq &lt; b.seq
 		and depth &lt;= #{depth}
 	)
 	</select>
-	
+
 	<!-- 답글이 되기위해 seq를 1증가 -->
 	<update id="updateSeqIncrease">
-	update tbl_board set seq = seq + 1 where grp = #{grp} and seq >= #{seq} 
+	update tbl_board set seq = seq + 1 where grp = #{grp} and seq >= #{seq}
 	</update>
-	
+
 	<!-- 답글 등록 -->
 	<insert id="insertChild">
-	insert into tbl_board (title, content, id, cno, grp, seq, depth) values (#{title}, #{content}, #{id}, #{cno}, #{grp}, #{seq}, #{depth})
+	insert into tbl_board (title, content, id, cno, grp, seq, depth, is_secret) values (#{title}, #{content}, #{id}, #{cno}, #{grp}, #{seq}, #{depth}, #{isSecret})
 	<selectKey keyProperty="bno" resultType="long" order="AFTER">
 	select max(bno) from tbl_board
 	</selectKey>
 	</insert>
-	
+
+
 	<!-- 게시글 갯수 -->
 	<select id="getCount" resultType="long">
 		select count(*) from tbl_board 

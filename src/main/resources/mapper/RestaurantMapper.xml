@@ -3,7 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mapper.RestaurantMapper">
-  	<sql id="cri">
+	<resultMap id="r" type="restaurant">
+		<id property="postSn" column="post_sn"/>
+		<result property="langCodeId" column="lang_code_id"/>
+		<result property="postSj" column="post_sj"/>
+		<result property="postUrl" column="post_url"/>
+		<result property="address" column="address"/>
+		<result property="newAddress" column="new_address"/>
+		<result property="cmmnTelNo" column="cmmn_tel_no"/>
+		<result property="cmmnHmpgUrl" column="cmmn_hmpg_url"/>
+		<result property="cmmnUseTime" column="cmmn_use_time"/>
+		<result property="subwayInfo" column="subway_info"/>
+		<result property="cmmnHmpgLang" column="cmmn_hmpg_lang"/>
+		<result property="fdReprsntMenu" column="fd_reprsnt_menu"/>
+		<result property="recomNo" column="recom_no"/>
+	</resultMap>
+
+	<sql id="cri">
 		<where>
 			recom_no is null and lang_code_id = 'ko'
 			<if test="types != null">
@@ -17,7 +33,21 @@
 			</if>
 		</where>
 	</sql>
-  	<select id ="list" resultType="restaurant">
+	<sql id="cri2">
+		<where>
+			recom_no is not null and lang_code_id = 'ko'
+			<if test="types != null">
+				<foreach collection="types" item="t" open="and (" close=")" separator="or">
+					<choose>
+						<when test="t eq 'T'.toString()">
+							post_sj like concat('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</foreach>
+			</if>
+		</where>
+	</sql>
+  	<select id ="list" resultMap="r">
 		select * from tbl_restaurant
 		<include refid="cri"/>
 		order by 1 desc 
@@ -35,8 +65,22 @@
   	values (#{postSn}, #{langCodeId}, #{postSj}, #{postUrl}, #{address}, #{newAddress}, #{cmmnTelNo}, #{cmmnHmpgUrl},
     #{cmmnUseTime}, #{subwayInfo}, #{cmmnHmpgLang}, #{fdReprsntMenu}, #{recomNo})
   	</insert>
-  	<select id="selectOne" resultType="restaurant">
+  	<select id="selectOne" resultMap="r">
 		select * from tbl_restaurant 
 		where recom_no = #{recomNo}
+	</select>
+	<select id="selectOneByPk" resultMap="r">
+		select * from tbl_restaurant
+		where post_sn = #{postSn}
+	</select>
+	<select id ="getRecomList" resultMap="r">
+		select * from tbl_restaurant
+		<include refid="cri2"/>
+		order by 1 desc
+		limit #{amount} offset #{offset}
+	</select>
+	<select id="getRecomCount" resultType="long">
+		select count(*) from tbl_restaurant
+		<include refid="cri2"/>
 	</select>
   </mapper>

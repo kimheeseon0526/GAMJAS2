@@ -10,6 +10,7 @@ import domain.Board;
 import domain.dto.Criteria;
 import domain.en.RecommendContentType;
 import domain.info.Recommend;
+import domain.info.StationsByRecom;
 import lombok.extern.slf4j.Slf4j;
 import mapper.AttachMapper;
 import mapper.BoardMapper;
@@ -30,6 +31,8 @@ public class RecommendService {
 		}
 		return null;
 	}
+
+
 	
 	public void write(Recommend recommend) {
 		SqlSession session = MybatisUtil.getSqlSession(false);
@@ -67,6 +70,8 @@ public class RecommendService {
 		}
 		return 0;
 	}
+
+
 	
 	public Recommend findBy(Long recomNo) {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
@@ -152,7 +157,34 @@ public class RecommendService {
 			session.close();
 		}  //try catch -> 롤백해라
 	}
-		
+
+	public List<String> findByImgByRecomNo(Long recomNo) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			List<String> list = mapper.selectImgByRecomNo(recomNo);
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	public List<StationsByRecom> findByStationByrecomPlaceId(RecommendContentType rct, String recomPlaceId) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RecommendMapper mapper = session.getMapper(RecommendMapper.class);
+			List<StationsByRecom> list = mapper.selectStationByrecomPlaceId(rct, recomPlaceId);
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+	
 }
 	
 

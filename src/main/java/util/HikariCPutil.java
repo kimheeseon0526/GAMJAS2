@@ -22,17 +22,6 @@ public class HikariCPutil {
 		//설정 정보 관리, 파일
 		
 		Properties props = PropsLoaderUtil.getProperties("secret/db.properties"); // properties		
-		//현재 실행중인 스레드의 컨텍스트 클래스로더의 위치에서 resource를 stream형태로 가져오기
-		try(InputStream is = Thread.currentThread()
-									.getContextClassLoader()
-									.getResourceAsStream("secret/db.properties")) {
-			if (is == null) {
-				throw new FileNotFoundException("Cannot find db.properties in classpath");
-			}
-			props.load(is);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		
 		config.setJdbcUrl(props.getProperty("jdbc.url"));

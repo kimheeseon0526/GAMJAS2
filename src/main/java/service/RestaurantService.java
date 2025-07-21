@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 
 
+import api.Festival;
+import domain.en.RecommendContentType;
+import mapper.FestivalMapper;
+import mapper.RecommendMapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.google.gson.FieldNamingPolicy;
@@ -100,13 +104,29 @@ public class RestaurantService { //최초 1회 수집용
 //		
 //		return ti;
 //	}
-	
+
+
+
 	public List<Restaurant> list(Criteria cri) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
 			
 			List<Restaurant> list = mapper.list(cri);
 			
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Restaurant> getRecomList(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+
+			List<api.Restaurant> list = mapper.getRecomList(cri);
+
 			return list;
 		}
 		catch (Exception e) {
@@ -125,7 +145,18 @@ public class RestaurantService { //최초 1회 수집용
 		}
 		return 0;
 	}
-	
+
+	public long getRecomCount(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			return mapper.getRecomCount(cri);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 	public Restaurant findBy(Long recomNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
 			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
@@ -137,8 +168,18 @@ public class RestaurantService { //최초 1회 수집용
 		}
 		return null;
 	}
-	
-	
+
+	public Restaurant findByPk(String pk) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);
+			return mapper.selectOneByPk(pk);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public void register(Restaurant restaurant) {
 		try(SqlSession session = MybatisUtil.getSqlSession()){
 			RestaurantMapper mapper = session.getMapper(RestaurantMapper.class);

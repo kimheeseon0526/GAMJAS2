@@ -119,5 +119,25 @@
 	    <artifactId>aws-sdk-java</artifactId>
 	    <version>2.31.77</version>
 	</dependency>
+	  <!-- Servlet API -->
+	  <dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>javax.servlet-api</artifactId>
+		  <version>4.0.1</version> <!-- Tomcat 9 대응 -->
+		  <scope>provided</scope>
+	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+	  <dependency>
+		  <groupId>javax.websocket</groupId>
+		  <artifactId>javax.websocket-api</artifactId>
+		  <version>1.1</version>
+	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/javax.servlet/jsp-api -->
+	  <dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>jsp-api</artifactId>
+		  <version>2.0</version>
+		  <scope>provided</scope>
+	  </dependency>
   </dependencies>
 </project>

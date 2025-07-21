@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import domain.dto.Criteria;
 import domain.en.RecommendContentType;
 import domain.info.Recommend;
+import domain.info.StationsByRecom;
 
 
 public interface RecommendMapper {
@@ -34,4 +35,7 @@ public interface RecommendMapper {
 
 	void removeRecomFest(Long recomNo);
 
+	List<String> selectImgByRecomNo(Long recomNo);
+
+	List<StationsByRecom> selectStationByrecomPlaceId(@Param("type") RecommendContentType rct, @Param("id") String recomPlaceId);
 }

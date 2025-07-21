@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
+import domain.info.Recommend;
+import mapper.RecommendMapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.google.gson.FieldNamingPolicy;
@@ -124,6 +126,20 @@ public class FestivalService { //최초 1회 수집용
 		}
 		return null;
 	}
+
+	public List<Festival> getRecomList(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()){
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+
+			List<Festival> list = mapper.getRecomList(cri);
+
+			return list;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public Festival findBy(Long recomNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
@@ -136,8 +152,18 @@ public class FestivalService { //최초 1회 수집용
 		}
 		return null;
 	}
-	
-	
+
+	public Festival findByPk(String pk) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			return mapper.selectOneByPk(pk);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public long getCount(Criteria cri) { 
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
@@ -148,15 +174,27 @@ public class FestivalService { //최초 1회 수집용
 		}
 		return 0;
 	}
-	public static void main(String[] args) throws IOException {
-		
-		FestivalService tis = new FestivalService();
-		List<Festival> list = tis.getList();
+
+	public long getRecomCount(Criteria cri) {
+		try(SqlSession session = MybatisUtil.getSqlSession()) {
+			FestivalMapper mapper = session.getMapper(FestivalMapper.class);
+			return mapper.getRecomCount(cri); //1page 10개씩
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+//	public static void main(String[] args) throws IOException {
+//
+//		FestivalService tis = new FestivalService();
+//		List<Festival> list = tis.getList();
 		
 //		for(Festival a : list) {			
 //			tis.register(a);
 //		}
 //		
 
-	}
+//	}
 }

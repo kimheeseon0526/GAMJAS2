@@ -1,5 +1,8 @@
+<%@page import="domain.info.Recommend"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="domain.en.RecommendContentType" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix= "fmt"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -7,6 +10,7 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6cc3b513c1123ed7909f8f5cf20cc721""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/dayjs.min.js" integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/locale/ko.min.js" integrity="sha512-ycjm4Ytoo3TvmzHEuGNgNJYSFHgsw/TkiPrGvXXkR6KARyzuEpwDbIfrvdf6DwXm+b1Y+fx6mo25tBr1Icg7Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/plugin/relativeTime.min.js" integrity="sha512-MVzDPmm7QZ8PhEiqJXKz/zw2HJuv61waxb8XXuZMMs9b+an3LoqOqhOEt5Nq3LY1e4Ipbbd/e+AWgERdHlVgaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -15,7 +19,7 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 <div class="container p-0">
-		<main>
+	<main>
 		<div class="container my-3">
 			  <!-- 탭 메뉴 -->
 		  <form>
@@ -32,34 +36,13 @@
 		  </ul>
 		  </form>
 		  </div>
-        <div class="small border-bottom border-3" style="border-color: #6A8D73;">
-		  <a href="" class="small" style="color: #4a5c48;">
-		    <span style="color: #6A8D73;">
-		      <c:forEach items="${cate}" var="c">
-		        <c:if test="${c.cno == cri.cno}">
-		          ${c.cname}
-		        </c:if>
-		      </c:forEach>
-		    </span>
-		    카테고리
-		  </a>
-		</div>
-
+      
         <div class="small p-0 py-2">
-       		<%-- <c:forEach items="${cate}" var="c">
-		        <c:if test="${c.cno == cri.cno}">
-		         <span class="px-2 border-end border-1"> ${c.cname} </span>
-		        </c:if>
-		      </c:forEach> --%>
 		    <c:forEach items="${recommendlist}" var="r">
 		    	<c:if test="${r.recomNo == recommend.recomNo}">
 		            <span class="px-2">${r.title}</span>
 		    	</c:if>    
 		    </c:forEach>
-            <%-- <div class="float-end small">
-                <span class="text-muted"><i class="fa-solid fa-eye"></i>${board.cnt}</span>
-                <span class="text-muted"><i class="fa-solid fa-comment-dots"></i> ${board.replyCnt}</span>
-            </div> --%>
         </div>
         <div class="p-0 py-2 bg-light small border-top border-2 border-muted">
             <span class="px-2">작성자 : 관리자</span>
@@ -189,7 +172,7 @@
 					 <c:if test="${not empty festival.firstImage}">
 			           <div style="max-width: 600px; margin: 0 auto;">
 			            <img src="${festival.firstImage}" class="img-fluid mt-2" alt="축제 이미지">
-			           	<span class="fw-bold">대표 이미지</span><br>
+			           	<div class="fw-bold">대표 이미지</div><br>
 			           </div>
 			        </c:if>
 				  <div class="row">
@@ -237,7 +220,61 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
+		<!-- 지도 영역  -->
+		<!-- 노선 버튼 영역 -->
+		  <div class="line-selectors">
+		  	<div class="line-wrap" style="display: flex; gap: 12px; flex-wrap: wrap;">
+		  	<c:set var="printedline" value=""></c:set>
+		  	<c:forEach items="${stations}" var="s">
+		  		<c:if test="${not fn: contains(printedline, s.stationLine) }">
+				<c:choose>
+					<c:when test="${s.stationLine == '1호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #0052A4;" value="1호선">1</button><span>1호선</span></div>
+					</c:when>
+					<c:when test="${s.stationLine == '2호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #00A84D;" value="2호선">2</button><span>2호선</span></div>
+					 </c:when>
+					 <c:when test="${s.stationLine == '3호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #EF7C1C;" value="3호선">3</button><span>3호선</span></div>
+					 </c:when>
+					 <c:when test="${s.stationLine == '4호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #00A4E3;" value="4호선">4</button><span>4호선</span></div>
+					 </c:when>
+					 <c:when test="${s.stationLine == '5호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #996CAC;" value="5호선">5</button><span>5호선</span></div>
+					  </c:when>
+					  <c:when test="${s.stationLine == '6호선'}">  
+					  <div class="line-item">
+					    <button style="background-color: #CD7C2F;" value="6호선">6</button><span>6호선</span></div>
+					  </c:when> 
+					  <c:when test="${s.stationLine == '7호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #747F00;" value="7호선">7</button><span>7호선</span></div>
+					  </c:when>
+					  <c:when test="${s.stationLine == '8호선'}">
+					  <div class="line-item">
+					    <button style="background-color: #E6186C;" value="8호선">8</button><span>8호선</span></div>
+					  </c:when>
+					  <c:when test="${s.stationLine == '9호선'}">  
+					  <div class="line-item">
+					    <button style="background-color: #BDB092;" value="9호선">9</button><span>9호선</span></div>
+					  </c:when>
+					  <c:otherwise></c:otherwise> 
+			    </c:choose>
+			    <c:set var="printedline" value="${printedline},${s.stationLine}"></c:set>
+			    </c:if>
+		    </c:forEach>
+		    <span id="printed-line" style="display:none">${printedline}</span>
+		  </div>
+		  </div>
+		<div id="map" style="flex: 1; min-width: 600px; height: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
 		
+		<!-- 추가 컨텐츠 영역 -->
 		<div class="container my-4">
 		  <div class="p-3 bg-light border rounded shadow-sm">
 		    <p class="mb-0 fw-semibold text-secondary">${recommend.apiSubcontent}</p>
@@ -249,12 +286,16 @@
 		    <a href="${cp}/info/recommendlist?recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
 		        <i class="fa-solid fa-list-ul"></i> 목록
 		    </a>
-		    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
-		        <i class="fa-solid fa-pen-to-square"></i> 수정
-		    </a>
-		    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
-		        <i class="fa-solid fa-trash-can"></i> 삭제
-		    </a>
+		    <c:if test="${loginMember.memNo == recommend.memNo}">
+			    <a href="${cp}/info/modify?recomNo=${recommend.recomNo}&${cri.qsRecom}" class="btn btn-outline-secondary btn-sm">
+			        <i class="fa-solid fa-pen-to-square"></i> 수정
+			    </a>
+		    </c:if>
+		    <c:if test="${loginMember.memNo == recommend.memNo}">
+			    <a href="${cp}/info/remove?recomNo=${recommend.recomNo}&recomContenttype=${recommend.recomContenttype}&${cri.qsRecom}" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?')">
+			        <i class="fa-solid fa-trash-can"></i> 삭제
+			    </a>
+		    </c:if>
 		</div>
 
         <c:if test="${fn:length(board.attachs) > 0}">
@@ -292,231 +333,164 @@
      </main>
   </div>
   
-  <!--Modal 전체 -->
-  <%-- <c:if test="${board.cViewType == 'FREE' or board.cViewType == 'REVIEW'}"> --%>
-	 <%--  <div class="modal fade" id="reviewModal">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	
-	      <!-- Modal Header -->
-	      <div class="modal-header">
-	        <h4 class="modal-title">댓글 작성</h4>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-	      </div>
-	
-	      <!-- Modal body -->
-	      <div class="modal-body">
-	        <form action="/action_page.php">
-	            <div class="mb-3 mt-3">
-	                <label for="content" class="form-label text-primary"><i class="fa-solid fa-comment"></i> 댓글 내용</label>
-	                <textarea class="form-control resize-none" id="content" placeholder="Enter content" name="content" rows="5"></textarea>
-	            </div>
-	            <div class="mb-3">
-	                <label for="writing" class="form-label text-primary"><i class="fa-solid fa-user"></i> 작성자</label>
-	                <input type="text" class="form-control" id="writer" placeholder="Enter writer" name="writer" value="${member.id}" disabled="disabled">
-	            </div>
-	        </form>
-	      </div>
-	
-	      <!-- Modal footer -->
-	      <div class="modal-footer">
-		   	<button type="button" class="btn btn-sm btn-write-submit" style="background-color: #4a5c48; color: white;">작성</button>
-			<button type="button" class="btn btn-sm btn-write-submit" style="background-color: #6c7a68; color: white;">수정</button>
-			<button type="button" class="btn btn-sm" style="background-color: #a94442; color: white;" data-bs-dismiss="modal">닫기</button>
-		  </div>
-	    </div>
-	  </div>
-	</div> --%>
-	<%-- </c:if> --%>
-	
-	
+  
 <%@ include file="../common/footer.jsp" %>
-	<script>
+<script type="application/json" id="recommend-json">
+	  <%= new Gson().toJson(request.getAttribute("recommend")) %>
+</script>
+<script type="application/json" id="station-json">
+	  <%= new Gson().toJson(request.getAttribute("stations")) %>
+</script>
+<script type="application/json" id="place-json">
+		<%
+			 Recommend recommend = (Recommend)request.getAttribute("recommend");
+			  Gson gson = new Gson();
+			  switch(recommend.getRecomContenttype()) {
+			    case ATTRACTION:
+			      out.print(gson.toJson(request.getAttribute("attraction")));
+			      break;
+			    case RESTAURANT:
+			      out.print(gson.toJson(request.getAttribute("restaurant")));
+			      break;
+			    case FESTIVAL:
+			      out.print(gson.toJson(request.getAttribute("festival")));
+			      break;
+			  }
+		%>
+</script>
+<script type="application/json" id="subway-json">
+	  <%= new Gson().toJson(request.getAttribute("subway")) %>
+</script> 
+<script>
+	const lines = $("#printed-line").text().split(",").filter(line => line && /^\d/.test(line));
+	console.log(lines);
 	
-	$.ajaxSetup({
-		contentType : 'application/json',
-		dataType : 'json'
+	lines.sort(function(a, b){
+		let num1 = parseInt(a);
+		let num2 = parseInt(b); 
+		return num1 - num2;
+	})
+	console.log(lines);
+	
+	
+	
+</script>
+<script>
+	let openInfoWindow = null;  //인포 윈도우 초기화
+	
+	const recommend = JSON.parse(document.getElementById("recommend-json").textContent); //recommend 객체 대한 정보
+	const stations = JSON.parse(document.getElementById("station-json").textContent); // recommend 객체 한 개와 연결된 역 리스트 정보 
+	const subway = JSON.parse(document.getElementById("subway-json").textContent); // 전체 역 정보
+	//const place = JSON.parse(document.getElementById("place-json").textContent); // 추천 명소의 lat, lng 값을 접근하기 위한 정보
+	const latlng =  new kakao.maps.LatLng(stations[0].lat, stations[0].lng); // 추천 명소 기준 lat, lng 값
+	console.log(recommend);
+	
+  	const map = new kakao.maps.Map(document.getElementById("map"), {
+      center: latlng, // 임의의 중심 좌표
+      level: 5
+    });
+  	
+  	function getFontAwesomeIcon(type) {
+    	if(type === "RESTAURANT") {
+    		return  `<i class="fas fa-utensils" style="color:tomato; font-size:24px; cursor:pointer;"></i>`;
+    	}
+       	if (type === "FESTIVAL") {
+       	    return `<i class="fas fa-music" style="color:orange; font-size:24px; cursor:pointer;"></i>`;
+       	}
+       	if (type === "ATTRACTION") {
+       	    return `<i class="fas fa-camera" style="color:teal; font-size:24px; cursor:pointer;"></i>`;
+       	}
+       	return '<i class="fas fa-map-marker-alt" style="color:gray; font-size:24px; cursor:pointer;"></i>';
+   	}
+	
+  	
+  	
+  	const markerContent = document.createElement('div');
+  	markerContent.innerHTML = getFontAwesomeIcon(recommend.recomContenttype);
+  	markerContent.style.position = 'relative';
+    markerContent.style.transform = 'translate(-50%, -50%)';
+    markerContent.style.display = 'inline-block';
+    
+	const overlay = new kakao.maps.CustomOverlay({
+	    content: markerContent,
+	    map: map,
+	    position: latlng     
+	});
+  	
+	console.log(recommend.recomContenttype);
+	
+	const infowindow = new kakao.maps.InfoWindow({
+		content: 
+			`<div style="display:table;table-layout:fixed;width:280px;font-size:13px;text-align:center;word-wrap:break-word;word-break:break-word;white-space:normal;">
+				<div style="display:table-row;">
+					<p style="margin:0;font-weight:bold;">${stations[0].title}</p>
+					<hr style="margin:5px 0;">
+				</div>
+					<div style="display:table-cell;padding:5px;">
+					<p style="margin:0;">${stations[0].addr}</p>
+				</div>
+			</div>`,
+        removable : true
+    });
+	
+	markerContent.addEventListener('click', function() {
+	    if (openInfoWindow) openInfoWindow.close(); // 이전 인포윈도우 닫기
+	    infowindow.setPosition(latlng);             // 위치 지정
+	    infowindow.open(map);               
+	    openInfoWindow = infowindow;
+	});
+	
+	function closeOverlay() {
+	    infowindow.setMap(null);     
+	}
+	
+	console.log(stations);
+	
+	
+	
+	stations.forEach(function(station){
+		openInfoWindow = null;
+		
+		const realStation = subway.find(s => s.BLDN_ID === station.stationId);
+		console.log("station.stationId: ", station.stationId);
+		console.log("realStation 확인:", realStation);
+		
+		const markerPosition = new kakao.maps.LatLng(realStation.LAT, realStation.LOT);
+		
+		const subwayContent = document.createElement('div');
+		subwayContent.innerHTML = `<i class='fa-solid fa-train-subway' style='font-size:24px; color:${realStation.lineColor}; cursor:pointer;'></i>`;
+		subwayContent.style.position = 'relative';
+		subwayContent.style.transform = 'translate(-50%, -50%)';
+		subwayContent.style.display = 'inline-block';
+		
+		const infowindow = new kakao.maps.InfoWindow({
+		content: 
+			`<div style="width:250px; font-size:13px; background:white; border:1px solid #888; border-radius:6px; padding:10px; text-align:center;">
+		      <p style="margin:0; font-weight:bold;">${realStation.BLDN_NM}</p>
+		      <hr style="margin:5px 0;">
+		      <p style="margin:0;">${realStation.ROUTE}</p>
+		    </div>`,
+		    removable : true
+    	});
+		console.log("BLDN_NM:", realStation.BLDN_NM);
+		console.log("ROUTE:", realStation.ROUTE);
+		
+		const subwayMarker = new kakao.maps.CustomOverlay({
+			position: markerPosition,
+			content: subwayContent,
+			map: map
+		})
+		 subwayMarker.setMap(map);
+		
+		
+		 subwayContent.addEventListener("click", function () {
+			    if (openInfoWindow) openInfoWindow.close();
+			    infowindow.setPosition(markerPosition);
+			    infowindow.open(map);
+			    openInfoWindow = infowindow;
+			  });
 	})
 	
-		dayjs.extend(window.dayjs_plugin_relativeTime);
-		dayjs.locale('ko');
-		const dayForm = 'YYYY-MM-DD HH:mm:ss';
-		dayjs('2025-06-20 15:40:44', dayForm).fromNow()
-		
-        $(function(){
-        	const bno = '${board.bno}'
-            const url = '${cp}' + '/reply/';
-            const modal = new bootstrap.Modal($("#reviewModal").get(0), {})
-            
-            console.log("bno 값 체크:", '${board.bno}');
-            //makeReplyLi(reply) > str
-            
-            function makeReplyLi(r){
-            		return `
-                     <li class="list-group-item ps-5 profile-img" data-rno="\${r.rno}">                             
-                         <p class="small text-secondary">
-                             <span class="me-3">\${r.id}</span>
-                             <span class="mx-3">\${dayjs(r.regdate, dayForm).fromNow()}</span>                                   
-                         </p>
-                         <p class="small ws-pre-line">
-                             \${r.content}</p>
-                             <button class="btn btn-danger btn-sm float-end btn-remove-submit">
-                             <i class="fa-solid fa-trash-can"></i> 삭제
-                             </button>
-                             <button class="btn btn-outline-secondary btn-sm float-end mx-3 btn-modify-form">수정</button>
-                	</li>
-                     `;
-           }
-            
-            
-            function list(bno, lastRno){
-            	lastRno = lastRno ?  ('/' + lastRno) : '';
-            	let reqUrl = url + 'list/' + bno + lastRno;
-                $.ajax({
-                    url: reqUrl,
-                    success : function(data) {
-                        if(!data || data.length === 0) {
-                        	if($(".reviews li").length === 0) {// 처음부터 댓글이 없는 상태                        		
-                        		$(".reviews").html('<li class ="list-group-item text-center text-muted">댓글이 없습니다</li>')
-                        	}
-                        	else{ //댓글은 원래 존재하지만, 더 가져올 것이 없는 경우
-                        		$(".btn-reply-more").prop("disabled", true).text("추가 댓글이 없습니다.")
-                        	}
-                        	
-                        	return;
-                        }
-                        $(".btn-reply-more").removeClass("d-none");
-                        let str = '';
-                        for(let r of data) {
-                            console.log(r); 
-                            str+= makeReplyLi(r);
-                        }
-                        $(".reviews").append(str); //얘는 현재 교체이다. 
-                    }
-                });
-            }
-            list(bno);
-
-            // myModal.show();
-
-            //글쓰기 폼 활성화 btn-write-form
-            $(".btn-write-form").click(function(){
-                console.log("글쓰기 폼");
-                $("#reviewModal form").get(0).reset(); // 그전에 작성했던 내용을 reset으로 처리해버림
-                modal.show();
-                $("#reviewModal .modal-footer button").show().eq(1).hide(); //수정버튼만 숨기기
-            });
-            //글쓰기 버튼 이벤트 btn-write-submit
-            $(".btn-write-submit").click(function(){
-                const result = confirm("등록하시겠습니까?");
-                if(!result) return;
-                
-                const content = $("#content").val().trim();
-                const id = $("#writer").val().trim();
-                
-                const obj = {content, id, bno};
-                console.log(obj);
-                console.log("글쓰기 전송");
-                $.ajax({
-                    url ,
-                    method : 'POST',
-                    data : JSON.stringify(obj),
-                    success : function(data) {
-                        if(data.result) {
-                            modal.hide();
-                            //작성된 댓글
-                            if(data.reply) { // not null. not undefined 
-                            	data.reply.regdate = dayjs().format(dayForm);
-                            	const strLi = makeReplyLi(data.reply); 
-                            	$(".reviews").prepend(strLi);
-                            }
-                        }
-                    }
-                })
-            });
-            //글수정 폼 활성화 btn-modify-form
-            $(".reviews").on("click", ".btn-modify-form", function(){
-                console.log("글수정 폼");
-                // console.log($(this).closest("li").data("rno"));
-                const rno = $(this).closest("li").data("rno");
-                $.getJSON(url + rno, function(data){
-                    $("#reviewModal .modal-footer button").show().eq(0).hide();
-                    $("#content").val(data.content);
-                    $("#writer").val(data.id);
-                    $("#reviewModal").data("rno", rno); // 이 친구의 역할은?
-                    console.log(data);
-                    modal.show();
-                })
-            })
-            //글수정 버튼 이벤트 btn-modify-submit
-            $(".btn-modify-submit").click(function(){
-                const result = confirm("수정하시겠습니까?");
-                if(!result) return;
-                const rno = $("#reviewModal").data("rno");
-                console.log(rno);
-
-                const content = $("#content").val().trim();
-                const id = $("#writer").val().trim();
-                const obj = {content, id, rno};
-
-                console.log("글수정 전송");
-                $.ajax({
-                    url : url + rno,
-                    method : 'PUT' ,
-                    data: JSON.stringify(obj),
-                    success : function(data) {
-                        if(data.result) { //data.result는 T/F스타일, 유튜브 댓글도 이런 스타일
-                            modal.hide();
-                            // get을 재호출 
-                            $.getJSON(url + rno, function(data){
-                            	console.log(data);
-                            	//문자열 생성
-                            	const strLi = makeReplyLi(data); //교체 후 댓글
-                            	//rno를 가지고 수정할 li 탐색
-                            	const $li = $(`.reviews li[data-rno ='\${rno}']`); // 교체 전 댓글
-                            	//console.log($li.html());
-                            	//replacewith로 내용 교체
-                            	$li.replaceWith(strLi);
-                            })
-                        }
-                    }
-                })
-                
-            });
-            //글삭제 버튼 이벤트 btn-remove-submit
-            $(".reviews").on("click", ".btn-remove-submit", function(){
-
-                // return false; // false 기본 이벤트 제거 및 전파도 방지
-
-                const result = confirm("삭제 하시겠습니까?")
-                if(!result) return;
-                const $li = $(this).closest("li")
-                const rno = $li.data("rno");
-                console.log("글삭제 전송");
-
-                $.ajax({
-                    url : url + rno,
-                    method : 'DELETE' ,
-                    success : function(data) {
-                        if(data.result) { //data.result는 T/F스타일, 유튜브 댓글도 이런 스타일
-                            $li.remove();
-                        }
-                    }
-                })
-                
-            })
-            
-            //댓글 더보기 버튼 이벤트
-            $(".btn-reply-more").click(function(){
-            	//현재 댓글 목록중 마지막 댓글의 댓글 번호를 가져와 
-            	// list(bno, lastRno)
-/*             	const lastRno = $("li:last-of-type").value; */
-            	const lastRno = $(".reviews li:last").data("rno");
-            	console.log(lastRno)
-            	list(bno, lastRno);
-            });
-        });
-        
-    </script>
+</script>
 </body>
 </html>

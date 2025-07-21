@@ -65,38 +65,12 @@
 			
 			</div>
 
-			<div id="apilist">
-				<ul class="list-group" id="tourMap">
-				<c:forEach items="${apilist}" var="a">
-					<c:if test="${recommend.recomContenttype != null}">
-						<c:choose>
-							<c:when test="${recommend.recomContenttype != 'FESTIVAL'}">						
-								<li class="list-group-item">
-								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.postSn}" 
-								data-postsn="${a.postSn}"  data-title="${a.postSj}" data-url="${a.postUrl}" data-address="${a.newAddress}"
-       							data-opentime="${a.cmmnUseTime}" data-subway="${a.subwayInfo}">
-								${a.postSj} 
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li class="list-group-item" >
-								<input type="radio" class="form-check-input" name="recomPlaceId" value="${a.contentId}" 
-								data-contentid="${a.contentId}" data-title="${a.title}" data-address1="${a.addr1}" data-address2="${a.addr2}"
-       							data-startdate="${a.eventStartDate}" data-enddate="${a.eventEndDate}" >
-								${a.title}</li>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-				</c:forEach>
-				</ul>
-			</div>
-			
-			
 			<c:choose>
 				<c:when test="${recommend.recomContenttype == 'ATTRACTION'}">						
 					<div class="container my-4">
 					  <div class="row">
 					    <!-- 왼쪽 컬럼 -->
+						  <p class="fw-bold fs-5">${attraction.postSj}</p>
 					    <div class="col-md-6">
 					      <ul class="list-group list-group-flush">
 					
@@ -162,6 +136,7 @@
 				<div class="container my-4">
 				  <div class="row">
 				    <!-- 왼쪽 컬럼 -->
+					  <p class="fw-bold fs-5">${restaurant.postSj}</p>
 				    <div class="col-md-6">
 				      <ul class="list-group list-group-flush">
 				
@@ -211,6 +186,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="container my-4">
+					<p class="fw-bold fs-5">${festival.title}</p>
 					 <c:if test="${not empty festival.firstImage}">
 			           <div style="max-width: 600px; margin: 0 auto;">
 			            <img src="${festival.firstImage}" class="img-fluid mt-2" alt="축제 이미지">
@@ -220,6 +196,7 @@
 				  <div class="row">
 				    <!-- 왼쪽 컬럼 -->
 				    <div class="col-md-6">
+
 				      <ul class="list-group list-group-flush">
 				
 				        <c:if test="${not empty festival.title}">
@@ -321,32 +298,6 @@
   <script>
   	
 	$(function() {
-
-		const placeId = $(this).children("input").val();
-		const title = $(this).children("input").data("title");
-		
-		if ("${recommend.recomContenttype}" !== "FESTIVAL") {				
-	        const url = $(this).children("input").data("url");
-	        const address = $(this).children("input").data("address");
-	        const opentime = $(this).children("input").data("opentime");
-	        const subway = $(this).children("input").data("subway");
-	        
-	        $("#infotitle").text(title);
-	        $("#infourl").text(url);
-	        $("#infoaddress").text(address);
-	        $("#infoopentime").text(opentime);
-	        $("#infosubway").text(subway);
-		}
-  		else {
-        const address = $(this).children("input").data("address1"); // addr1
-        const startdate = $(this).children("input").data("startdate");
-        const enddate = $(this).children("input").data("enddate");
- 
-        $("#infotitle").text(title);
-        $("#infoaddress").text(address);
-        $("#infostartdate").text(startdate);
-        $("#infoenddate").text(enddate);
-    	}
 
 		$( ".attach-list" ).sortable();
 		//return true / false

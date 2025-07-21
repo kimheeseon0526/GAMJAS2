@@ -3,6 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
    <mapper namespace="mapper.ReplyMapper">
+
+ <resultMap type="reply" id="r">
+  <id column="rno" property="rno"/>
+  <result column="content" property="content" />
+  <result column="id" property="id" />
+  <result column="regdate" property="regdate" />
+  <result column="bno" property="bno" />
+
+  <collection property="attachs" ofType="attach">
+   <result column="uuid" property="uuid"/>
+   <result column="path" property="path"/>
+   <result column="image" property="image"/>
+   <result column="origin" property="origin"/>
+   <result column="odr" property="odr"/>
+   <result column="size" property="size"/>
+  </collection>
+ </resultMap>
  
     <!-- 목록 조회  --> 
      <select id="list" resultType="reply">
@@ -21,11 +38,11 @@
      </select>
 
 	<!--글 등록  -->
-    <insert id="insert"> 
+    <insert id="insert" parameterType="reply" useGeneratedKeys="true" keyProperty="rno">
     insert into tbl_reply(content, id, bno) values ( #{content}, #{id}, #{bno})
-    <selectKey resultType="long" keyProperty="rno" order="AFTER">
-    select max(rno) from tbl_reply;  <!-- 행 1개에 컬럼1개 / order 이거 한 이후에 하겠다는 뜻-->
-    </selectKey> 
+ <!--   <selectKey resultType="long" keyProperty="rno" order="AFTER">
+    select max(rno) from tbl_reply;  &lt;!&ndash; 행 1개에 컬럼1개 / order 이거 한 이후에 하겠다는 뜻&ndash;&gt;
+    </selectKey> -->
     </insert>
 
 	<!-- 글 수정 -->
@@ -40,5 +57,7 @@
     <delete id="deleteByBno"> 
     delete from tbl_reply where bno = #{bno}
     </delete>
+
+
 
  </mapper>

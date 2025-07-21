@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
  <%@ include file="../common/head.jsp" %>
-   <style>
+	 <style>
     .search-container {
       position: relative;
       height: 38px;
@@ -19,9 +19,10 @@
       align-items: center;
     }
     .search-button {
-      white-space: nowrap;
-      padding: 0.25rem 0.6rem;
-      line-height: 1.2;
+		white-space: nowrap;
+		padding: 0.25rem 0.6rem;
+		line-height: 1.2;
+	}
   </style>
 </head>
 <body class="bg-light">
@@ -66,9 +67,11 @@
 
   <!-- 글쓰기 버튼은 오른쪽 -->
   <div class="d-flex align-items-center ms-3">
-    <a href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
-      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
-    </a>
+  	<c:if test="${loginMember.isAdmin}">
+	    <a href="${cp}/info/write?recomContenttype=${recommend.recomContenttype}&${pageDto.cri.qsRecom}" class="btn btn-primary btn-sm">
+	      <i class="fa-solid fa-pen-fancy"></i> 글쓰기
+	    </a>
+  	</c:if>
   </div>
 
 </div>
@@ -86,13 +89,20 @@
   	<c:forEach items="${recommendlist}" var="r">
 	  		<div class="col">
 		      <div class="card h-100">
-		        <img src="https://placehold.co/400x200" class="card-img-top" alt="장소 이미지">
-		        <div class="card-body">
-		          <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div> 
-		          <div><p class="card-text">${r.apiSubcontent}</p></div> 
-		        </div>
+				  <c:choose>
+					  <c:when test="${r.recomContenttype != 'FESTIVAL'}">
+						<img src="${r.images[0]}" class="card-img-top" onerror="this.src='https://placehold.co/400x300?text=No+Image'" alt ="이미지가 없습니다.">
+					  </c:when>
+					  <c:otherwise>
+					  	<img src="${r.firstImage}" class="card-img-top" onerror="this.src='https://placehold.co/400x300?text=No+Image'" alt ="이미지가 없습니다." style = " max-width : 400px; max-height : 300px; "  > <!--  -->
+					  </c:otherwise>
+				  </c:choose>
+				  <div class="card-body">
+					  <div><a href="${cp}/info/view?recomNo=${r.recomNo}" class="card-title btn btn-outline-secondary">${r.title}</a></div>
+					  <div><p class="card-text text-truncate">${r.apiSubcontent}</p></div>
+				  </div>
 		      </div>
-		    </div>	
+		    </div>
   	</c:forEach>
   </div>
 </div> <!-- 컨테이너 닫는 div -->

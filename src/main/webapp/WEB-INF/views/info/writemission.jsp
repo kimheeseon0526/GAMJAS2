@@ -1,31 +1,153 @@
+<%@ page import="util.ParamUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%@ include file="../common/head.jsp" %>
+<style>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* 두 줄까지만 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.apiInfo {
+	display: none;
+}
+</style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/nav.jsp" %>
 
-       			
-<div class="container my-5" style="max-width: 768px;">
-    <main>
-        <form method="post" id="writeForm" action="write">
+	
+<div class="container my-5" style="max-width: 768px; margin-top: 194px;">
+	
+	<main>
 
-            <!-- 제목 -->
-            <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">제목</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
+        <form id="cardform" method="GET" action="${cp}/info/missionwrite">
+            <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <!-- 카드 1 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'ATTRACTION' ? 'border-5': ''}" style="cursor: pointer;" data-type="ATTRACTION">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">관광</h5>
+                            <p class="card-text line-clamp-2 small">서울 내 자연, 명소, 역사 유적 등 주요 관광지 정보를 조회합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 2 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'RESTAURANT' ? 'border-5': ''}" style="cursor: pointer;" data-type="RESTAURANT">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">먹거리</h5>
+                            <p class="card-text line-clamp-2 small">서울내 음식점 정보를 확인하고 선택할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 3 -->
+                <div class="col">
+                    <div class="card h-100 ${recommend.recomContenttype == 'FESTIVAL' ? 'border-5': ''}" style="cursor: pointer;" data-type="FESTIVAL">
+                        <img src="https://placehold.co/400x200" class="card-img-top" alt="이미지">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">체험</h5>
+                            <p class="card-text line-clamp-2 small">서울 내 공방, 활동, 투어 등 체험 콘텐츠 정보를 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" id="cardtype" name="recomContenttype" value="${recommend.recomContenttype}">
+            <div class="search-center">
+                <select class="form-select form-select-sm me-2" style="width: 100px;" name="type">
+                    <option value="T">제목</option>
+                </select>
+                <div class="mb-3">
+                    <input type="text" class="form-control form-control-sm me-2" name="keyword" placeholder="검색어 입력">
+                </div>
+                <input type="hidden" name="page" value="1">
+                <input type="hidden" name="amount" value="${pageDto.cri.amount}">
+                <button class="btn btn-outline-secondary btn-sm search-button mb-3" type="submit">검색</button>
+            </div>
+        </form>
+
+		<form method="POST" id="writeForm" action="${cp}/info/missionwrite">
+            <div id="apilist">
+                <ul class="list-group" id="tourMap">
+                    <c:forEach items="${apirecomlist}" var="a">
+                                <c:choose>
+                                    <c:when test="${recommend.recomContenttype != 'FESTIVAL'}">
+                                        <li class="list-group-item" style="cursor: pointer;" >
+                                            <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
+                                                ${a.postSj}
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                            <li class="list-group-item" style="cursor: pointer;" >
+                                                <input type="radio" class="form-check-input" name="recomNo" value="${a.recomNo}">
+                                                    ${a.title}
+                                            </li>
+                                    </c:otherwise>
+                                </c:choose>
+                    </c:forEach>
+                </ul>
+            </div>
+            <!-- 페이지네이션 -->
+            <div class="mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    <c:if test="${pageDto.doubleLeft}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?&recomContenttype=${recommend.recomContenttype}&page=1&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-left"></i></a></li>
+                    </c:if>
+                    <c:if test="${pageDto.left}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.start -1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-left"></i></a></li>
+                    </c:if>
+                    <c:forEach begin="${pageDto.start}" end="${pageDto.end}" var="i">
+                        <li class="page-item ${pageDto.cri.page  == i ? 'active' : ''}"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${i}&${pageDto.cri.qsRecom}">${i}</a></li>
+                    </c:forEach>
+                    <c:if test="${pageDto.right}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.end + 1}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angle-right"></i></a></li>
+                    </c:if>
+                    <c:if test="${pageDto.doubleRight}">
+                        <li class="page-item"><a class="page-link" href="${cp}/info/missionwrite?recomContenttype=${recommend.recomContenttype}&page=${pageDto.realEnd}&${pageDto.cri.qsRecom}"><i class="fa-solid fa-angles-right"></i></a></li>
+                    </c:if>
+                </ul>
             </div>
 
+            <div class="m-0 auto border apiInfo" id="apiInfo">
+
+            </div>
             <!-- 내용 -->
             <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요" required>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">미션 개요</label>
+                <select class="form-select form-select-sm me-2" style="width: 150px;" name="providedTicket">
+                    <option value="1">감자티켓 1개</option>
+                    <option value="2">감자티켓 2개</option>
+                    <option value="3">감자티켓 3개</option>
+                    <option value="4">감자티켓 4개</option>
+                    <option value="5">감자티켓 5개</option>
+                    <option value="6">감자티켓 6개</option>
+                    <option value="7">감자티켓 7개</option>
+                    <option value="8">감자티켓 8개</option>
+                    <option value="9">감자티켓 9개</option>
+                    <option value="10">감자티켓 10개</option>
+                </select>
+                <textarea type="text" class="form-control" rows="5" style="resize: none" id="summary" name="summary" placeholder="미션 내용을 요약하여 입력해주세요" required></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="editor1" class="form-label fw-semibold"></label>
-                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력하세요" required></textarea>
+                <textarea id="editor1" name="content" rows="10" class="form-control" placeholder="내용을 입력해주세요" required></textarea>
             </div>
 
             <!-- 첨부파일 -->
@@ -54,14 +176,15 @@
             </div>
 
             <!-- hidden 필드들 -->
-            <input type="hidden" name="createdBy" value="user">
-            <input type="hidden" name="cno" value="1">
-            <input type="hidden" name="page" value="1">
-            <input type="hidden" name="amount" value="10">
+            <input type="hidden" name="recomContenttype" id="recomContenttype" value="${recommend.recomContenttype}">
+            <input type="hidden" name="recomNo" value="${recommend.recomNo}">
+            <%-- <input type="hidden" name="stationId" value="${station.id}"> 지도 역 관련 작업할때 살리기--%>
+            <input type="hidden" name="createdBy" value="${loginMember.memNo}"> 
             <input type="hidden" name="encodedStr" value="">
-            <c:if test="${not empty param.bno}">
-                <input type="hidden" name="bno" value="${param.bno}">
-            </c:if>
+            <!-- <input type="hidden" name="cno" value="1">
+            <input type="hidden" name="page" value="1">
+            <input type="hidden" name="amount" value="10"> -->
+
 
         </form>
     </main>
@@ -78,8 +201,58 @@
    
   </script>
   <script>
+  	
 	$(function() {
-		 $( ".attach-list" ).sortable();
+		
+		$(".card").on("click", function(){
+			$(".card").removeClass("card-select")
+			$(this).addClass("card-select")
+			const type = $(this).data("type"); 
+			
+			
+			console.log(type);
+			
+			$("#cardtype").val(type);
+			
+			
+			console.log($("#cardtype").val()); 
+
+			$("#cardform").submit();
+		})
+		
+		$("#apilist").on("click", "li", function() {
+			$("#apilist li").removeClass("active");
+			$(".form-check-input").prop("checked", false)
+
+			$(this).addClass("active");
+			$(this).children("input").prop("checked", true)
+			
+			console.log($("#apiInfo"))
+			console.log($(this).children("input").val());
+			
+			const recomNo = $(this).children("input").val();
+			const recomContenttype = $("#recomContenttype").val();
+			$.ajax({
+				url: `${cp}/info/apipreview`,	
+				type: "GET",
+				data: {
+				 recomNo: recomNo,
+				 recomContenttype: recomContenttype
+				}, 
+				success: function(data) {
+					$("#apiInfo").html(data).show();
+				}
+			})
+
+			$("#apiInfo").removeClass("apiInfo")
+			
+		})
+		
+		
+		
+		
+		
+		$( ".attach-list" ).sortable();
 		//return true / false
 		function validateFiles(files) {
 			const MAX_COUNT = 5;
@@ -179,6 +352,8 @@
 				}
 			})
 			
+		
+			})
 			$("#writeForm").submit(function() {
 			event.preventDefault();  /* submit 막는거 */
 			const data = [];
@@ -190,12 +365,20 @@
 			data.forEach((item, idx) => item.odr = idx);
 			
 			$("[name='encodedStr']").val(JSON.stringify(data));
-			this.submit();
+			
+			
+			const result = [...document.querySelectorAll("#tourMap input")].some(input => input.checked);
+			
 		
-			})
+			if(!result) {
+					alert("api를 선택하여 주세요.")
+					return;
+			}
+			
+			this.submit();
+	
 		})
 	})
-
 	</script>
 <%@ include file="../common/footer.jsp" %>
 </body>

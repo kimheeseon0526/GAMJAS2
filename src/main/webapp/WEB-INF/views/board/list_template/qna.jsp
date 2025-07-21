@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -15,18 +15,18 @@
     </div>
 
     <!-- 게시글 목록 -->
-    <c:set var="startcno" value="${pageDto.total - pageDto.cri.offset}" />
-	            <c:forEach items="${boards}" var="board" varStatus="status">
-				    <a href="view?bno=${board.bno}&${pageDto.cri.qs2}" class="list-group-item list-group-item-action">
-				        <div class="row text-center align-items-center small text-muted">
-				            <div class="col-1 small ">${startcno - status.index}</div>
-		                <div class="col-1">${board.cno}</div>
+    <c:set var="startcno" value="${pageDto.total - pageDto.cri.offset}"/>
+    <c:forEach items="${boards}" var="board" varStatus="status">
+        <a href="view?bno=${board.bno}&${pageDto.cri.qs2}" class="list-group-item list-group-item-action">
+            <div class="row text-center align-items-center small text-muted">
+                <div class="col-1 small ">${startcno - status.index}</div>
+                <div class="col-1">${board.cno}</div>
                 <div class="col text-start text-black fw-semibold">
                     <c:if test="${board.bno != board.grp}">
                         <i class="fa-solid fa-reply text-secondary"
                            style="transform: rotate(180deg); margin-left: ${(board.depth - 1) * 14}px;"></i>
                     </c:if>
-                    ${board.title}
+                        ${board.title}
                     <span class="small text-danger"> ${board.replyCnt} </span>
                     <c:if test="${board.attachCnt > 0}">
                         <i class="fa-solid fa-paperclip text-muted"></i>
