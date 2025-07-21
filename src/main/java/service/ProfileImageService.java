@@ -9,7 +9,6 @@ import mapper.AttachMapper;
 import mapper.AttachRefMapper;
 import mapper.BoardMapper;
 import mapper.MemberMapper;
-import software.amazon.awssdk.services.cloudformation.model.AttributeChangeType;
 import util.MybatisUtil;
 
 public class ProfileImageService {
