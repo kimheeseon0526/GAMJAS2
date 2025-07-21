@@ -94,33 +94,6 @@ public class StationService {
 		}
 		return list;
 
-<<<<<<< HEAD
-				List<Station> list = mapper.selectByLine(lineName);
-				log.info("{}", list );
-				
-				if(list == null) {
-					//log.info("{}", lineName);
-					return new ArrayList<>();
-				}
-				
-				//호선 컬러
-				String lineColor = lineColorMap.getOrDefault(lineName, "#000000");
-				for(Station station : list) {
-					station.setLineColor(lineColor);
-
-					
-				}
-				
-				if("2호선".equals(lineName) && !list.isEmpty()) {
-					list.add(list.get(0));	//2호선만
-				}
-				
-		            log.info("{}", list.size());
-		            return list;
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-=======
 	}
 
 	public void register(Station station) {
@@ -146,7 +119,6 @@ public class StationService {
 
 			if (list == null) {
 				//log.info("{}", lineName);
->>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
 				return new ArrayList<>();
 			}
 
@@ -165,10 +137,10 @@ public class StationService {
 	public static List<List<Station>> getLine1Group() {
 		try(SqlSession session = MybatisUtil.getSqlSession()) {
 			StationMapper mapper = session.getMapper(StationMapper.class);
-			
+
 			List<Station> mainList = mapper.selectLine1Main();
 			List<Station> branchList1 = mapper.selectLine1Branch1();
-			
+
 			//db상에 main , branch1 -> BranchGroup 컬럼 추가
 			mainList.forEach(s -> s.setLineColor(lineColorMap.get("1호선")));
 			branchList1.forEach(s -> s.setLineColor(lineColorMap.get("1호선")));
@@ -176,7 +148,7 @@ public class StationService {
 			List<List<Station>> result = new ArrayList<>();
 			if (!mainList.isEmpty()) result.add(mainList);
 			if (!branchList1.isEmpty()) result.add(branchList1);
-			
+
 			return result;
 		}
 	}
@@ -226,8 +198,8 @@ public class StationService {
 			}
 			//강동역 강제 추가(선 끊어짐 방지)
 			Station gangdong = mainList.stream()
-					.filter(s -> "강동".equals(s.getName()))
-					.findFirst().orElse(null);
+							.filter(s -> "강동".equals(s.getName()))
+							.findFirst().orElse(null);
 			if(gangdong != null) {
 				branchList1.add(0, gangdong);
 			}
