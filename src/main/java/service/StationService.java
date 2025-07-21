@@ -94,6 +94,33 @@ public class StationService {
 		}
 		return list;
 
+<<<<<<< HEAD
+				List<Station> list = mapper.selectByLine(lineName);
+				log.info("{}", list );
+				
+				if(list == null) {
+					//log.info("{}", lineName);
+					return new ArrayList<>();
+				}
+				
+				//호선 컬러
+				String lineColor = lineColorMap.getOrDefault(lineName, "#000000");
+				for(Station station : list) {
+					station.setLineColor(lineColor);
+
+					
+				}
+				
+				if("2호선".equals(lineName) && !list.isEmpty()) {
+					list.add(list.get(0));	//2호선만
+				}
+				
+		            log.info("{}", list.size());
+		            return list;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+=======
 	}
 
 	public void register(Station station) {
@@ -119,6 +146,7 @@ public class StationService {
 
 			if (list == null) {
 				//log.info("{}", lineName);
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
 				return new ArrayList<>();
 			}
 

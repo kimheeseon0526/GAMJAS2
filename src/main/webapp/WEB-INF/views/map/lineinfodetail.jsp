@@ -54,8 +54,13 @@
   
 
   <script>
+<<<<<<< HEAD
+  
+  	//지도
+=======
 
     let openInfoWindow = null;  //인포 윈도우 초기화
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
   	const map = new kakao.maps.Map(document.getElementById("map"), {
       center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
       level: 6
@@ -82,7 +87,19 @@
         }
       }
     }
+    
+    let currentInfoWindow = null;
 
+<<<<<<< HEAD
+    function renderStations(data) {
+    	//console.log(data);
+      const lineCoords = [];
+      
+      //5호선일 때 
+      const mainLine = [];	//방화~ 하남검단
+      const machunLine = [];	//강동~마천
+=======
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
 
     function renderStations(data) { //기본 단선
         const lineCoords = [];
@@ -121,6 +138,33 @@
 
             markers.push(customOverlay);
         });
+<<<<<<< HEAD
+		
+        //인포윈도우
+        const infowindow = new kakao.maps.InfoWindow({
+          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
+          removable : true
+        });
+        
+        
+
+        markerContent.addEventListener('click', () => {
+          infowindow.setPosition(latlng);
+          infowindow.open(map);
+        });
+        markers.push(customOverlay);
+      });
+
+      if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
+        lineCoords.push(lineCoords[0]);
+      }
+      
+     /*  if(data[0].ROUTE === "5호선" && lineCoords.length > 1) {
+    	  lineCoords
+      }
+       */
+      
+=======
 
       const isMainOfLoopLine = data?.[0]?.ROUTE === "2호선" && data?.length > 10; // main만 닫기 조건
       if (isMainOfLoopLine) {
@@ -243,6 +287,7 @@
           });
             polylines.push(closingLine);
         }
+>>>>>>> ef68e3b9390a81ca692582700bfffd1e8f41aa1e
 
     }
 
