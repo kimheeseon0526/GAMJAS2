@@ -44,6 +44,8 @@
   
 
   <script>
+  
+  	//지도
   	const map = new kakao.maps.Map(document.getElementById("map"), {
       center: new kakao.maps.LatLng(37.5665, 126.9780), // 임의의 중심 좌표
       level: 6
@@ -60,10 +62,16 @@
         polyline = null;
       }
     }
+    
+    let currentInfoWindow = null;
 
     function renderStations(data) {
-    	console.log(data);
+    	//console.log(data);
       const lineCoords = [];
+      
+      //5호선일 때 
+      const mainLine = [];	//방화~ 하남검단
+      const machunLine = [];	//강동~마천
 
       data.forEach(station => {
         const lat = parseFloat(station.LAT);
@@ -82,11 +90,14 @@
           content: markerContent,
           map: map
         });
-
+		
+        //인포윈도우
         const infowindow = new kakao.maps.InfoWindow({
-          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">${station.BLDN_NM}</div>`,
+          content : `<div style="padding:3px 6px; font-size:12px; text-align:center;">\${station.BLDN_NM}</div>`,
           removable : true
         });
+        
+        
 
         markerContent.addEventListener('click', () => {
           infowindow.setPosition(latlng);
@@ -98,6 +109,12 @@
       if (data[0].ROUTE === "2호선" && lineCoords.length > 1) {
         lineCoords.push(lineCoords[0]);
       }
+      
+     /*  if(data[0].ROUTE === "5호선" && lineCoords.length > 1) {
+    	  lineCoords
+      }
+       */
+      
 
       polyline = new kakao.maps.Polyline({
         map: map,

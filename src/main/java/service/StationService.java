@@ -118,7 +118,7 @@ public class StationService {
 				log.info("{}", list );
 				
 				if(list == null) {
-					log.info("{}", lineName);
+					//log.info("{}", lineName);
 					return new ArrayList<>();
 				}
 				
@@ -126,7 +126,7 @@ public class StationService {
 				String lineColor = lineColorMap.getOrDefault(lineName, "#000000");
 				for(Station station : list) {
 					station.setLineColor(lineColor);
-					log.info("{}", lineColor);
+
 					
 				}
 				
